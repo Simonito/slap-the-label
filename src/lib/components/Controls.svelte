@@ -1,0 +1,66 @@
+<script lang="ts">
+  import { getCanvasContext } from '$lib/context/canvasContext.svelte';
+
+  const ctx = getCanvasContext();
+
+  function handleZoomChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    ctx.setZoom(parseFloat(target.value));
+  }
+
+  function handleLineWidthChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    ctx.setLineWidth(parseInt(target.value));
+  }
+
+  function handleLabelsToggle(event: Event) {
+    const target = event.target as HTMLInputElement;
+    ctx.setShowLabels(target.checked);
+  }
+</script>
+
+<div class="space-y-4">
+  <div class="space-y-2">
+    <label class="flex items-center justify-between" for="zoom">
+      <span class="text-sm text-muted-foreground">Zoom</span>
+      <span class="font-mono text-xs text-muted-foreground">{ctx.zoom.toFixed(2)}x</span>
+    </label>
+    <input
+      id="zoom"
+      type="range"
+      min="0.1"
+      max="2"
+      step="0.05"
+      value={ctx.zoom}
+      oninput={handleZoomChange}
+      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-muted accent-primary"
+    />
+  </div>
+
+  <div class="space-y-2">
+    <label class="flex items-center justify-between" for="lineWidth">
+      <span class="text-sm text-muted-foreground">Line Width</span>
+      <span class="font-mono text-xs text-muted-foreground">{ctx.lineWidth}px</span>
+    </label>
+    <input
+      id="lineWidth"
+      type="range"
+      min="1"
+      max="10"
+      step="1"
+      value={ctx.lineWidth}
+      oninput={handleLineWidthChange}
+      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-muted accent-primary"
+    />
+  </div>
+
+  <label class="flex cursor-pointer items-center gap-3">
+    <input
+      type="checkbox"
+      checked={ctx.showLabels}
+      onchange={handleLabelsToggle}
+      class="h-4 w-4 cursor-pointer rounded accent-primary"
+    />
+    <span class="text-sm text-muted-foreground">Show Labels</span>
+  </label>
+</div>
