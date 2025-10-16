@@ -1,4 +1,4 @@
-import type { ImageData } from "$lib/types";
+import type { ImageData } from '$lib/types';
 
 declare global {
   interface Window {
@@ -11,8 +11,7 @@ declare global {
 
 export async function loadImage(file: File): Promise<ImageData> {
   const isTiff =
-    file.name.toLowerCase().endsWith(".tif") ||
-    file.name.toLowerCase().endsWith(".tiff");
+    file.name.toLowerCase().endsWith('.tif') || file.name.toLowerCase().endsWith('.tiff');
 
   if (isTiff) {
     return loadTiffImage(file);
@@ -24,7 +23,7 @@ export async function loadImage(file: File): Promise<ImageData> {
 async function loadStandardImage(file: File): Promise<ImageData> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    img.crossOrigin = 'anonymous';
 
     img.onload = () => {
       resolve({
@@ -34,7 +33,7 @@ async function loadStandardImage(file: File): Promise<ImageData> {
       });
     };
 
-    img.onerror = () => reject(new Error("Failed to load image"));
+    img.onerror = () => reject(new Error('Failed to load image'));
     img.src = URL.createObjectURL(file);
   });
 }
@@ -83,11 +82,11 @@ function imageDataFromRaster8bit(
 async function loadTiffImage(file: File): Promise<ImageData> {
   try {
     // dynamically import tiff library
-    const UTIF = (await import("$lib/packages/utif")).default;
+    const UTIF = (await import('$lib/packages/utif')).default;
     const buf = await file.arrayBuffer();
     const ifds = UTIF.decode(buf);
     if (ifds.length === 0) {
-      throw new Error("Failed to decode TIFF");
+      throw new Error('Failed to decode TIFF');
     }
 
     UTIF.decodeImage(buf, ifds[0]);

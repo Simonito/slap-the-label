@@ -1,4 +1,4 @@
-import type { Annotation, ImageData, DrawSettings } from "$lib/types";
+import type { Annotation, ImageData, DrawSettings } from '$lib/types';
 
 export function drawCanvas(
   canvas: HTMLCanvasElement,
@@ -7,7 +7,7 @@ export function drawCanvas(
   classColors: Map<string, string>,
   settings: DrawSettings,
 ): void {
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
   const { zoom, lineWidth, showLabels } = settings;
@@ -21,16 +21,13 @@ export function drawCanvas(
     ctx.drawImage(imageData.img, 0, 0, canvas.width, canvas.height);
   } else if (imageData.imageData) {
     // For TIFF images, draw from raw pixel data
-    const tempCanvas = document.createElement("canvas");
+    const tempCanvas = document.createElement('canvas');
     tempCanvas.width = imageData.width;
     tempCanvas.height = imageData.height;
-    const tempCtx = tempCanvas.getContext("2d");
+    const tempCtx = tempCanvas.getContext('2d');
 
     if (tempCtx) {
-      const imgData = tempCtx.createImageData(
-        imageData.width,
-        imageData.height,
-      );
+      const imgData = tempCtx.createImageData(imageData.width, imageData.height);
       imgData.data.set(imageData.imageData);
       tempCtx.putImageData(imgData, 0, 0);
       ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
@@ -42,7 +39,7 @@ export function drawCanvas(
   ctx.font = `${14 * zoom}px sans-serif`;
 
   for (const annotation of annotations) {
-    const color = classColors.get(annotation.class) || "#00ff00";
+    const color = classColors.get(annotation.class) || '#00ff00';
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
 
@@ -70,7 +67,7 @@ export function drawCanvas(
       );
 
       // Draw label text
-      ctx.fillStyle = "#000";
+      ctx.fillStyle = '#000';
       ctx.fillText(label, x + padding, y - padding);
       ctx.fillStyle = color;
     }
@@ -78,7 +75,7 @@ export function drawCanvas(
 }
 
 export function clearCanvas(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);

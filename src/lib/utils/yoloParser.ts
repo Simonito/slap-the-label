@@ -1,14 +1,14 @@
-import type { Annotation } from "$lib/types";
+import type { Annotation } from '$lib/types';
 
 export function parseYoloFile(content: string): Annotation[] {
-  const lines = content.split("\n");
+  const lines = content.split('\n');
   const annotations: Annotation[] = [];
 
   for (const line of lines) {
     const trimmed = line.trim();
 
     // Skip empty lines and comments
-    if (!trimmed || trimmed.startsWith("#")) {
+    if (!trimmed || trimmed.startsWith('#')) {
       continue;
     }
 
@@ -37,9 +37,7 @@ export function parseYoloFile(content: string): Annotation[] {
   return annotations;
 }
 
-export function generateClassColors(
-  annotations: Annotation[],
-): Map<string, string> {
+export function generateClassColors(annotations: Annotation[]): Map<string, string> {
   const uniqueClasses = new Set(annotations.map((a) => a.class));
   const colors = new Map<string, string>();
 

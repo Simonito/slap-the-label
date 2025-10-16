@@ -4,16 +4,11 @@
   import * as Tooltip from '$lib/components/ui/tooltip';
   import ResizableAppSidebar from '$lib/components/ResizableAppSidebar.svelte';
   import Canvas from '$lib/components/Canvas.svelte';
+  import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
 
   const ctx = createCanvasContext();
 
   let sidebarOpen = $state(true);
-
-  let isMac = false;
-  if (typeof navigator !== 'undefined') {
-    isMac = navigator.userAgent.includes('Mac');
-  }
-  const ctrlCmd = isMac ? '⌘' : 'Ctrl';
 </script>
 
 <svelte:head>
@@ -36,7 +31,7 @@
           arrowClasses="hidden"
           sideOffset={4}
         >
-          Open sidebar <kbd>{ctrlCmd}</kbd> + <kbd>B</kbd>
+          Open sidebar <kbd>{cmdOrCtrl}</kbd> + <kbd>B</kbd>
         </Tooltip.Content>
       </Tooltip.Root>
 

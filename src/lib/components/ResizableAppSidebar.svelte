@@ -10,6 +10,7 @@
   import ImageUploader from './ImageUploader.svelte';
   import Legend from './Legend.svelte';
   import type { Snippet } from 'svelte';
+  import { Button } from './ui/button';
 
   const DEFAULT_SIZE = 25;
   const open = true; // initial state
@@ -83,6 +84,7 @@
 
         <Sidebar.Content>
           <Sidebar.Group>
+            <Button href="/konva">konva</Button>
             <Sidebar.GroupLabel>Files</Sidebar.GroupLabel>
             <Sidebar.GroupContent>
               <div class="space-y-2 px-2">

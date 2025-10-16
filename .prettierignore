@@ -7,3 +7,10 @@ bun.lockb
 
 # Miscellaneous
 /static/
+.env
+
+# should be automatic, but we state it explicitly, just to be clear
+node_modules
+dist
+build
+.svelte-kit

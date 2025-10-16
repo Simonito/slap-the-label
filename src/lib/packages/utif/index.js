@@ -4,36 +4,35 @@
   var UTIF = {};
 
   // Make available for import by `require()`
-  if (typeof module == "object") {
+  if (typeof module == 'object') {
     module.exports = UTIF;
   } else {
     self.UTIF = UTIF;
   }
 
   function log() {
-    if (typeof process == "undefined" || process.env.NODE_ENV == "development")
+    if (typeof process == 'undefined' || process.env.NODE_ENV == 'development')
       console.log.apply(console, arguments);
   }
 
   (function (UTIF) {
     // Following lines add a JPEG decoder  to UTIF.JpegDecoder
     (function () {
-      "use strict";
+      'use strict';
       var W = (function a1() {
           function W(p) {
-            this.message = "JPEG error: " + p;
+            this.message = 'JPEG error: ' + p;
           }
           W.prototype = new Error();
-          W.prototype.name = "JpegError";
+          W.prototype.name = 'JpegError';
           W.constructor = W;
           return W;
         })(),
         ak = (function ag() {
           var p = new Uint8Array([
-              0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19,
-              26, 33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49,
-              56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51, 58, 59, 52,
-              45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63,
+              0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26, 33, 40, 48, 41,
+              34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30,
+              37, 44, 51, 58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63,
             ]),
             t = 4017,
             ac = 799,
@@ -125,7 +124,7 @@
                     h += 2;
                     if (l > 0 && l !== f.s) {
                       throw new DNLMarkerError(
-                        "Found DNL marker (0xFFDC) while parsing scan data",
+                        'Found DNL marker (0xFFDC) while parsing scan data',
                         l,
                       );
                     }
@@ -134,17 +133,15 @@
                       var M = q * 8;
                       if (M > 0 && M < f.s / 10) {
                         throw new DNLMarkerError(
-                          "Found EOI marker (0xFFD9) while parsing scan data, " +
-                            "possibly caused by incorrect `scanLines` parameter",
+                          'Found EOI marker (0xFFD9) while parsing scan data, ' +
+                            'possibly caused by incorrect `scanLines` parameter',
                           M,
                         );
                       }
                     }
-                    throw new EOIMarkerError(
-                      "Found EOI marker (0xFFD9) while parsing scan data",
-                    );
+                    throw new EOIMarkerError('Found EOI marker (0xFFD9) while parsing scan data');
                   }
-                  throw new W("unexpected marker");
+                  throw new W('unexpected marker');
                 }
               }
               V = 7;
@@ -155,12 +152,12 @@
               while (!0) {
                 l = l[Y()];
                 switch (typeof l) {
-                  case "number":
+                  case 'number':
                     return l;
-                  case "object":
+                  case 'object':
                     continue;
                 }
-                throw new W("invalid huffman sequence");
+                throw new W('invalid huffman sequence');
               }
             }
             function m(I) {
@@ -260,7 +257,7 @@
                       }
                     } else {
                       if (S !== 1) {
-                        throw new W("invalid ACn encoding");
+                        throw new W('invalid ACn encoding');
                       }
                       a8 = j(S);
                       D = M ? 2 : 3;
@@ -364,7 +361,7 @@
                 break;
               }
               if (k.u) {
-                var a6 = L > 0 ? "unexpected" : "excessive";
+                var a6 = L > 0 ? 'unexpected' : 'excessive';
                 h = k.offset;
               }
               if (k.M >= 65488 && k.M <= 65495) {
@@ -396,7 +393,7 @@
               $,
               b;
             if (!G) {
-              throw new W("missing required Quantization Table.");
+              throw new W('missing required Quantization Table.');
             }
             for (var r = 0; r < 64; r += 8) {
               J = n[h + r];
@@ -669,7 +666,7 @@
                 V = Z(Q, E);
               E += 2;
               if (V !== 65496) {
-                throw new W("SOI not found");
+                throw new W('SOI not found');
               }
               V = Z(Q, E);
               E += 2;
@@ -695,13 +692,7 @@
                   case 65534:
                     var j = G();
                     if (V === 65504) {
-                      if (
-                        j[0] === 74 &&
-                        j[1] === 70 &&
-                        j[2] === 73 &&
-                        j[3] === 70 &&
-                        j[4] === 0
-                      ) {
+                      if (j[0] === 74 && j[1] === 70 && j[2] === 73 && j[3] === 70 && j[4] === 0) {
                         a = {
                           version: { d: j[5], T: j[6] },
                           K: j[7],
@@ -750,7 +741,7 @@
                           E += 2;
                         }
                       } else {
-                        throw new W("DQT - invalid table spec");
+                        throw new W('DQT - invalid table spec');
                       }
                       U[r & 15] = P;
                     }
@@ -759,7 +750,7 @@
                   case 65473:
                   case 65474:
                     if (F) {
-                      throw new W("Only single frame JPEGs supported");
+                      throw new W('Only single frame JPEGs supported');
                     }
                     E += 2;
                     F = {};
@@ -867,9 +858,7 @@
                     if (E >= Q.length - 1) {
                       break markerLoop;
                     }
-                    throw new W(
-                      "JpegImage.parse - unknown marker: " + V.toString(16),
-                    );
+                    throw new W('JpegImage.parse - unknown marker: ' + V.toString(16));
                 }
                 V = Z(Q, E);
                 E += 2;
@@ -944,9 +933,7 @@
               }
               var P = this.V;
               if (!f && m === 4 && !P) {
-                P = new Int32Array([
-                  -256, 255, -256, 255, -256, 255, -256, 255,
-                ]);
+                P = new Int32Array([-256, 255, -256, 255, -256, 255, -256, 255]);
               }
               if (P) {
                 for (U = 0; U < j; ) {
@@ -1014,10 +1001,7 @@
                       0.000817076911346625 * h -
                       0.00477271405408747 * n +
                       1.53380253221734) +
-                  h *
-                    (0.000961250184130688 * h -
-                      0.00266257332283933 * n +
-                      0.48357088451265) +
+                  h * (0.000961250184130688 * h - 0.00266257332283933 * n + 0.48357088451265) +
                   n * (-0.000336197177618394 * n + 0.484791561490776);
                 Q[E++] =
                   107.268039397724 +
@@ -1032,10 +1016,7 @@
                       0.00130872261408275 * h +
                       0.000770482631801132 * n -
                       0.151051492775562) +
-                  h *
-                    (0.00126935368114843 * h -
-                      0.00265090189010898 * n +
-                      0.25802910206845) +
+                  h * (0.00126935368114843 * h - 0.00265090189010898 * n + 0.25802910206845) +
                   n * (-0.000318913117588328 * n - 0.213742400323665);
                 Q[E++] =
                   -20.810012546947 +
@@ -1050,10 +1031,7 @@
                       0.000132689043961446 * h +
                       0.000560833691242812 * n -
                       0.195152027534049) +
-                  h *
-                    (0.00174418132927582 * h -
-                      0.00255243321439347 * n +
-                      0.116935020465145) +
+                  h * (0.00174418132927582 * h - 0.00255243321439347 * n + 0.116935020465145) +
                   n * (-0.000343531996510555 * n + 0.24165260232407);
               }
               return Q.subarray(0, E);
@@ -1094,10 +1072,7 @@
                       8626949158638572e-20 * G -
                       0.0002748769067499491 * n -
                       0.02155688794978967) +
-                  G *
-                    (-3878099212869363e-20 * G -
-                      0.0003267808279485286 * n +
-                      0.0686742238595345) -
+                  G * (-3878099212869363e-20 * G - 0.0003267808279485286 * n + 0.0686742238595345) -
                   n * (0.0003361971776183937 * n + 0.7430659151342254);
                 Q[E++] =
                   255 +
@@ -1113,9 +1088,7 @@
                       0.0020200308977307156 * n -
                       0.7488052167015494) +
                   G *
-                    (6834815998235662e-20 * G +
-                      0.00015168452363460973 * n -
-                      0.09751927774728933) -
+                    (6834815998235662e-20 * G + 0.00015168452363460973 * n - 0.09751927774728933) -
                   n * (0.0003189131175883281 * n + 0.7364883807733168);
                 Q[E++] =
                   255 +
@@ -1130,10 +1103,7 @@
                       0.0009692239130725186 * G +
                       0.0007782692450036253 * n -
                       0.44015232367526463) +
-                  G *
-                    (5.068882914068769e-7 * G +
-                      0.0017778369011375071 * n -
-                      0.7591454649749609) -
+                  G * (5.068882914068769e-7 * G + 0.0017778369011375071 * n - 0.7591454649749609) -
                   n * (0.0003435319965105553 * n + 0.7063770186160144);
               }
               return Q.subarray(0, E);
@@ -1144,7 +1114,7 @@
                 G = Q.forceRGB,
                 n = Q.isSourcePDF;
               if (this.p > 4) {
-                throw new W("Unsupported color mode");
+                throw new W('Unsupported color mode');
               }
               var E = this.Y(h, f, n);
               if (this.p === 1 && G) {
@@ -1182,9 +1152,7 @@
         return (p[t] << 8) | p[t + 1];
       }
       function am(p, t) {
-        return (
-          ((p[t] << 24) | (p[t + 1] << 16) | (p[t + 2] << 8) | p[t + 3]) >>> 0
-        );
+        return ((p[t] << 24) | (p[t + 1] << 16) | (p[t + 2] << 8) | p[t + 3]) >>> 0;
       }
       UTIF.JpegDecoder = ak;
     })();
@@ -1242,7 +1210,7 @@
         t286: [[0, 1]],
         t287: [[0, 1]],
         t296: [1],
-        t305: ["Photopea (UTIF.js)"],
+        t305: ['Photopea (UTIF.js)'],
         t338: [1],
       };
       if (metadata) for (var i in metadata) ifd[i] = metadata[i];
@@ -1285,7 +1253,7 @@
 
       var id = UTIF._binBE.readASCII(data, offset, 2);
       offset += 2;
-      var bin = id == "II" ? UTIF._binLE : UTIF._binBE;
+      var bin = id == 'II' ? UTIF._binLE : UTIF._binBE;
       var num = bin.readUshort(data, offset);
       offset += 2;
 
@@ -1297,7 +1265,7 @@
           typ = bin.readUshort(data, ifdo + 4);
         if (cnt != 0)
           if (typ < 1 || 13 < typ) {
-            log("error in TIFF");
+            log('error in TIFF');
             break;
           }
         UTIF._readIFD(bin, data, ifdo, ifds, 0, prm);
@@ -1313,30 +1281,24 @@
       var data = new Uint8Array(buff);
       var id = UTIF._binBE.readASCII(data, 0, 2);
 
-      if (img["t256"] == null) return; // No width => probably not an image
-      img.isLE = id == "II";
-      img.width = img["t256"][0]; //delete img["t256"];
-      img.height = img["t257"][0]; //delete img["t257"];
+      if (img['t256'] == null) return; // No width => probably not an image
+      img.isLE = id == 'II';
+      img.width = img['t256'][0]; //delete img["t256"];
+      img.height = img['t257'][0]; //delete img["t257"];
 
-      var cmpr = img["t259"] ? img["t259"][0] : 1; //delete img["t259"];
-      var fo = img["t266"] ? img["t266"][0] : 1; //delete img["t266"];
-      if (
-        cmpr == 7 &&
-        img["t258"] &&
-        img["t258"].length != 3 &&
-        img["t258"][0] == 8
-      ) {
-        img["t258"] = [8, 8, 8];
-        img["t277"] = [3];
+      var cmpr = img['t259'] ? img['t259'][0] : 1; //delete img["t259"];
+      var fo = img['t266'] ? img['t266'][0] : 1; //delete img["t266"];
+      if (cmpr == 7 && img['t258'] && img['t258'].length != 3 && img['t258'][0] == 8) {
+        img['t258'] = [8, 8, 8];
+        img['t277'] = [3];
       } // not for lossless JPEG - "RAW_CANON_EOS_550D.CR2"
-      if (img["t277"] == null && img["t258"] && img["t258"].length == 3)
-        img["t277"] = [3]; // t277 missing in some 3-channel JPGs inside CR2 - "RAW_CANON_350D.CR2"
+      if (img['t277'] == null && img['t258'] && img['t258'].length == 3) img['t277'] = [3]; // t277 missing in some 3-channel JPGs inside CR2 - "RAW_CANON_350D.CR2"
 
-      var bps = img["t258"] ? img["t258"][0] : 1;
-      var spp = img["t277"] ? img["t277"][0] : 1; //if(cmpr==7) spp=3; // jpg
-      var pco = img["t284"] ? img["t284"][0] : 1;
+      var bps = img['t258'] ? img['t258'][0] : 1;
+      var spp = img['t277'] ? img['t277'][0] : 1; //if(cmpr==7) spp=3; // jpg
+      var pco = img['t284'] ? img['t284'][0] : 1;
       if (spp != 3) pco = 1; // planar configuration
-      if (pco == 2) log("PlanarConfiguration 2 should not be used!");
+      if (pco == 2) log('PlanarConfiguration 2 should not be used!');
 
       var bipp = bps * spp; // bits per pixel
       /*
@@ -1345,50 +1307,33 @@
 	else            bipp = (img["t277"]?img["t277"][0]:1);  
 	*/
       // Some .NEF files have t258==14, even though they use 16 bits per pixel
-      if (
-        cmpr == 1 &&
-        img["t279"] != null &&
-        img["t278"] &&
-        img["t262"][0] == 32803
-      ) {
-        bipp = Math.round((img["t279"][0] * 8) / (img.width * img["t278"][0]));
+      if (cmpr == 1 && img['t279'] != null && img['t278'] && img['t262'][0] == 32803) {
+        bipp = Math.round((img['t279'][0] * 8) / (img.width * img['t278'][0]));
       }
-      if (img["t50885"] && img["t50885"][0] == 4) bipp = img["t258"][0] * 3; // RAW_CANON_40D_SRAW_V103.CR2
+      if (img['t50885'] && img['t50885'][0] == 4) bipp = img['t258'][0] * 3; // RAW_CANON_40D_SRAW_V103.CR2
       var bipl = Math.ceil((img.width * bipp) / 8) * 8;
-      var soff = img["t273"];
-      if (soff == null || img["t322"]) soff = img["t324"];
-      var bcnt = img["t279"];
+      var soff = img['t273'];
+      if (soff == null || img['t322']) soff = img['t324'];
+      var bcnt = img['t279'];
       if (cmpr == 1 && soff.length == 1) bcnt = [img.height * (bipl >>> 3)];
-      if (bcnt == null || img["t322"]) bcnt = img["t325"];
+      if (bcnt == null || img['t322']) bcnt = img['t325'];
       //bcnt[0] = Math.min(bcnt[0], data.length);  // Hasselblad, "RAW_HASSELBLAD_H3D39II.3FR"
       var bytes = new Uint8Array(img.height * (bipl >>> 3)),
         bilen = 0;
 
-      if (img["t322"] != null) {
+      if (img['t322'] != null) {
         // tiled
-        var tw = img["t322"][0],
-          th = img["t323"][0];
+        var tw = img['t322'][0],
+          th = img['t323'][0];
         var tx = Math.floor((img.width + tw - 1) / tw);
         var ty = Math.floor((img.height + th - 1) / th);
         var tbuff = new Uint8Array(Math.ceil((tw * th * bipp) / 8) | 0);
-        console.log("====", tx, ty);
+        console.log('====', tx, ty);
         for (var y = 0; y < ty; y++)
           for (var x = 0; x < tx; x++) {
             var i = y * tx + x;
             tbuff.fill(0);
-            UTIF.decode._decompress(
-              img,
-              ifds,
-              data,
-              soff[i],
-              bcnt[i],
-              cmpr,
-              tbuff,
-              0,
-              fo,
-              tw,
-              th,
-            );
+            UTIF.decode._decompress(img, ifds, data, soff[i], bcnt[i], cmpr, tbuff, 0, fo, tw, th);
             // Might be required for 7 too. Need to check
             if (cmpr == 6) bytes = tbuff;
             else
@@ -1407,7 +1352,7 @@
       } // stripped
       else {
         if (soff == null) return;
-        var rps = img["t278"] ? img["t278"][0] : img.height;
+        var rps = img['t278'] ? img['t278'][0] : img.height;
         rps = Math.min(rps, img.height);
         //console.log("====", img.width, rps);
         for (var i = 0; i < soff.length; i++) {
@@ -1453,23 +1398,10 @@
       img.data = new Uint8Array(bytes.buffer, 0, Math.ceil(bilen / 8) | 0);
     };
 
-    UTIF.decode._decompress = function (
-      img,
-      ifds,
-      data,
-      off,
-      len,
-      cmpr,
-      tgt,
-      toff,
-      fo,
-      w,
-      h,
-    ) {
+    UTIF.decode._decompress = function (img, ifds, data, off, len, cmpr, tgt, toff, fo, w, h) {
       // fill order
-      if (img["t271"] && img["t271"][0] == "Panasonic") {
-        if (img["t45"] && (img["t45"][0] == 6 || img["t45"][0] == 8))
-          cmpr = 34316;
+      if (img['t271'] && img['t271'][0] == 'Panasonic') {
+        if (img['t45'] && (img['t45'][0] == 6 || img['t45'][0] == 8)) cmpr = 34316;
         else if (cmpr == 34828) cmpr = 1; // .RAW extension
       }
       //console.log("compression", cmpr);
@@ -1477,8 +1409,7 @@
       if (false) {
       } else if (cmpr == 1 /* || (len==tgt.length && cmpr!=32767)*/)
         for (var j = 0; j < len; j++) tgt[toff + j] = data[off + j];
-      else if (cmpr == 2)
-        UTIF.decode._decodeG2(data, off, len, tgt, toff, w, fo);
+      else if (cmpr == 2) UTIF.decode._decodeG2(data, off, len, tgt, toff, w, fo);
       else if (cmpr == 3)
         UTIF.decode._decodeG3(
           data,
@@ -1488,46 +1419,38 @@
           toff,
           w,
           fo,
-          img["t292"] ? (img["t292"][0] & 1) == 1 : false,
+          img['t292'] ? (img['t292'][0] & 1) == 1 : false,
         );
-      else if (cmpr == 4)
-        UTIF.decode._decodeG4(data, off, len, tgt, toff, w, fo);
+      else if (cmpr == 4) UTIF.decode._decodeG4(data, off, len, tgt, toff, w, fo);
       else if (cmpr == 5) UTIF.decode._decodeLZW(data, off, len, tgt, toff, 8);
-      else if (cmpr == 6)
-        UTIF.decode._decodeOldJPEG(img, data, off, len, tgt, toff);
+      else if (cmpr == 6) UTIF.decode._decodeOldJPEG(img, data, off, len, tgt, toff);
       else if (cmpr == 7 || cmpr == 34892)
         UTIF.decode._decodeNewJPEG(img, data, off, len, tgt, toff);
       else if (cmpr == 8 || cmpr == 32946) {
         var src = new Uint8Array(data.buffer, off + 2, len - 6);
         var bin = UTIF._inflateRaw(src);
         if (toff + bin.length <= tgt.length) tgt.set(bin, toff);
-      } else if (cmpr == 9)
-        UTIF.decode._decodeVC5(data, off, len, tgt, toff, img["t33422"]);
-      else if (cmpr == 32767)
-        UTIF.decode._decodeARW(img, data, off, len, tgt, toff);
-      else if (cmpr == 32773)
-        UTIF.decode._decodePackBits(data, off, len, tgt, toff);
-      else if (cmpr == 32809)
-        UTIF.decode._decodeThunder(data, off, len, tgt, toff);
-      else if (cmpr == 34316)
-        UTIF.decode._decodePanasonic(img, data, off, len, tgt, toff);
+      } else if (cmpr == 9) UTIF.decode._decodeVC5(data, off, len, tgt, toff, img['t33422']);
+      else if (cmpr == 32767) UTIF.decode._decodeARW(img, data, off, len, tgt, toff);
+      else if (cmpr == 32773) UTIF.decode._decodePackBits(data, off, len, tgt, toff);
+      else if (cmpr == 32809) UTIF.decode._decodeThunder(data, off, len, tgt, toff);
+      else if (cmpr == 34316) UTIF.decode._decodePanasonic(img, data, off, len, tgt, toff);
       else if (cmpr == 34713)
         //for(var j=0; j<len; j++) tgt[toff+j] = data[off+j];
         UTIF.decode._decodeNikon(img, ifds, data, off, len, tgt, toff);
-      else if (cmpr == 34676)
-        UTIF.decode._decodeLogLuv32(img, data, off, len, tgt, toff);
-      else log("Unknown compression", cmpr);
+      else if (cmpr == 34676) UTIF.decode._decodeLogLuv32(img, data, off, len, tgt, toff);
+      else log('Unknown compression', cmpr);
 
       //console.log(Date.now()-time);
 
-      var pco = img["t284"] ? img["t284"][0] : 1; // planar configuration
-      var bps = img["t258"] ? Math.min(64, img["t258"][0]) : 1;
-      var noc = pco == 2 ? 1 : img["t277"] ? img["t277"][0] : 1,
+      var pco = img['t284'] ? img['t284'][0] : 1; // planar configuration
+      var bps = img['t258'] ? Math.min(64, img['t258'][0]) : 1;
+      var noc = pco == 2 ? 1 : img['t277'] ? img['t277'][0] : 1,
         bpp = (bps * noc) >>> 3,
         bpl = Math.ceil((bps * noc * w) / 8);
 
       // convert to Little Endian  /*
-      if (bps == 16 && !img.isLE && img["t33422"] == null)
+      if (bps == 16 && !img.isLE && img['t33422'] == null)
         // not DNG
         for (var y = 0; y < h; y++) {
           //console.log("fixing endianity");
@@ -1540,7 +1463,7 @@
         } //*/
 
       // predictor
-      if (img["t317"] && img["t317"][0] == 2) {
+      if (img['t317'] && img['t317'][0] == 2) {
         for (var y = 0; y < h; y++) {
           var ntoff = toff + y * bpl;
           if (bps == 16)
@@ -1554,10 +1477,8 @@
           else if (noc == 3)
             for (var j = 3; j < bpl; j += 3) {
               tgt[ntoff + j] = (tgt[ntoff + j] + tgt[ntoff + j - 3]) & 255;
-              tgt[ntoff + j + 1] =
-                (tgt[ntoff + j + 1] + tgt[ntoff + j - 2]) & 255;
-              tgt[ntoff + j + 2] =
-                (tgt[ntoff + j + 2] + tgt[ntoff + j - 1]) & 255;
+              tgt[ntoff + j + 1] = (tgt[ntoff + j + 1] + tgt[ntoff + j - 2]) & 255;
+              tgt[ntoff + j + 2] = (tgt[ntoff + j + 2] + tgt[ntoff + j - 1]) & 255;
             }
           else
             for (var j = bpp; j < bpl; j++)
@@ -1569,10 +1490,10 @@
     UTIF.decode._decodePanasonic = function (img, data, off, len, tgt, toff) {
       var img_buffer = data.buffer;
 
-      var rawWidth = img["t2"][0];
-      var rawHeight = img["t3"][0];
-      var bitsPerSample = img["t10"][0];
-      var RW2_Format = img["t45"][0];
+      var rawWidth = img['t2'][0];
+      var rawHeight = img['t3'][0];
+      var bitsPerSample = img['t10'][0];
+      var RW2_Format = img['t45'][0];
 
       var bidx = 0;
       var imageIndex = 0;
@@ -1594,11 +1515,7 @@
 
       function getDataRaw(bits) {
         if (vpos == 0) {
-          var arr_a = new Uint8Array(
-            img_buffer,
-            off + imageIndex + 0x1ff8,
-            0x4000 - 0x1ff8,
-          );
+          var arr_a = new Uint8Array(img_buffer, off + imageIndex + 0x1ff8, 0x4000 - 0x1ff8);
           var arr_b = new Uint8Array(img_buffer, off + imageIndex, 0x1ff8);
           buffer.set(arr_a);
           buffer.set(arr_b, arr_a.length);
@@ -1612,10 +1529,7 @@
         } else {
           vpos = (vpos - bits) & 0x1ffff;
           byte = (vpos >> 3) ^ 0x3ff0;
-          return (
-            ((buffer[byte] | (buffer[byte + 1] << 8)) >> (vpos & 7)) &
-            ~(-1 << bits)
-          );
+          return ((buffer[byte] | (buffer[byte + 1] << 8)) >> (vpos & 7)) & ~(-1 << bits);
         }
       }
       // Raw Format 6
@@ -1632,50 +1546,33 @@
         bytes[2] = (getBufferDataRW6(3) >> 2) & 0x3;
         bytes[3] = ((getBufferDataRW6(3) & 0x3) << 8) | getBufferDataRW6(4);
         bytes[4] = (getBufferDataRW6(5) << 2) | (getBufferDataRW6(6) >> 6);
-        bytes[5] =
-          ((getBufferDataRW6(6) & 0x3f) << 4) | (getBufferDataRW6(7) >> 4);
+        bytes[5] = ((getBufferDataRW6(6) & 0x3f) << 4) | (getBufferDataRW6(7) >> 4);
         bytes[6] = (getBufferDataRW6(7) >> 2) & 0x3;
         bytes[7] = ((getBufferDataRW6(7) & 0x3) << 8) | getBufferDataRW6(8);
-        bytes[8] =
-          ((getBufferDataRW6(9) << 2) & 0x3fc) | (getBufferDataRW6(10) >> 6);
-        bytes[9] =
-          ((getBufferDataRW6(10) << 4) | (getBufferDataRW6(11) >> 4)) & 0x3ff;
+        bytes[8] = ((getBufferDataRW6(9) << 2) & 0x3fc) | (getBufferDataRW6(10) >> 6);
+        bytes[9] = ((getBufferDataRW6(10) << 4) | (getBufferDataRW6(11) >> 4)) & 0x3ff;
         bytes[10] = (getBufferDataRW6(11) >> 2) & 0x3;
         bytes[11] = ((getBufferDataRW6(11) & 0x3) << 8) | getBufferDataRW6(12);
-        bytes[12] =
-          (((getBufferDataRW6(13) << 2) & 0x3fc) |
-            (getBufferDataRW6(14) >> 6)) &
-          0x3ff;
-        bytes[13] =
-          ((getBufferDataRW6(14) << 4) | (getBufferDataRW6(15) >> 4)) & 0x3ff;
+        bytes[12] = (((getBufferDataRW6(13) << 2) & 0x3fc) | (getBufferDataRW6(14) >> 6)) & 0x3ff;
+        bytes[13] = ((getBufferDataRW6(14) << 4) | (getBufferDataRW6(15) >> 4)) & 0x3ff;
         vpos += 16;
         byte = 0;
       }
       function readPageRw6_bps12() {
         bytes[0] = (getBufferDataRW6(0) << 4) | (getBufferDataRW6(1) >> 4);
-        bytes[1] =
-          (((getBufferDataRW6(1) & 0xf) << 8) | getBufferDataRW6(2)) & 0xfff;
+        bytes[1] = (((getBufferDataRW6(1) & 0xf) << 8) | getBufferDataRW6(2)) & 0xfff;
         bytes[2] = (getBufferDataRW6(3) >> 6) & 0x3;
-        bytes[3] =
-          ((getBufferDataRW6(3) & 0x3f) << 2) | (getBufferDataRW6(4) >> 6);
-        bytes[4] =
-          ((getBufferDataRW6(4) & 0x3f) << 2) | (getBufferDataRW6(5) >> 6);
-        bytes[5] =
-          ((getBufferDataRW6(5) & 0x3f) << 2) | (getBufferDataRW6(6) >> 6);
+        bytes[3] = ((getBufferDataRW6(3) & 0x3f) << 2) | (getBufferDataRW6(4) >> 6);
+        bytes[4] = ((getBufferDataRW6(4) & 0x3f) << 2) | (getBufferDataRW6(5) >> 6);
+        bytes[5] = ((getBufferDataRW6(5) & 0x3f) << 2) | (getBufferDataRW6(6) >> 6);
         bytes[6] = (getBufferDataRW6(6) >> 4) & 0x3;
-        bytes[7] =
-          ((getBufferDataRW6(6) & 0xf) << 4) | (getBufferDataRW6(7) >> 4);
-        bytes[8] =
-          ((getBufferDataRW6(7) & 0xf) << 4) | (getBufferDataRW6(8) >> 4);
-        bytes[9] =
-          ((getBufferDataRW6(8) & 0xf) << 4) | (getBufferDataRW6(9) >> 4);
+        bytes[7] = ((getBufferDataRW6(6) & 0xf) << 4) | (getBufferDataRW6(7) >> 4);
+        bytes[8] = ((getBufferDataRW6(7) & 0xf) << 4) | (getBufferDataRW6(8) >> 4);
+        bytes[9] = ((getBufferDataRW6(8) & 0xf) << 4) | (getBufferDataRW6(9) >> 4);
         bytes[10] = (getBufferDataRW6(9) >> 2) & 0x3;
-        bytes[11] =
-          ((getBufferDataRW6(9) & 0x3) << 6) | (getBufferDataRW6(10) >> 2);
-        bytes[12] =
-          ((getBufferDataRW6(10) & 0x3) << 6) | (getBufferDataRW6(11) >> 2);
-        bytes[13] =
-          ((getBufferDataRW6(11) & 0x3) << 6) | (getBufferDataRW6(12) >> 2);
+        bytes[11] = ((getBufferDataRW6(9) & 0x3) << 6) | (getBufferDataRW6(10) >> 2);
+        bytes[12] = ((getBufferDataRW6(10) & 0x3) << 6) | (getBufferDataRW6(11) >> 2);
+        bytes[13] = ((getBufferDataRW6(11) & 0x3) << 6) | (getBufferDataRW6(12) >> 2);
         bytes[14] = getBufferDataRW6(12) & 0x3;
         bytes[15] = getBufferDataRW6(13);
         bytes[16] = getBufferDataRW6(14);
@@ -1794,10 +1691,7 @@
                 var epixel = byte < bufferSize ? bytes[byte++] : 0;
                 if (pred[isOdd]) {
                   epixel *= sh;
-                  if (
-                    pixel_base < pixelbase_compare &&
-                    nonz[isOdd] > pixel_base
-                  )
+                  if (pixel_base < pixelbase_compare && nonz[isOdd] > pixel_base)
                     epixel += nonz[isOdd] - pixel_base;
                   nonz[isOdd] = epixel;
                 } else {
@@ -1832,16 +1726,12 @@
               result[idx++] = 16 * bytes[14] + (bytes[13] >> 4);
             } else if (bitsPerSample == 14) {
               result[idx++] = bytes[0] + ((bytes[1] & 0x3f) << 8);
-              result[idx++] =
-                (bytes[1] >> 6) + 4 * bytes[2] + ((bytes[3] & 0xf) << 10);
-              result[idx++] =
-                (bytes[3] >> 4) + 16 * bytes[4] + ((bytes[5] & 3) << 12);
+              result[idx++] = (bytes[1] >> 6) + 4 * bytes[2] + ((bytes[3] & 0xf) << 10);
+              result[idx++] = (bytes[3] >> 4) + 16 * bytes[4] + ((bytes[5] & 3) << 12);
               result[idx++] = ((bytes[5] & 0xfc) >> 2) + (bytes[6] << 6);
               result[idx++] = bytes[7] + ((bytes[8] & 0x3f) << 8);
-              result[idx++] =
-                (bytes[8] >> 6) + 4 * bytes[9] + ((bytes[10] & 0xf) << 10);
-              result[idx++] =
-                (bytes[10] >> 4) + 16 * bytes[11] + ((bytes[12] & 3) << 12);
+              result[idx++] = (bytes[8] >> 6) + 4 * bytes[9] + ((bytes[10] & 0xf) << 10);
+              result[idx++] = (bytes[10] >> 4) + 16 * bytes[11] + ((bytes[12] & 3) << 12);
               result[idx++] = ((bytes[12] & 0xfc) >> 2) + (bytes[13] << 6);
               result[idx++] = bytes[14] + ((bytes[15] & 0x3f) << 8);
             }
@@ -1864,8 +1754,7 @@
               }
             } else {
               nonz[isOdd] = getDataRaw(8);
-              if (nonz[isOdd] || i > 11)
-                pred[isOdd] = (nonz[isOdd] << 4) | getDataRaw(4);
+              if (nonz[isOdd] || i > 11) pred[isOdd] = (nonz[isOdd] << 4) | getDataRaw(4);
             }
             result[idx++] = pred[col & 1];
           }
@@ -1875,86 +1764,67 @@
 
     UTIF.decode._decodeVC5 = (function () {
       var x = [
-          1, 0, 1, 0, 2, 2, 1, 1, 3, 7, 1, 2, 5, 25, 1, 3, 6, 48, 1, 4, 6, 54,
-          1, 5, 7, 111, 1, 8, 7, 99, 1, 6, 7, 105, 12, 0, 7, 107, 1, 7, 8, 209,
-          20, 0, 8, 212, 1, 9, 8, 220, 1, 10, 9, 393, 1, 11, 9, 394, 32, 0, 9,
-          416, 1, 12, 9, 427, 1, 13, 10, 887, 1, 18, 10, 784, 1, 14, 10, 790, 1,
-          15, 10, 835, 60, 0, 10, 852, 1, 16, 10, 885, 1, 17, 11, 1571, 1, 19,
-          11, 1668, 1, 20, 11, 1669, 100, 0, 11, 1707, 1, 21, 11, 1772, 1, 22,
-          12, 3547, 1, 29, 12, 3164, 1, 24, 12, 3166, 1, 25, 12, 3140, 1, 23,
-          12, 3413, 1, 26, 12, 3537, 1, 27, 12, 3539, 1, 28, 13, 7093, 1, 35,
-          13, 6283, 1, 30, 13, 6331, 1, 31, 13, 6335, 180, 0, 13, 6824, 1, 32,
-          13, 7072, 1, 33, 13, 7077, 320, 0, 13, 7076, 1, 34, 14, 12565, 1, 36,
-          14, 12661, 1, 37, 14, 12669, 1, 38, 14, 13651, 1, 39, 14, 14184, 1,
-          40, 15, 28295, 1, 46, 15, 28371, 1, 47, 15, 25320, 1, 42, 15, 25336,
-          1, 43, 15, 25128, 1, 41, 15, 27300, 1, 44, 15, 28293, 1, 45, 16,
-          50259, 1, 48, 16, 50643, 1, 49, 16, 50675, 1, 50, 16, 56740, 1, 53,
-          16, 56584, 1, 51, 16, 56588, 1, 52, 17, 113483, 1, 61, 17, 113482, 1,
-          60, 17, 101285, 1, 55, 17, 101349, 1, 56, 17, 109205, 1, 57, 17,
-          109207, 1, 58, 17, 100516, 1, 54, 17, 113171, 1, 59, 18, 202568, 1,
-          62, 18, 202696, 1, 63, 18, 218408, 1, 64, 18, 218412, 1, 65, 18,
-          226340, 1, 66, 18, 226356, 1, 67, 18, 226358, 1, 68, 19, 402068, 1,
-          69, 19, 405138, 1, 70, 19, 405394, 1, 71, 19, 436818, 1, 72, 19,
-          436826, 1, 73, 19, 452714, 1, 75, 19, 452718, 1, 76, 19, 452682, 1,
-          74, 20, 804138, 1, 77, 20, 810279, 1, 78, 20, 810790, 1, 79, 20,
-          873638, 1, 80, 20, 873654, 1, 81, 20, 905366, 1, 82, 20, 905430, 1,
-          83, 20, 905438, 1, 84, 21, 1608278, 1, 85, 21, 1620557, 1, 86, 21,
-          1621582, 1, 87, 21, 1621583, 1, 88, 21, 1747310, 1, 89, 21, 1810734,
-          1, 90, 21, 1810735, 1, 91, 21, 1810863, 1, 92, 21, 1810879, 1, 93, 22,
-          3621725, 1, 99, 22, 3621757, 1, 100, 22, 3241112, 1, 94, 22, 3494556,
-          1, 95, 22, 3494557, 1, 96, 22, 3494622, 1, 97, 22, 3494623, 1, 98, 23,
-          6482227, 1, 102, 23, 6433117, 1, 101, 23, 6989117, 1, 103, 23,
-          6989119, 1, 105, 23, 6989118, 1, 104, 23, 7243449, 1, 106, 23,
-          7243512, 1, 107, 24, 13978233, 1, 111, 24, 12964453, 1, 109, 24,
-          12866232, 1, 108, 24, 14486897, 1, 113, 24, 13978232, 1, 110, 24,
-          14486896, 1, 112, 24, 14487026, 1, 114, 24, 14487027, 1, 115, 25,
-          25732598, 1, 225, 25, 25732597, 1, 189, 25, 25732596, 1, 188, 25,
-          25732595, 1, 203, 25, 25732594, 1, 202, 25, 25732593, 1, 197, 25,
-          25732592, 1, 207, 25, 25732591, 1, 169, 25, 25732590, 1, 223, 25,
-          25732589, 1, 159, 25, 25732522, 1, 235, 25, 25732579, 1, 152, 25,
-          25732575, 1, 192, 25, 25732489, 1, 179, 25, 25732573, 1, 201, 25,
-          25732472, 1, 172, 25, 25732576, 1, 149, 25, 25732488, 1, 178, 25,
-          25732566, 1, 120, 25, 25732571, 1, 219, 25, 25732577, 1, 150, 25,
-          25732487, 1, 127, 25, 25732506, 1, 211, 25, 25732548, 1, 125, 25,
-          25732588, 1, 158, 25, 25732486, 1, 247, 25, 25732467, 1, 238, 25,
-          25732508, 1, 163, 25, 25732552, 1, 228, 25, 25732603, 1, 183, 25,
-          25732513, 1, 217, 25, 25732587, 1, 168, 25, 25732520, 1, 122, 25,
-          25732484, 1, 128, 25, 25732562, 1, 249, 25, 25732505, 1, 187, 25,
-          25732504, 1, 186, 25, 25732483, 1, 136, 25, 25928905, 1, 181, 25,
-          25732560, 1, 255, 25, 25732500, 1, 230, 25, 25732482, 1, 135, 25,
-          25732555, 1, 233, 25, 25732568, 1, 222, 25, 25732583, 1, 145, 25,
-          25732481, 1, 134, 25, 25732586, 1, 167, 25, 25732521, 1, 248, 25,
-          25732518, 1, 209, 25, 25732480, 1, 243, 25, 25732512, 1, 216, 25,
-          25732509, 1, 164, 25, 25732547, 1, 140, 25, 25732479, 1, 157, 25,
-          25732544, 1, 239, 25, 25732574, 1, 191, 25, 25732564, 1, 251, 25,
-          25732478, 1, 156, 25, 25732546, 1, 139, 25, 25732498, 1, 242, 25,
-          25732557, 1, 133, 25, 25732477, 1, 162, 25, 25732515, 1, 213, 25,
-          25732584, 1, 165, 25, 25732514, 1, 212, 25, 25732476, 1, 227, 25,
-          25732494, 1, 198, 25, 25732531, 1, 236, 25, 25732530, 1, 234, 25,
-          25732529, 1, 117, 25, 25732528, 1, 215, 25, 25732527, 1, 124, 25,
-          25732526, 1, 123, 25, 25732525, 1, 254, 25, 25732524, 1, 253, 25,
-          25732523, 1, 148, 25, 25732570, 1, 218, 25, 25732580, 1, 146, 25,
-          25732581, 1, 147, 25, 25732569, 1, 224, 25, 25732533, 1, 143, 25,
-          25732540, 1, 184, 25, 25732541, 1, 185, 25, 25732585, 1, 166, 25,
-          25732556, 1, 132, 25, 25732485, 1, 129, 25, 25732563, 1, 250, 25,
-          25732578, 1, 151, 25, 25732501, 1, 119, 25, 25732502, 1, 193, 25,
-          25732536, 1, 176, 25, 25732496, 1, 245, 25, 25732553, 1, 229, 25,
-          25732516, 1, 206, 25, 25732582, 1, 144, 25, 25732517, 1, 208, 25,
-          25732558, 1, 137, 25, 25732543, 1, 241, 25, 25732466, 1, 237, 25,
-          25732507, 1, 190, 25, 25732542, 1, 240, 25, 25732551, 1, 131, 25,
-          25732554, 1, 232, 25, 25732565, 1, 252, 25, 25732475, 1, 171, 25,
-          25732493, 1, 205, 25, 25732492, 1, 204, 25, 25732491, 1, 118, 25,
-          25732490, 1, 214, 25, 25928904, 1, 180, 25, 25732549, 1, 126, 25,
-          25732602, 1, 182, 25, 25732539, 1, 175, 25, 25732545, 1, 141, 25,
-          25732559, 1, 138, 25, 25732537, 1, 177, 25, 25732534, 1, 153, 25,
-          25732503, 1, 194, 25, 25732606, 1, 160, 25, 25732567, 1, 121, 25,
-          25732538, 1, 174, 25, 25732497, 1, 246, 25, 25732550, 1, 130, 25,
-          25732572, 1, 200, 25, 25732474, 1, 170, 25, 25732511, 1, 221, 25,
-          25732601, 1, 196, 25, 25732532, 1, 142, 25, 25732519, 1, 210, 25,
-          25732495, 1, 199, 25, 25732605, 1, 155, 25, 25732535, 1, 154, 25,
-          25732499, 1, 244, 25, 25732510, 1, 220, 25, 25732600, 1, 195, 25,
-          25732607, 1, 161, 25, 25732604, 1, 231, 25, 25732473, 1, 173, 25,
-          25732599, 1, 226, 26, 51465122, 1, 116, 26, 51465123, 0, 1,
+          1, 0, 1, 0, 2, 2, 1, 1, 3, 7, 1, 2, 5, 25, 1, 3, 6, 48, 1, 4, 6, 54, 1, 5, 7, 111, 1, 8,
+          7, 99, 1, 6, 7, 105, 12, 0, 7, 107, 1, 7, 8, 209, 20, 0, 8, 212, 1, 9, 8, 220, 1, 10, 9,
+          393, 1, 11, 9, 394, 32, 0, 9, 416, 1, 12, 9, 427, 1, 13, 10, 887, 1, 18, 10, 784, 1, 14,
+          10, 790, 1, 15, 10, 835, 60, 0, 10, 852, 1, 16, 10, 885, 1, 17, 11, 1571, 1, 19, 11, 1668,
+          1, 20, 11, 1669, 100, 0, 11, 1707, 1, 21, 11, 1772, 1, 22, 12, 3547, 1, 29, 12, 3164, 1,
+          24, 12, 3166, 1, 25, 12, 3140, 1, 23, 12, 3413, 1, 26, 12, 3537, 1, 27, 12, 3539, 1, 28,
+          13, 7093, 1, 35, 13, 6283, 1, 30, 13, 6331, 1, 31, 13, 6335, 180, 0, 13, 6824, 1, 32, 13,
+          7072, 1, 33, 13, 7077, 320, 0, 13, 7076, 1, 34, 14, 12565, 1, 36, 14, 12661, 1, 37, 14,
+          12669, 1, 38, 14, 13651, 1, 39, 14, 14184, 1, 40, 15, 28295, 1, 46, 15, 28371, 1, 47, 15,
+          25320, 1, 42, 15, 25336, 1, 43, 15, 25128, 1, 41, 15, 27300, 1, 44, 15, 28293, 1, 45, 16,
+          50259, 1, 48, 16, 50643, 1, 49, 16, 50675, 1, 50, 16, 56740, 1, 53, 16, 56584, 1, 51, 16,
+          56588, 1, 52, 17, 113483, 1, 61, 17, 113482, 1, 60, 17, 101285, 1, 55, 17, 101349, 1, 56,
+          17, 109205, 1, 57, 17, 109207, 1, 58, 17, 100516, 1, 54, 17, 113171, 1, 59, 18, 202568, 1,
+          62, 18, 202696, 1, 63, 18, 218408, 1, 64, 18, 218412, 1, 65, 18, 226340, 1, 66, 18,
+          226356, 1, 67, 18, 226358, 1, 68, 19, 402068, 1, 69, 19, 405138, 1, 70, 19, 405394, 1, 71,
+          19, 436818, 1, 72, 19, 436826, 1, 73, 19, 452714, 1, 75, 19, 452718, 1, 76, 19, 452682, 1,
+          74, 20, 804138, 1, 77, 20, 810279, 1, 78, 20, 810790, 1, 79, 20, 873638, 1, 80, 20,
+          873654, 1, 81, 20, 905366, 1, 82, 20, 905430, 1, 83, 20, 905438, 1, 84, 21, 1608278, 1,
+          85, 21, 1620557, 1, 86, 21, 1621582, 1, 87, 21, 1621583, 1, 88, 21, 1747310, 1, 89, 21,
+          1810734, 1, 90, 21, 1810735, 1, 91, 21, 1810863, 1, 92, 21, 1810879, 1, 93, 22, 3621725,
+          1, 99, 22, 3621757, 1, 100, 22, 3241112, 1, 94, 22, 3494556, 1, 95, 22, 3494557, 1, 96,
+          22, 3494622, 1, 97, 22, 3494623, 1, 98, 23, 6482227, 1, 102, 23, 6433117, 1, 101, 23,
+          6989117, 1, 103, 23, 6989119, 1, 105, 23, 6989118, 1, 104, 23, 7243449, 1, 106, 23,
+          7243512, 1, 107, 24, 13978233, 1, 111, 24, 12964453, 1, 109, 24, 12866232, 1, 108, 24,
+          14486897, 1, 113, 24, 13978232, 1, 110, 24, 14486896, 1, 112, 24, 14487026, 1, 114, 24,
+          14487027, 1, 115, 25, 25732598, 1, 225, 25, 25732597, 1, 189, 25, 25732596, 1, 188, 25,
+          25732595, 1, 203, 25, 25732594, 1, 202, 25, 25732593, 1, 197, 25, 25732592, 1, 207, 25,
+          25732591, 1, 169, 25, 25732590, 1, 223, 25, 25732589, 1, 159, 25, 25732522, 1, 235, 25,
+          25732579, 1, 152, 25, 25732575, 1, 192, 25, 25732489, 1, 179, 25, 25732573, 1, 201, 25,
+          25732472, 1, 172, 25, 25732576, 1, 149, 25, 25732488, 1, 178, 25, 25732566, 1, 120, 25,
+          25732571, 1, 219, 25, 25732577, 1, 150, 25, 25732487, 1, 127, 25, 25732506, 1, 211, 25,
+          25732548, 1, 125, 25, 25732588, 1, 158, 25, 25732486, 1, 247, 25, 25732467, 1, 238, 25,
+          25732508, 1, 163, 25, 25732552, 1, 228, 25, 25732603, 1, 183, 25, 25732513, 1, 217, 25,
+          25732587, 1, 168, 25, 25732520, 1, 122, 25, 25732484, 1, 128, 25, 25732562, 1, 249, 25,
+          25732505, 1, 187, 25, 25732504, 1, 186, 25, 25732483, 1, 136, 25, 25928905, 1, 181, 25,
+          25732560, 1, 255, 25, 25732500, 1, 230, 25, 25732482, 1, 135, 25, 25732555, 1, 233, 25,
+          25732568, 1, 222, 25, 25732583, 1, 145, 25, 25732481, 1, 134, 25, 25732586, 1, 167, 25,
+          25732521, 1, 248, 25, 25732518, 1, 209, 25, 25732480, 1, 243, 25, 25732512, 1, 216, 25,
+          25732509, 1, 164, 25, 25732547, 1, 140, 25, 25732479, 1, 157, 25, 25732544, 1, 239, 25,
+          25732574, 1, 191, 25, 25732564, 1, 251, 25, 25732478, 1, 156, 25, 25732546, 1, 139, 25,
+          25732498, 1, 242, 25, 25732557, 1, 133, 25, 25732477, 1, 162, 25, 25732515, 1, 213, 25,
+          25732584, 1, 165, 25, 25732514, 1, 212, 25, 25732476, 1, 227, 25, 25732494, 1, 198, 25,
+          25732531, 1, 236, 25, 25732530, 1, 234, 25, 25732529, 1, 117, 25, 25732528, 1, 215, 25,
+          25732527, 1, 124, 25, 25732526, 1, 123, 25, 25732525, 1, 254, 25, 25732524, 1, 253, 25,
+          25732523, 1, 148, 25, 25732570, 1, 218, 25, 25732580, 1, 146, 25, 25732581, 1, 147, 25,
+          25732569, 1, 224, 25, 25732533, 1, 143, 25, 25732540, 1, 184, 25, 25732541, 1, 185, 25,
+          25732585, 1, 166, 25, 25732556, 1, 132, 25, 25732485, 1, 129, 25, 25732563, 1, 250, 25,
+          25732578, 1, 151, 25, 25732501, 1, 119, 25, 25732502, 1, 193, 25, 25732536, 1, 176, 25,
+          25732496, 1, 245, 25, 25732553, 1, 229, 25, 25732516, 1, 206, 25, 25732582, 1, 144, 25,
+          25732517, 1, 208, 25, 25732558, 1, 137, 25, 25732543, 1, 241, 25, 25732466, 1, 237, 25,
+          25732507, 1, 190, 25, 25732542, 1, 240, 25, 25732551, 1, 131, 25, 25732554, 1, 232, 25,
+          25732565, 1, 252, 25, 25732475, 1, 171, 25, 25732493, 1, 205, 25, 25732492, 1, 204, 25,
+          25732491, 1, 118, 25, 25732490, 1, 214, 25, 25928904, 1, 180, 25, 25732549, 1, 126, 25,
+          25732602, 1, 182, 25, 25732539, 1, 175, 25, 25732545, 1, 141, 25, 25732559, 1, 138, 25,
+          25732537, 1, 177, 25, 25732534, 1, 153, 25, 25732503, 1, 194, 25, 25732606, 1, 160, 25,
+          25732567, 1, 121, 25, 25732538, 1, 174, 25, 25732497, 1, 246, 25, 25732550, 1, 130, 25,
+          25732572, 1, 200, 25, 25732474, 1, 170, 25, 25732511, 1, 221, 25, 25732601, 1, 196, 25,
+          25732532, 1, 142, 25, 25732519, 1, 210, 25, 25732495, 1, 199, 25, 25732605, 1, 155, 25,
+          25732535, 1, 154, 25, 25732499, 1, 244, 25, 25732510, 1, 220, 25, 25732600, 1, 195, 25,
+          25732607, 1, 161, 25, 25732604, 1, 231, 25, 25732473, 1, 173, 25, 25732599, 1, 226, 26,
+          51465122, 1, 116, 26, 51465123, 0, 1,
         ],
         o,
         C,
@@ -1998,10 +1868,7 @@
       }
       function O(t, E, h, L, g, n) {
         E[h] = A(A(11 * t[g] - 4 * t[g + n] + t[g + n + n] + 4, 3) + t[L], 1);
-        E[h + n] = A(
-          A(5 * t[g] + 4 * t[g + n] - t[g + n + n] + 4, 3) - t[L],
-          1,
-        );
+        E[h + n] = A(A(5 * t[g] + 4 * t[g + n] - t[g + n + n] + 4, 3) - t[L], 1);
       }
       function J(t, E, h, L, g, n) {
         var W = t[g - n] - t[g + n],
@@ -2012,10 +1879,7 @@
       }
       function y(t, E, h, L, g, n) {
         E[h] = A(A(5 * t[g] + 4 * t[g - n] - t[g - n - n] + 4, 3) + t[L], 1);
-        E[h + n] = A(
-          A(11 * t[g] - 4 * t[g - n] + t[g - n - n] + 4, 3) - t[L],
-          1,
-        );
+        E[h + n] = A(A(11 * t[g] - 4 * t[g - n] + t[g - n - n] + 4, 3) - t[L], 1);
       }
       function q(t) {
         t = t < 0 ? 0 : t > 4095 ? 4095 : t;
@@ -2082,8 +1946,7 @@
             if ((F & V) == V) {
               if (T == null) {
                 T = [];
-                for (var M = 0; M < 4; M++)
-                  T[M] = new Int16Array((u >>> 1) * (X >>> 1));
+                for (var M = 0; M < 4; M++) T[M] = new Int16Array((u >>> 1) * (X >>> 1));
                 B = new Int16Array((u >>> 1) * (X >>> 1));
                 C = new Int16Array(1024);
                 for (var M = 0; M < 1024; M++) {
@@ -2132,8 +1995,7 @@
                 for (var b = 0; b < N; b++) {
                   var af = (b + a2) * (u >>> 1) + aF,
                     au = b * v;
-                  for (var G = 0; G < v; G++)
-                    w[af + G] = C[a4[au + G] + 512] * ax;
+                  for (var G = 0; G < v; G++) w[af + G] = C[a4[au + G] + 512] * ax;
                 }
                 if (l == 2) {
                   var i = u >>> 1,
@@ -2261,14 +2123,12 @@
       return diff;
     };
     UTIF.decode._decodeARW = function (img, inp, off, src_length, tgt, toff) {
-      var raw_width = img["t256"][0],
-        height = img["t257"][0],
-        tiff_bps = img["t258"][0];
+      var raw_width = img['t256'][0],
+        height = img['t257'][0],
+        tiff_bps = img['t258'][0];
       var bin = img.isLE ? UTIF._binLE : UTIF._binBE;
       //console.log(raw_width, height, tiff_bps, raw_width*height, src_length);
-      var arw2 =
-        raw_width * height == src_length ||
-        raw_width * height * 1.5 == src_length;
+      var arw2 = raw_width * height == src_length || raw_width * height * 1.5 == src_length;
       //arw2 = true;
       //console.log("ARW2: ", arw2, raw_width*height, src_length, tgt.length);
       if (!arw2) {
@@ -2277,8 +2137,8 @@
         var prm = [off, 0, 0, 0];
         var huff = new Uint16Array(32770);
         var tab = [
-          0xf11, 0xf10, 0xe0f, 0xd0e, 0xc0d, 0xb0c, 0xa0b, 0x90a, 0x809, 0x708,
-          0x607, 0x506, 0x405, 0x304, 0x303, 0x300, 0x202, 0x201,
+          0xf11, 0xf10, 0xe0f, 0xd0e, 0xc0d, 0xb0c, 0xa0b, 0x90a, 0x809, 0x708, 0x607, 0x506, 0x405,
+          0x304, 0x303, 0x300, 0x202, 0x201,
         ];
         var i,
           c,
@@ -2299,11 +2159,7 @@
             sum += ljpeg_diff(inp, prm, huff);
             if (row < height) {
               var clr = sum & 4095;
-              UTIF.decode._putsF(
-                tgt,
-                (row * raw_width + col) * tiff_bps,
-                clr << (16 - tiff_bps),
-              );
+              UTIF.decode._putsF(tgt, (row * raw_width + col) * tiff_bps, clr << (16 - tiff_bps));
             }
           }
         return;
@@ -2338,70 +2194,51 @@
             if (i == imax) pix[i] = max;
             else if (i == imin) pix[i] = min;
             else {
-              pix[i] =
-                (((bin.readUshort(data, dp + (bit >> 3)) >>> (bit & 7)) &
-                  0x7f) <<
-                  sh) +
-                min;
+              pix[i] = (((bin.readUshort(data, dp + (bit >> 3)) >>> (bit & 7)) & 0x7f) << sh) + min;
               if (pix[i] > 0x7ff) pix[i] = 0x7ff;
               bit += 7;
             }
           for (i = 0; i < 16; i++, col += 2) {
             //RAW(row,col) = curve[pix[i] << 1] >> 2;
             var clr = pix[i] << 1; //clr = 0xffff;
-            UTIF.decode._putsF(
-              tgt,
-              (row * raw_width + col) * tiff_bps,
-              clr << (16 - tiff_bps),
-            );
+            UTIF.decode._putsF(tgt, (row * raw_width + col) * tiff_bps, clr << (16 - tiff_bps));
           }
           col -= col & 1 ? 1 : 31;
         }
       }
     };
 
-    UTIF.decode._decodeNikon = function (
-      img,
-      imgs,
-      data,
-      off,
-      src_length,
-      tgt,
-      toff,
-    ) {
+    UTIF.decode._decodeNikon = function (img, imgs, data, off, src_length, tgt, toff) {
       var nikon_tree = [
         [
-          0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0 /* 12-bit lossy */,
-          5, 4, 3, 6, 2, 7, 1, 0, 8, 9, 11, 10, 12,
+          0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0 /* 12-bit lossy */, 5, 4, 3, 6, 2, 7, 1,
+          0, 8, 9, 11, 10, 12,
         ],
         [
-          0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0,
-          0 /* 12-bit lossy after split */, 0x39, 0x5a, 0x38, 0x27, 0x16, 5, 4,
-          3, 2, 1, 0, 11, 12, 12,
+          0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0 /* 12-bit lossy after split */, 0x39,
+          0x5a, 0x38, 0x27, 0x16, 5, 4, 3, 2, 1, 0, 11, 12, 12,
         ],
         [
-          0, 0, 1, 4, 2, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0,
-          0 /* 12-bit lossless */, 5, 4, 6, 3, 7, 2, 8, 1, 9, 0, 10, 11, 12,
+          0, 0, 1, 4, 2, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 /* 12-bit lossless */, 5, 4, 6, 3, 7, 2,
+          8, 1, 9, 0, 10, 11, 12,
         ],
         [
-          0, 0, 1, 4, 3, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0 /* 14-bit lossy */,
-          5, 6, 4, 7, 8, 3, 9, 2, 1, 0, 10, 11, 12, 13, 14,
+          0, 0, 1, 4, 3, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0 /* 14-bit lossy */, 5, 6, 4, 7, 8, 3, 9,
+          2, 1, 0, 10, 11, 12, 13, 14,
         ],
         [
-          0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0,
-          0 /* 14-bit lossy after split */, 8, 0x5c, 0x4b, 0x3a, 0x29, 7, 6, 5,
-          4, 3, 2, 1, 0, 13, 14,
+          0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0 /* 14-bit lossy after split */, 8, 0x5c,
+          0x4b, 0x3a, 0x29, 7, 6, 5, 4, 3, 2, 1, 0, 13, 14,
         ],
         [
-          0, 0, 1, 4, 2, 2, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0,
-          0 /* 14-bit lossless */, 7, 6, 8, 5, 9, 4, 10, 3, 11, 12, 2, 0, 1, 13,
-          14,
+          0, 0, 1, 4, 2, 2, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0 /* 14-bit lossless */, 7, 6, 8, 5, 9, 4,
+          10, 3, 11, 12, 2, 0, 1, 13, 14,
         ],
       ];
 
-      var raw_width = img["t256"][0],
-        height = img["t257"][0],
-        tiff_bps = img["t258"][0];
+      var raw_width = img['t256'][0],
+        height = img['t257'][0],
+        tiff_bps = img['t258'][0];
 
       var tree = 0,
         split = 0;
@@ -2409,10 +2246,10 @@
       var getbithuff = UTIF.decode._getbithuff;
 
       var mn = imgs[0].exifIFD.makerNote,
-        md = mn["t150"] ? mn["t150"] : mn["t140"],
+        md = mn['t150'] ? mn['t150'] : mn['t140'],
         mdo = 0; //console.log(mn,md);
 
-      if (mn["t147"] && mn["t147"][0] == 2) {
+      if (mn['t147'] && mn['t147'][0] == 2) {
         var ppl = Math.ceil(raw_width / 10);
         var bpl = ppl * 16;
         var rbpl = (raw_width * 3) >>> 1;
@@ -2449,8 +2286,7 @@
       var csize = bin.readShort(md, mdo);
       mdo += 2;
       if (csize > 1) step = Math.floor(max / (csize - 1));
-      if (ver0 == 0x44 && ver1 == 0x20 && step > 0)
-        split = bin.readShort(md, 562);
+      if (ver0 == 0x44 && ver1 == 0x20 && step > 0) split = bin.readShort(md, 562);
 
       var i;
       var row, col;
@@ -2473,10 +2309,8 @@
           i = getbithuff(data, prm, huff[0], huff);
           len = i & 15;
           shl = i >>> 4;
-          diff =
-            (((getbithuff(data, prm, len - shl, 0) << 1) + 1) << shl) >>> 1;
-          if ((diff & (1 << (len - 1))) == 0)
-            diff -= (1 << len) - (shl == 0 ? 1 : 0);
+          diff = (((getbithuff(data, prm, len - shl, 0) << 1) + 1) << shl) >>> 1;
+          if ((diff & (1 << (len - 1))) == 0) diff -= (1 << len) - (shl == 0 ? 1 : 0);
           if (col < 2) hpred[col] = vpred[row & 1][col] += diff;
           else hpred[col & 1] += diff;
 
@@ -2523,7 +2357,7 @@
         vbits -= huff[c + 1] >>> 8; //console.log(c, huff[c]>>8);
         c = huff[c + 1] & 255;
       } else vbits -= nbits;
-      if (vbits < 0) throw "e";
+      if (vbits < 0) throw 'e';
 
       prm[0] = off;
       prm[1] = bitbuf;
@@ -2550,7 +2384,7 @@
 
     UTIF.decode._decodeNewJPEG = function (img, data, off, len, tgt, toff) {
       len = Math.min(len, data.length - off);
-      var tables = img["t347"],
+      var tables = img['t347'],
         tlen = tables ? tables.length : 0,
         buff = new Uint8Array(tlen + len);
 
@@ -2574,19 +2408,16 @@
         for (var i = 2; i < len; i++) buff[boff++] = data[off + i];
       } else for (var i = 0; i < len; i++) buff[i] = data[off + i];
 
-      if (
-        img["t262"][0] == 32803 ||
-        (img["t259"][0] == 7 && img["t262"][0] == 34892)
-      ) {
+      if (img['t262'][0] == 32803 || (img['t259'][0] == 7 && img['t262'][0] == 34892)) {
         // lossless JPEG (used in DNG files)
-        var bps = img["t258"][0]; //, dcdr = new LosslessJpegDecoder();
+        var bps = img['t258'][0]; //, dcdr = new LosslessJpegDecoder();
         //var time = Date.now();
         //var out = UTIF.LosslessJpegDecode(buff), olen=out.length;  //console.log(olen);
         var ojpg = UTIF.LosslessJpegDecode(buff),
           out = ojpg[0],
           olen = out.length; //console.log(olen);
         //console.log(Date.now()-time);
-        if (ojpg[3] == 4 && img["t29456"]) {
+        if (ojpg[3] == 4 && img['t29456']) {
           // Sony ARW has 4 components per pixel,
           var no = out.slice(0);
           no.fill(0);
@@ -2620,11 +2451,10 @@
         } else if (bps == 14 || bps == 12 || bps == 10) {
           // 4 * 14 == 56 == 7 * 8
           var rst = 16 - bps;
-          for (var i = 0; i < olen; i++)
-            UTIF.decode._putsF(tgt, i * bps, out[i] << rst);
+          for (var i = 0; i < olen; i++) UTIF.decode._putsF(tgt, i * bps, out[i] << rst);
         } else if (bps == 8) {
           for (var i = 0; i < olen; i++) tgt[toff + i] = out[i];
-        } else throw new Error("unsupported bit depth " + bps);
+        } else throw new Error('unsupported bit depth ' + bps);
       } else {
         var parser = new UTIF.JpegDecoder();
         parser.parse(buff);
@@ -2639,7 +2469,7 @@
 
       // PhotometricInterpretation is 6 (YCbCr) for JPEG, but after decoding we populate data in
       // RGB format, so updating the tag value
-      if (img["t262"][0] == 6) img["t262"][0] = 2;
+      if (img['t262'][0] == 6) img['t262'][0] = 2;
     };
 
     UTIF.decode._decodeOldJPEGInit = function (img, data, off, len) {
@@ -2658,16 +2488,16 @@
         i,
         j,
         k;
-      var jpgIchgFmt = img["t513"],
+      var jpgIchgFmt = img['t513'],
         jifoff = jpgIchgFmt ? jpgIchgFmt[0] : 0;
-      var jpgIchgFmtLen = img["t514"],
+      var jpgIchgFmtLen = img['t514'],
         jiflen = jpgIchgFmtLen ? jpgIchgFmtLen[0] : 0;
-      var soffTag = img["t324"] || img["t273"] || jpgIchgFmt;
-      var ycbcrss = img["t530"],
+      var soffTag = img['t324'] || img['t273'] || jpgIchgFmt;
+      var ycbcrss = img['t530'],
         ssx = 0,
         ssy = 0;
-      var spp = img["t277"] ? img["t277"][0] : 1;
-      var jpgresint = img["t515"];
+      var spp = img['t277'] ? img['t277'][0] : 1;
+      var jpgresint = img['t515'];
 
       if (soffTag) {
         soff = soffTag[0];
@@ -2675,17 +2505,14 @@
       }
 
       if (!isTiled) {
-        if (data[off] == 255 && data[off + 1] == SOI)
-          return { jpegOffset: off };
+        if (data[off] == 255 && data[off + 1] == SOI) return { jpegOffset: off };
         if (jpgIchgFmt != null) {
-          if (data[off + jifoff] == 255 && data[off + jifoff + 1] == SOI)
-            joff = off + jifoff;
-          else log("JPEGInterchangeFormat does not point to SOI");
+          if (data[off + jifoff] == 255 && data[off + jifoff + 1] == SOI) joff = off + jifoff;
+          else log('JPEGInterchangeFormat does not point to SOI');
 
-          if (jpgIchgFmtLen == null)
-            log("JPEGInterchangeFormatLength field is missing");
+          if (jpgIchgFmtLen == null) log('JPEGInterchangeFormatLength field is missing');
           else if (jifoff >= soff || jifoff + jiflen <= soff)
-            log("JPEGInterchangeFormatLength field value is invalid");
+            log('JPEGInterchangeFormatLength field value is invalid');
 
           if (joff != null) return { jpegOffset: joff };
         }
@@ -2699,21 +2526,17 @@
       if (jpgIchgFmt != null)
         if (jpgIchgFmtLen != null)
           if (jiflen >= 2 && jifoff + jiflen <= soff) {
-            if (
-              data[off + jifoff + jiflen - 2] == 255 &&
-              data[off + jifoff + jiflen - 1] == SOI
-            )
+            if (data[off + jifoff + jiflen - 2] == 255 && data[off + jifoff + jiflen - 1] == SOI)
               tables = new Uint8Array(jiflen - 2);
             else tables = new Uint8Array(jiflen);
 
-            for (i = 0; i < tables.length; i++)
-              tables[i] = data[off + jifoff + i];
+            for (i = 0; i < tables.length; i++) tables[i] = data[off + jifoff + i];
             log(
-              "Incorrect JPEG interchange format: using JPEGInterchangeFormat offset to derive tables",
+              'Incorrect JPEG interchange format: using JPEGInterchangeFormat offset to derive tables',
             );
           } else
             log(
-              "JPEGInterchangeFormat+JPEGInterchangeFormatLength > offset to first strip or tile",
+              'JPEGInterchangeFormat+JPEGInterchangeFormatLength > offset to first strip or tile',
             );
 
       if (tables == null) {
@@ -2722,8 +2545,8 @@
         out[ooff++] = 255;
         out[ooff++] = SOI;
 
-        var qtables = img["t519"];
-        if (qtables == null) throw new Error("JPEGQTables tag is missing");
+        var qtables = img['t519'];
+        if (qtables == null) throw new Error('JPEGQTables tag is missing');
         for (i = 0; i < qtables.length; i++) {
           out[ooff++] = 255;
           out[ooff++] = DQT;
@@ -2734,11 +2557,9 @@
         }
 
         for (k = 0; k < 2; k++) {
-          var htables = img[k == 0 ? "t520" : "t521"];
+          var htables = img[k == 0 ? 't520' : 't521'];
           if (htables == null)
-            throw new Error(
-              (k == 0 ? "JPEGDCTables" : "JPEGACTables") + " tag is missing",
-            );
+            throw new Error((k == 0 ? 'JPEGDCTables' : 'JPEGACTables') + ' tag is missing');
           for (i = 0; i < htables.length; i++) {
             out[ooff++] = 255;
             out[ooff++] = DHT;
@@ -2750,8 +2571,7 @@
             out[ooff++] = nc & 255;
             out[ooff++] = i | (k << 4);
             for (j = 0; j < 16; j++) out[ooff++] = data[off + htables[i] + j];
-            for (j = 0; j < nc; j++)
-              out[ooff++] = data[off + htables[i] + 16 + j];
+            for (j = 0; j < nc; j++) out[ooff++] = data[off + htables[i] + 16 + j];
           }
         }
 
@@ -2901,13 +2721,13 @@
         isSourcePDF: false,
       });
       var area = parser.width * parser.height;
-      if (img["t262"] && img["t262"][0] == 1)
+      if (img['t262'] && img['t262'][0] == 1)
         for (var i = 0; i < area; i++) tgt[toff + i] = decoded[i * 3];
       else for (var i = 0; i < decoded.length; i++) tgt[toff + i] = decoded[i];
 
       // PhotometricInterpretation is 6 (YCbCr) for JPEG, but after decoding we populate data in
       // RGB format, so updating the tag value
-      if (img["t262"] && img["t262"][0] == 6) img["t262"][0] = 2;
+      if (img['t262'] && img['t262'][0] == 6) img['t262'][0] = 2;
     };
 
     UTIF.decode._decodePackBits = function (data, off, len, tgt, toff) {
@@ -2978,12 +2798,12 @@
 
     UTIF.decode._dmap = {
       1: 0,
-      "011": 1,
-      "000011": 2,
-      "0000011": 3,
-      "010": -1,
-      "000010": -2,
-      "0000010": -3,
+      '011': 1,
+      '000011': 2,
+      '0000011': 3,
+      '010': -1,
+      '000010': -2,
+      '0000010': -3,
     };
     UTIF.decode._lens = (function () {
       var addKeys = function (lens, arr, i0, inc) {
@@ -2991,34 +2811,34 @@
       };
 
       var termW =
-        "00110101,000111,0111,1000,1011,1100,1110,1111,10011,10100,00111,01000,001000,000011,110100,110101," + // 15
-        "101010,101011,0100111,0001100,0001000,0010111,0000011,0000100,0101000,0101011,0010011,0100100,0011000,00000010,00000011,00011010," + // 31
-        "00011011,00010010,00010011,00010100,00010101,00010110,00010111,00101000,00101001,00101010,00101011,00101100,00101101,00000100,00000101,00001010," + // 47
-        "00001011,01010010,01010011,01010100,01010101,00100100,00100101,01011000,01011001,01011010,01011011,01001010,01001011,00110010,00110011,00110100";
+        '00110101,000111,0111,1000,1011,1100,1110,1111,10011,10100,00111,01000,001000,000011,110100,110101,' + // 15
+        '101010,101011,0100111,0001100,0001000,0010111,0000011,0000100,0101000,0101011,0010011,0100100,0011000,00000010,00000011,00011010,' + // 31
+        '00011011,00010010,00010011,00010100,00010101,00010110,00010111,00101000,00101001,00101010,00101011,00101100,00101101,00000100,00000101,00001010,' + // 47
+        '00001011,01010010,01010011,01010100,01010101,00100100,00100101,01011000,01011001,01011010,01011011,01001010,01001011,00110010,00110011,00110100';
 
       var termB =
-        "0000110111,010,11,10,011,0011,0010,00011,000101,000100,0000100,0000101,0000111,00000100,00000111,000011000," + // 15
-        "0000010111,0000011000,0000001000,00001100111,00001101000,00001101100,00000110111,00000101000,00000010111,00000011000,000011001010,000011001011,000011001100,000011001101,000001101000,000001101001," + // 31
-        "000001101010,000001101011,000011010010,000011010011,000011010100,000011010101,000011010110,000011010111,000001101100,000001101101,000011011010,000011011011,000001010100,000001010101,000001010110,000001010111," + // 47
-        "000001100100,000001100101,000001010010,000001010011,000000100100,000000110111,000000111000,000000100111,000000101000,000001011000,000001011001,000000101011,000000101100,000001011010,000001100110,000001100111";
+        '0000110111,010,11,10,011,0011,0010,00011,000101,000100,0000100,0000101,0000111,00000100,00000111,000011000,' + // 15
+        '0000010111,0000011000,0000001000,00001100111,00001101000,00001101100,00000110111,00000101000,00000010111,00000011000,000011001010,000011001011,000011001100,000011001101,000001101000,000001101001,' + // 31
+        '000001101010,000001101011,000011010010,000011010011,000011010100,000011010101,000011010110,000011010111,000001101100,000001101101,000011011010,000011011011,000001010100,000001010101,000001010110,000001010111,' + // 47
+        '000001100100,000001100101,000001010010,000001010011,000000100100,000000110111,000000111000,000000100111,000000101000,000001011000,000001011001,000000101011,000000101100,000001011010,000001100110,000001100111';
 
       var makeW =
-        "11011,10010,010111,0110111,00110110,00110111,01100100,01100101,01101000,01100111,011001100,011001101,011010010,011010011,011010100,011010101,011010110," +
-        "011010111,011011000,011011001,011011010,011011011,010011000,010011001,010011010,011000,010011011";
+        '11011,10010,010111,0110111,00110110,00110111,01100100,01100101,01101000,01100111,011001100,011001101,011010010,011010011,011010100,011010101,011010110,' +
+        '011010111,011011000,011011001,011011010,011011011,010011000,010011001,010011010,011000,010011011';
 
       var makeB =
-        "0000001111,000011001000,000011001001,000001011011,000000110011,000000110100,000000110101,0000001101100,0000001101101,0000001001010,0000001001011,0000001001100," +
-        "0000001001101,0000001110010,0000001110011,0000001110100,0000001110101,0000001110110,0000001110111,0000001010010,0000001010011,0000001010100,0000001010101,0000001011010," +
-        "0000001011011,0000001100100,0000001100101";
+        '0000001111,000011001000,000011001001,000001011011,000000110011,000000110100,000000110101,0000001101100,0000001101101,0000001001010,0000001001011,0000001001100,' +
+        '0000001001101,0000001110010,0000001110011,0000001110100,0000001110101,0000001110110,0000001110111,0000001010010,0000001010011,0000001010100,0000001010101,0000001011010,' +
+        '0000001011011,0000001100100,0000001100101';
 
       var makeA =
-        "00000001000,00000001100,00000001101,000000010010,000000010011,000000010100,000000010101,000000010110,000000010111,000000011100,000000011101,000000011110,000000011111";
+        '00000001000,00000001100,00000001101,000000010010,000000010011,000000010100,000000010101,000000010110,000000010111,000000011100,000000011101,000000011110,000000011111';
 
-      termW = termW.split(",");
-      termB = termB.split(",");
-      makeW = makeW.split(",");
-      makeB = makeB.split(",");
-      makeA = makeA.split(",");
+      termW = termW.split(',');
+      termB = termB.split(',');
+      makeW = makeW.split(',');
+      makeB = makeB.split(',');
+      makeA = makeA.split(',');
 
       var lensW = {},
         lensB = {};
@@ -3035,7 +2855,7 @@
       var U = UTIF.decode,
         boff = off << 3,
         len = 0,
-        wrd = ""; // previous starts with 1
+        wrd = ''; // previous starts with 1
       var line = [],
         pline = [];
       for (var i = 0; i < w; i++) pline.push(0);
@@ -3047,7 +2867,7 @@
         b2 = 0,
         clr = 0;
       var y = 0,
-        mode = "",
+        mode = '',
         toRead = 0;
       var bipl = Math.ceil(w / 8) * 8;
 
@@ -3059,10 +2879,10 @@
         if (fo == 2) bit = (data[boff >>> 3] >>> (boff & 7)) & 1;
         boff++;
         wrd += bit;
-        if (mode == "H") {
+        if (mode == 'H') {
           if (U._lens[clr][wrd] != null) {
             var dl = U._lens[clr][wrd];
-            wrd = "";
+            wrd = '';
             len += dl;
             if (dl < 64) {
               U._addNtimes(line, len, clr);
@@ -3070,29 +2890,29 @@
               clr = 1 - clr;
               len = 0;
               toRead--;
-              if (toRead == 0) mode = "";
+              if (toRead == 0) mode = '';
             }
           }
         } else {
-          if (wrd == "0001") {
-            wrd = "";
+          if (wrd == '0001') {
+            wrd = '';
             U._addNtimes(line, b2 - a0, clr);
             a0 = b2;
           }
-          if (wrd == "001") {
-            wrd = "";
-            mode = "H";
+          if (wrd == '001') {
+            wrd = '';
+            mode = 'H';
             toRead = 2;
           }
           if (U._dmap[wrd] != null) {
             a1 = b1 + U._dmap[wrd];
             U._addNtimes(line, a1 - a0, clr);
             a0 = a1;
-            wrd = "";
+            wrd = '';
             clr = 1 - clr;
           }
         }
-        if (line.length == w && mode == "") {
+        if (line.length == w && mode == '') {
           U._writeBits(line, tgt, toff * 8 + y * bipl);
           clr = 0;
           y++;
@@ -3112,8 +2932,7 @@
     UTIF.decode._makeDiff = function (line) {
       var out = [];
       if (line[0] == 1) out.push(0, 1);
-      for (var i = 1; i < line.length; i++)
-        if (line[i - 1] != line[i]) out.push(i, line[i]);
+      for (var i = 1; i < line.length; i++) if (line[i - 1] != line[i]) out.push(i, line[i]);
       out.push(line.length, 0, line.length, 1);
       return out;
     };
@@ -3122,7 +2941,7 @@
       var U = UTIF.decode,
         boff = off << 3,
         len = 0,
-        wrd = "";
+        wrd = '';
       var line = [];
       var clr = 0;
       var y = 0;
@@ -3138,7 +2957,7 @@
         len = U._lens[clr][wrd];
         if (len != null) {
           U._addNtimes(line, len, clr);
-          wrd = "";
+          wrd = '';
           if (len < 64) clr = 1 - clr;
           if (line.length == w) {
             U._writeBits(line, tgt, toff * 8 + y * bipl);
@@ -3152,20 +2971,11 @@
       }
     };
 
-    UTIF.decode._decodeG3 = function (
-      data,
-      off,
-      slen,
-      tgt,
-      toff,
-      w,
-      fo,
-      twoDim,
-    ) {
+    UTIF.decode._decodeG3 = function (data, off, slen, tgt, toff, w, fo, twoDim) {
       var U = UTIF.decode,
         boff = off << 3,
         len = 0,
-        wrd = "";
+        wrd = '';
       var line = [],
         pline = [];
       for (var i = 0; i < w; i++) line.push(0);
@@ -3176,7 +2986,7 @@
         b2 = 0,
         clr = 0;
       var y = -1,
-        mode = "",
+        mode = '',
         toRead = 0,
         is1D = true;
       var bipl = Math.ceil(w / 8) * 8;
@@ -3192,7 +3002,7 @@
         if (is1D) {
           if (U._lens[clr][wrd] != null) {
             var dl = U._lens[clr][wrd];
-            wrd = "";
+            wrd = '';
             len += dl;
             if (dl < 64) {
               U._addNtimes(line, len, clr);
@@ -3201,10 +3011,10 @@
             }
           }
         } else {
-          if (mode == "H") {
+          if (mode == 'H') {
             if (U._lens[clr][wrd] != null) {
               var dl = U._lens[clr][wrd];
-              wrd = "";
+              wrd = '';
               len += dl;
               if (dl < 64) {
                 U._addNtimes(line, len, clr);
@@ -3212,40 +3022,39 @@
                 clr = 1 - clr;
                 len = 0;
                 toRead--;
-                if (toRead == 0) mode = "";
+                if (toRead == 0) mode = '';
               }
             }
           } else {
-            if (wrd == "0001") {
-              wrd = "";
+            if (wrd == '0001') {
+              wrd = '';
               U._addNtimes(line, b2 - a0, clr);
               a0 = b2;
             }
-            if (wrd == "001") {
-              wrd = "";
-              mode = "H";
+            if (wrd == '001') {
+              wrd = '';
+              mode = 'H';
               toRead = 2;
             }
             if (U._dmap[wrd] != null) {
               a1 = b1 + U._dmap[wrd];
               U._addNtimes(line, a1 - a0, clr);
               a0 = a1;
-              wrd = "";
+              wrd = '';
               clr = 1 - clr;
             }
           }
         }
-        if (wrd.endsWith("000000000001")) {
+        if (wrd.endsWith('000000000001')) {
           // needed for some files
           if (y >= 0) U._writeBits(line, tgt, toff * 8 + y * bipl);
           if (twoDim) {
-            if (fo == 1)
-              is1D = ((data[boff >>> 3] >>> (7 - (boff & 7))) & 1) == 1;
+            if (fo == 1) is1D = ((data[boff >>> 3] >>> (7 - (boff & 7))) & 1) == 1;
             if (fo == 2) is1D = ((data[boff >>> 3] >>> (boff & 7)) & 1) == 1;
             boff++;
           }
           //log("EOL",y, "next 1D:", is1D);
-          wrd = "";
+          wrd = '';
           clr = 0;
           y++;
           a0 = 0;
@@ -3357,39 +3166,31 @@
       var main = new Array(250);
       main.fill(0);
       main = main.concat([
-        0, 0, 0, 0, 4, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 0, 0, 2, 2, 2, 2, 4,
-        3, 0, 0, 3, 4, 4, 3, 3, 5, 5, 3, 2, 5, 5, 0, 0, 0, 0, 4, 4, 0, 0, 3, 3,
-        0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 3, 5, 5, 3, 0,
-        3, 3, 4, 4, 4, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0,
-        0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
-        4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 5, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 4, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 0, 0, 2, 2, 2, 2, 4, 3, 0, 0, 3, 4, 4, 3,
+        3, 5, 5, 3, 2, 5, 5, 0, 0, 0, 0, 4, 4, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0,
+        0, 0, 0, 2, 2, 3, 5, 5, 3, 0, 3, 3, 4, 4, 4, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0,
+        0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 3, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       ]);
       var rest = {
         33432: 2,
@@ -3459,8 +3260,7 @@
       offset += 2;
       var ifd = {};
 
-      if (prm.debug)
-        log("   ".repeat(depth), ifds.length - 1, ">>>----------------");
+      if (prm.debug) log('   '.repeat(depth), ifds.length - 1, '>>>----------------');
       for (var i = 0; i < cnt; i++) {
         var tag = bin.readUshort(data, offset);
         offset += 2;
@@ -3475,8 +3275,7 @@
         //ifd["t"+tag+"-"+UTIF.tags[tag]] = arr;
         if (type == 1 || type == 7) {
           var no = num < 5 ? offset - 4 : voff;
-          if (no + num > data.buffer.byteLength)
-            num = data.buffer.byteLength - no;
+          if (no + num > data.buffer.byteLength) num = data.buffer.byteLength - no;
           arr = new Uint8Array(data.buffer, no, num);
         }
         if (type == 2) {
@@ -3485,14 +3284,12 @@
             len = Math.max(0, Math.min(num - 1, data.length - o0));
           if (c < 128 || len == 0) {
             arr.push(bin.readASCII(data, o0, len));
-            if (arr[0].endsWith("\u0000")) arr[0] = arr[0].slice(0, -1);
+            if (arr[0].endsWith('\u0000')) arr[0] = arr[0].slice(0, -1);
           } else arr = new Uint8Array(data.buffer, o0, len);
         }
         if (type == 3) {
           for (var j = 0; j < num; j++)
-            arr.push(
-              bin.readUshort(data, (num < 3 ? offset - 4 : voff) + 2 * j),
-            );
+            arr.push(bin.readUshort(data, (num < 3 ? offset - 4 : voff) + 2 * j));
         }
         if (type == 4 || type == 13) {
           for (var j = 0; j < num; j++)
@@ -3505,33 +3302,29 @@
         }
         if (type == 8) {
           for (var j = 0; j < num; j++)
-            arr.push(
-              bin.readShort(data, (num < 3 ? offset - 4 : voff) + 2 * j),
-            );
+            arr.push(bin.readShort(data, (num < 3 ? offset - 4 : voff) + 2 * j));
         }
         if (type == 9) {
           for (var j = 0; j < num; j++)
             arr.push(bin.readInt(data, (num < 2 ? offset - 4 : voff) + 4 * j));
         }
         if (type == 11) {
-          for (var j = 0; j < num; j++)
-            arr.push(bin.readFloat(data, voff + j * 4));
+          for (var j = 0; j < num; j++) arr.push(bin.readFloat(data, voff + j * 4));
         }
         if (type == 12) {
-          for (var j = 0; j < num; j++)
-            arr.push(bin.readDouble(data, voff + j * 8));
+          for (var j = 0; j < num; j++) arr.push(bin.readDouble(data, voff + j * 8));
         }
 
         if (num != 0 && arr.length == 0) {
-          log(tag, "unknown TIFF tag type: ", type, "num:", num);
+          log(tag, 'unknown TIFF tag type: ', type, 'num:', num);
           if (i == 0) return;
           continue;
         }
-        if (prm.debug) log("   ".repeat(depth), tag, type, UTIF.tags[tag], arr);
+        if (prm.debug) log('   '.repeat(depth), tag, type, UTIF.tags[tag], arr);
 
-        ifd["t" + tag] = arr;
+        ifd['t' + tag] = arr;
 
-        if (tag == 330 && ifd["t272"] && ifd["t272"][0] == "DSLR-A100") {
+        if (tag == 330 && ifd['t272'] && ifd['t272'][0] == 'DSLR-A100') {
         } else if (
           tag == 330 ||
           tag == 34665 ||
@@ -3552,40 +3345,26 @@
         if (tag == 37500 && prm.parseMN) {
           var mn = arr;
           //console.log(bin.readASCII(mn,0,mn.length), mn);
-          if (bin.readASCII(mn, 0, 5) == "Nikon")
-            ifd.makerNote = UTIF["decode"](mn.slice(10).buffer)[0];
-          else if (
-            bin.readASCII(mn, 0, 5) == "OLYMP" ||
-            bin.readASCII(mn, 0, 9) == "OM SYSTEM"
-          ) {
+          if (bin.readASCII(mn, 0, 5) == 'Nikon')
+            ifd.makerNote = UTIF['decode'](mn.slice(10).buffer)[0];
+          else if (bin.readASCII(mn, 0, 5) == 'OLYMP' || bin.readASCII(mn, 0, 9) == 'OM SYSTEM') {
             // ???
             var inds = [8208, 8224, 8240, 8256, 8272];
             var subsub = [];
-            UTIF._readIFD(
-              bin,
-              mn,
-              mn[1] == 77 ? 16 : mn[5] == 85 ? 12 : 8,
-              subsub,
-              depth + 1,
-              prm,
-            );
+            UTIF._readIFD(bin, mn, mn[1] == 77 ? 16 : mn[5] == 85 ? 12 : 8, subsub, depth + 1, prm);
             var obj = (ifd.makerNote = subsub.pop());
             for (var j = 0; j < inds.length; j++) {
-              var k = "t" + inds[j];
+              var k = 't' + inds[j];
               if (obj[k] == null) continue;
-              if (obj[k].length == 1)
-                UTIF._readIFD(bin, mn, obj[k][0], subsub, depth + 1, prm);
+              if (obj[k].length == 1) UTIF._readIFD(bin, mn, obj[k][0], subsub, depth + 1, prm);
               else UTIF._readIFD(bin, obj[k], 0, subsub, depth + 1, prm);
               obj[k] = subsub.pop();
             }
-            if (obj["t12288"]) {
-              UTIF._readIFD(bin, obj["t12288"], 0, subsub, depth + 1, prm);
-              obj["t12288"] = subsub.pop();
+            if (obj['t12288']) {
+              UTIF._readIFD(bin, obj['t12288'], 0, subsub, depth + 1, prm);
+              obj['t12288'] = subsub.pop();
             }
-          } else if (
-            bin.readUshort(data, voff) < 300 &&
-            bin.readUshort(data, voff + 4) <= 12
-          ) {
+          } else if (bin.readUshort(data, voff) < 300 && bin.readUshort(data, voff + 4) <= 12) {
             var subsub = [];
             UTIF._readIFD(bin, data, voff, subsub, depth + 1, prm);
             ifd.makerNote = subsub[0];
@@ -3593,21 +3372,21 @@
         }
       }
       ifds.push(ifd);
-      if (prm.debug) log("   ".repeat(depth), "<<<---------------");
+      if (prm.debug) log('   '.repeat(depth), '<<<---------------');
       return offset;
     };
 
     UTIF._remapKey = function (key) {
-      if (key == "exifIFD") key = "t34665";
-      if (key == "gpsiIFD") key = "t34853";
+      if (key == 'exifIFD') key = 't34665';
+      if (key == 'gpsiIFD') key = 't34853';
       return key;
     };
 
     UTIF._writeIFD = function (bin, types, data, offset, ifd) {
       var keys = Object.keys(ifd),
         knum = keys.length;
-      if (ifd["exifIFD"]) knum--;
-      if (ifd["gpsiIFD"]) knum--;
+      if (ifd['exifIFD']) knum--;
+      if (ifd['gpsiIFD']) knum--;
       bin.writeUshort(data, offset, knum);
       offset += 2;
 
@@ -3621,32 +3400,25 @@
 
       for (var ki = 0; ki < keys.length; ki++) {
         var key = keys[ki];
-        if (key == "t34665" || key == "t34853") continue;
+        if (key == 't34665' || key == 't34853') continue;
         key = UTIF._remapKey(key);
         var tag = parseInt(key.slice(1)),
           type = types.main[tag];
         if (type == null) type = types.rest[tag];
-        if (type == null || type == 0)
-          throw new Error("unknown type of tag: " + tag);
+        if (type == null || type == 0) throw new Error('unknown type of tag: ' + tag);
         //console.log(offset+":", tag, type, eoff);
         var val = ifd[key];
         if (tag == 34665) {
-          var outp = UTIF._writeIFD(bin, types, data, eoff, ifd["exifIFD"]);
+          var outp = UTIF._writeIFD(bin, types, data, eoff, ifd['exifIFD']);
           val = [eoff];
           eoff = outp[1];
         }
         if (tag == 34853) {
-          var outp = UTIF._writeIFD(
-            bin,
-            UTIF._types.gps,
-            data,
-            eoff,
-            ifd["gpsiIFD"],
-          );
+          var outp = UTIF._writeIFD(bin, UTIF._types.gps, data, eoff, ifd['gpsiIFD']);
           val = [eoff];
           eoff = outp[1];
         }
-        if (type == 2) val = val[0] + "\u0000";
+        if (type == 2) val = val[0] + '\u0000';
         var num = val.length;
         bin.writeUshort(data, offset, tag);
         offset += 2;
@@ -3667,27 +3439,23 @@
         } else if (type == 2) {
           bin.writeASCII(data, toff, val);
         } else if (type == 3) {
-          for (var i = 0; i < num; i++)
-            bin.writeUshort(data, toff + 2 * i, val[i]);
+          for (var i = 0; i < num; i++) bin.writeUshort(data, toff + 2 * i, val[i]);
         } else if (type == 4) {
-          for (var i = 0; i < num; i++)
-            bin.writeUint(data, toff + 4 * i, val[i]);
+          for (var i = 0; i < num; i++) bin.writeUint(data, toff + 4 * i, val[i]);
         } else if (type == 5 || type == 10) {
           var wr = type == 5 ? bin.writeUint : bin.writeInt;
           for (var i = 0; i < num; i++) {
             var v = val[i],
               nu = v[0],
               de = v[1];
-            if (nu == null) throw "e";
+            if (nu == null) throw 'e';
             wr(data, toff + 8 * i, nu);
             wr(data, toff + 8 * i + 4, de);
           }
         } else if (type == 9) {
-          for (var i = 0; i < num; i++)
-            bin.writeInt(data, toff + 4 * i, val[i]);
+          for (var i = 0; i < num; i++) bin.writeInt(data, toff + 4 * i, val[i]);
         } else if (type == 12) {
-          for (var i = 0; i < num; i++)
-            bin.writeDouble(data, toff + 8 * i, val[i]);
+          for (var i = 0; i < num; i++) bin.writeDouble(data, toff + 8 * i, val[i]);
         } else throw type;
 
         if (dlen > 4) {
@@ -3701,9 +3469,7 @@
 
     UTIF.toRGBA8 = function (out, scl) {
       function gamma(x) {
-        return x < 0.0031308
-          ? 12.92 * x
-          : 1.055 * Math.pow(x, 1.0 / 2.4) - 0.055;
+        return x < 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1.0 / 2.4) - 0.055;
       }
 
       var w = out.width,
@@ -3714,30 +3480,20 @@
       var img = new Uint8Array(area * 4);
       //console.log(out);
       // 0: WhiteIsZero, 1: BlackIsZero, 2: RGB, 3: Palette color, 4: Transparency mask, 5: CMYK
-      var intp = out["t262"] ? out["t262"][0] : 2,
-        bps = out["t258"] ? Math.min(64, out["t258"][0]) : 1;
-      if (out["t262"] == null && bps == 1) intp = 0;
+      var intp = out['t262'] ? out['t262'][0] : 2,
+        bps = out['t258'] ? Math.min(64, out['t258'][0]) : 1;
+      if (out['t262'] == null && bps == 1) intp = 0;
 
-      var smpls = out["t277"]
-        ? out["t277"][0]
-        : out["t258"]
-          ? out["t258"].length
+      var smpls = out['t277']
+        ? out['t277'][0]
+        : out['t258']
+          ? out['t258'].length
           : [1, 1, 3, 1, 1, 4, 3][intp]; //if(out["t259"] && out["t259"][0]==7) smpls=3; // jpg
-      var sfmt = out["t339"] ? out["t339"][0] : null;
-      if (intp == 1 && bps == 32 && sfmt != 3) throw "e"; // sample format
+      var sfmt = out['t339'] ? out['t339'][0] : null;
+      if (intp == 1 && bps == 32 && sfmt != 3) throw 'e'; // sample format
       var bpl = Math.ceil((smpls * bps * w) / 8);
 
-      log(
-        "interpretation: ",
-        intp,
-        "smpls",
-        smpls,
-        "bps",
-        bps,
-        "sample format",
-        sfmt,
-        out,
-      );
+      log('interpretation: ', intp, 'smpls', smpls, 'bps', bps, 'sample format', sfmt, out);
 
       if (false) {
       } else if (intp == 0) {
@@ -3771,10 +3527,7 @@
               var qi = (io + i) << 2,
                 o = off + 2 * i,
                 px = (data[o + 1] << 8) | data[o];
-              img[qi] =
-                img[qi + 1] =
-                img[qi + 2] =
-                  Math.min(255, 255 - ~~(px * scl));
+              img[qi] = img[qi + 1] = img[qi + 2] = Math.min(255, 255 - ~~(px * scl));
               img[qi + 3] = 255;
             } // ladoga.tif
         }
@@ -3920,10 +3673,10 @@
           else throw smpls;
         } else throw bps;
       } else if (intp == 3) {
-        var map = out["t320"];
+        var map = out['t320'];
         var cn = 1 << bps;
 
-        var nexta = bps == 8 && smpls > 1 && out["t338"] && out["t338"][0] != 0;
+        var nexta = bps == 8 && smpls > 1 && out['t338'] && out['t338'][0] != 0;
 
         for (var y = 0; y < h; y++)
           for (var x = 0; x < w; x++) {
@@ -3932,12 +3685,9 @@
               mi = 0;
             var dof = y * bpl;
             if (false) {
-            } else if (bps == 1)
-              mi = (data[dof + (x >>> 3)] >>> (7 - (x & 7))) & 1;
-            else if (bps == 2)
-              mi = (data[dof + (x >>> 2)] >>> (6 - 2 * (x & 3))) & 3;
-            else if (bps == 4)
-              mi = (data[dof + (x >>> 1)] >>> (4 - 4 * (x & 1))) & 15;
+            } else if (bps == 1) mi = (data[dof + (x >>> 3)] >>> (7 - (x & 7))) & 1;
+            else if (bps == 2) mi = (data[dof + (x >>> 2)] >>> (6 - 2 * (x & 3))) & 3;
+            else if (bps == 4) mi = (data[dof + (x >>> 1)] >>> (4 - 4 * (x & 1))) & 15;
             else if (bps == 8) mi = data[dof + x * smpls];
             else throw bps;
             img[qi] = map[mi] >> 8;
@@ -3956,12 +3706,7 @@
               M = data[si + 1],
               Y = data[si + 2],
               K = data[si + 3];
-            var c = UDOC.C.cmykToRgb([
-              C * (1 / 255),
-              M * (1 / 255),
-              Y * (1 / 255),
-              K * (1 / 255),
-            ]);
+            var c = UDOC.C.cmykToRgb([C * (1 / 255), M * (1 / 255), Y * (1 / 255), K * (1 / 255)]);
             img[qi] = ~~(0.5 + 255 * c[0]);
             img[qi + 1] = ~~(0.5 + 255 * c[1]);
             img[qi + 2] = ~~(0.5 + 255 * c[2]);
@@ -3977,9 +3722,9 @@
 
           img[qi + 3] = 255 * (1 - gotAlpha) + data[si + 4] * gotAlpha;
         }
-      } else if (intp == 6 && out["t278"]) {
+      } else if (intp == 6 && out['t278']) {
         // only for DSC_1538.TIF
-        var rps = out["t278"][0];
+        var rps = out['t278'][0];
         for (var y = 0; y < h; y += rps) {
           var i = y * w,
             len = rps * w;
@@ -4008,13 +3753,13 @@
         // CIELAB
         //console.log(smpls, bps, w, h);
 
-        if (smpls != 3 || bps != 16) throw "e";
+        if (smpls != 3 || bps != 16) throw 'e';
 
         var u16 = new Uint16Array(data.buffer);
         var i16 = new Int16Array(data.buffer);
         var M = [
-          3.1338561, -1.6168667, -0.4906146, -0.9787684, 1.9161415, 0.033454,
-          0.0719453, -0.2289914, 1.4052427,
+          3.1338561, -1.6168667, -0.4906146, -0.9787684, 1.9161415, 0.033454, 0.0719453, -0.2289914,
+          1.4052427,
         ];
 
         for (var y = 0; y < h; y++)
@@ -4045,18 +3790,9 @@
               Y = yr * (100 / 100),
               Z = zr * (82.49 / 100);
 
-            img[qi] = Math.max(
-              0,
-              Math.min(255, gamma(X * M[0] + Y * M[1] + Z * M[2]) * 255),
-            );
-            img[qi + 1] = Math.max(
-              0,
-              Math.min(255, gamma(X * M[3] + Y * M[4] + Z * M[5]) * 255),
-            );
-            img[qi + 2] = Math.max(
-              0,
-              Math.min(255, gamma(X * M[6] + Y * M[7] + Z * M[8]) * 255),
-            );
+            img[qi] = Math.max(0, Math.min(255, gamma(X * M[0] + Y * M[1] + Z * M[2]) * 255));
+            img[qi + 1] = Math.max(0, Math.min(255, gamma(X * M[3] + Y * M[4] + Z * M[5]) * 255));
+            img[qi + 2] = Math.max(0, Math.min(255, gamma(X * M[6] + Y * M[7] + Z * M[8]) * 255));
             img[qi + 3] = 255;
           }
       } else if (intp == 32845) {
@@ -4089,24 +3825,24 @@
             img[qi + 2] = gamma(Math.min(b, 1)) * 255;
             img[qi + 3] = 255;
           }
-      } else log("Unknown Photometric interpretation: " + intp);
+      } else log('Unknown Photometric interpretation: ' + intp);
       return img;
     };
 
     UTIF.replaceIMG = function (imgs) {
-      if (imgs == null) imgs = document.getElementsByTagName("img");
-      var sufs = ["tif", "tiff", "dng", "cr2", "nef"];
+      if (imgs == null) imgs = document.getElementsByTagName('img');
+      var sufs = ['tif', 'tiff', 'dng', 'cr2', 'nef'];
       for (var i = 0; i < imgs.length; i++) {
         var img = imgs[i],
-          src = img.getAttribute("src");
+          src = img.getAttribute('src');
         if (src == null) continue;
-        var suff = src.split(".").pop().toLowerCase();
+        var suff = src.split('.').pop().toLowerCase();
         if (sufs.indexOf(suff) == -1) continue;
         var xhr = new XMLHttpRequest();
         UTIF._xhrs.push(xhr);
         UTIF._imgs.push(img);
-        xhr.open("GET", src);
-        xhr.responseType = "arraybuffer";
+        xhr.open('GET', src);
+        xhr.responseType = 'arraybuffer';
         xhr.onload = UTIF._imgLoaded;
         xhr.send();
       }
@@ -4120,7 +3856,7 @@
       UTIF._xhrs.splice(ind, 1);
       UTIF._imgs.splice(ind, 1);
 
-      img.setAttribute("src", UTIF.bufferToURI(e.target.response));
+      img.setAttribute('src', UTIF.bufferToURI(e.target.response));
     };
 
     UTIF.bufferToURI = function (buff) {
@@ -4131,8 +3867,8 @@
       if (ifds[0].subIFD) vsns = vsns.concat(ifds[0].subIFD);
       for (var i = 0; i < vsns.length; i++) {
         var img = vsns[i];
-        if (img["t258"] == null || img["t258"].length < 3) continue;
-        var ar = img["t256"] * img["t257"];
+        if (img['t258'] == null || img['t258'].length < 3) continue;
+        var ar = img['t256'] * img['t257'];
         if (ar > ma) {
           ma = ar;
           page = img;
@@ -4143,10 +3879,10 @@
         w = page.width,
         h = page.height;
 
-      var cnv = document.createElement("canvas");
+      var cnv = document.createElement('canvas');
       cnv.width = w;
       cnv.height = h;
-      var ctx = cnv.getContext("2d");
+      var ctx = cnv.getContext('2d');
       var imgd = new ImageData(new Uint8ClampedArray(rgba.buffer), w, h);
       ctx.putImageData(imgd, 0, 0);
       return cnv.toDataURL();
@@ -4183,7 +3919,7 @@
         return UTIF._binBE.ui32[0];
       },
       readASCII: function (buff, p, l) {
-        var s = "";
+        var s = '';
         for (var i = 0; i < l; i++) s += String.fromCharCode(buff[p + i]);
         return s;
       },
@@ -4310,22 +4046,21 @@
           v: new o(16),
           d: [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15],
           o: [
-            3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51,
-            59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 999, 999, 999,
+            3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99,
+            115, 131, 163, 195, 227, 258, 999, 999, 999,
           ],
           z: [
-            0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4,
-            4, 5, 5, 5, 5, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0,
+            0, 0, 0,
           ],
           B: new o(32),
           p: [
-            1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385,
-            513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385,
-            24577, 65535, 65535,
+            1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025,
+            1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577, 65535, 65535,
           ],
           w: [
-            0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,
-            10, 10, 11, 11, 12, 12, 13, 13, 0, 0,
+            0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12,
+            12, 13, 13, 0, 0,
           ],
           h: new j(32),
           g: new o(512),
@@ -4433,22 +4168,16 @@
         A(D.a, 320, 0);
       })();
       function F(o, j, I) {
-        return (
-          ((o[j >>> 3] | (o[(j >>> 3) + 1] << 8)) >>> (j & 7)) & ((1 << I) - 1)
-        );
+        return ((o[j >>> 3] | (o[(j >>> 3) + 1] << 8)) >>> (j & 7)) & ((1 << I) - 1);
       }
       function s(o, j, I) {
         return (
-          ((o[j >>> 3] | (o[(j >>> 3) + 1] << 8) | (o[(j >>> 3) + 2] << 16)) >>>
-            (j & 7)) &
+          ((o[j >>> 3] | (o[(j >>> 3) + 1] << 8) | (o[(j >>> 3) + 2] << 16)) >>> (j & 7)) &
           ((1 << I) - 1)
         );
       }
       function w(o, j) {
-        return (
-          (o[j >>> 3] | (o[(j >>> 3) + 1] << 8) | (o[(j >>> 3) + 2] << 16)) >>>
-          (j & 7)
-        );
+        return (o[j >>> 3] | (o[(j >>> 3) + 1] << 8) | (o[(j >>> 3) + 2] << 16)) >>> (j & 7);
       }
       function b(o, j) {
         return (
@@ -4677,7 +4406,7 @@
           S = (S << 8) | H;
           f += 8;
         }
-        if (f < 0) throw "e";
+        if (f < 0) throw 'e';
         R.c = f;
         R.f = S;
       }
@@ -4760,7 +4489,7 @@
       function l(R) {
         Z = R;
         D = 0;
-        if (J() != 65496) throw "e";
+        if (J() != 65496) throw 'e';
         var f = [],
           S = 0,
           H = 0,
@@ -4787,7 +4516,7 @@
               var p = A(),
                 z = A(),
                 o = A();
-              if (o != 0) throw "e";
+              if (o != 0) throw 'e';
               f[p] = [F, z >> 4, z & 15];
             }
           } else if (d == 65476) {
@@ -4827,8 +4556,8 @@
             x.push(O * w);
           }
           if (V != 1 || T != 1) {
-            if (u != 3 || x[1] != 1 || x[2] != 1) throw "e";
-            if (V != 2 || (T != 1 && T != 2)) throw "e";
+            if (u != 3 || x[1] != 1 || x[2] != 1) throw 'e';
+            if (V != 2 || (T != 1 && T != 2)) throw 'e';
             var N = [],
               L = 0;
             for (var F = 0; F < u; F++) {
@@ -4906,8 +4635,7 @@
       function M(R, f, S, H, y, m, G, u) {
         var Y = S * G;
         for (var _ = y; _ < m; _++) R[_] += 1 << (u - 1);
-        for (var d = G; d < Y; d += G)
-          for (var _ = y; _ < m; _++) R[d + _] += R[d + _ - G];
+        for (var d = G; d < Y; d += G) for (var _ = y; _ < m; _++) R[d + _] += R[d + _ - G];
         for (var s = 1; s < H; s++) {
           var F = s * Y;
           for (var _ = y; _ < m; _++) R[F + _] += R[F + _ - Y];
@@ -4986,10 +4714,10 @@
           (u.u != 12 && u.u != 14 && u.u != 16) ||
           (u.C != 16 && u.C != 0)
         ) {
-          throw "Invalid data";
+          throw 'Invalid data';
         }
         if (u.i == 0) {
-          throw "Not implemented. We need this file!";
+          throw 'Not implemented. We need this file!';
         }
         u.h = u.C == 16;
         u.m = (u.h ? (u.l * 2) / 3 : u.l >>> 1) | 0;
@@ -5012,7 +4740,7 @@
           Q += o;
           V++;
         }
-        if (Q != t.length) throw "Invalid data";
+        if (Q != t.length) throw 'Invalid data';
         return u;
       }
       function a6(t, Z) {
@@ -5136,10 +4864,7 @@
           }
           l = Z.t * Z.c[t.g + Y - H] + Z.c[t.g + g - Y];
         } else {
-          h =
-            (Y > g && Y > P) || (Y < g && Y < P)
-              ? (v + A + 2 * Y) >>> 2
-              : (A + v) >>> 1;
+          h = (Y > g && Y > P) || (Y < g && Y < P) ? (v + A + 2 * Y) >>> 2 : (A + v) >>> 1;
           l = Z.t * Z.c[t.g + Y - g] + Z.c[t.g + g - A];
         }
         R = y(l);
@@ -5182,26 +4907,8 @@
           w = Q < M && Q > J;
         while (R < t.m) {
           if (l < t.m) {
-            r(
-              t,
-              Z,
-              u,
-              e,
-              Q,
-              l,
-              O[X],
-              t.h && ((w && k) || (!w && (j || (l & I) == a))),
-            );
-            r(
-              t,
-              Z,
-              u,
-              e,
-              V,
-              l,
-              O[X],
-              t.h && ((!w && k) || (w && (j || (l & I) == a))),
-            );
+            r(t, Z, u, e, Q, l, O[X], t.h && ((w && k) || (!w && (j || (l & I) == a))));
+            r(t, Z, u, e, V, l, O[X], t.h && ((!w && k) || (w && (j || (l & I) == a))));
             l += 2;
           }
           if (l > 8) {
@@ -5236,9 +4943,7 @@
             } else {
               a = s + k;
             }
-            var l = t.h
-              ? ((((j * 2) / 3) & 2147483646) | (j % 3 & 1)) + (j % 3 >>> 1)
-              : j >>> 1;
+            var l = t.h ? ((((j * 2) / 3) & 2147483646) | (j % 3 & 1)) + (j % 3 >>> 1) : j >>> 1;
             Z[X + j] = u[a][l + 1];
           }
           X += t.e;
