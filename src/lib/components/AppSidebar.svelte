@@ -6,7 +6,7 @@
   import Legend from './Legend.svelte';
   import Controls from './Controls.svelte';
   import * as Sidebar from '$lib/components/ui/sidebar';
-  import { Download, Trash2 } from 'lucide-svelte';
+  import { Download, Trash2 } from '@lucide/svelte/icons';
   import type { ComponentProps } from 'svelte';
 
   let { ref = $bindable(null), ...restProps }: ComponentProps<typeof Sidebar.Root> = $props();

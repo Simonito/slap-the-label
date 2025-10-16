@@ -23,7 +23,6 @@
     "bits-ui": "^2.11.0",
     "clsx": "^2.1.1",
     "konva": "^10.0.2",
-    "lucide-svelte": "latest",
     "paneforge": "^1.0.2",
     "prettier": "^3.4.2",
     "prettier-plugin-svelte": "^3.3.3",
