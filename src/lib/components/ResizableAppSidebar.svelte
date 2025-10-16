@@ -2,9 +2,8 @@
   import * as Resizable from '$lib/components/ui/resizable';
   import * as Sidebar from '$lib/components/ui/sidebar';
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
-  import { Download, Trash2 } from 'lucide-svelte';
+  import { Download, Trash2 } from '@lucide/svelte/icons';
   import AnnotationUploader from './AnnotationUploader.svelte';
-  import Canvas from './Canvas.svelte';
   import Controls from './Controls.svelte';
   import FileInfo from './FileInfo.svelte';
   import ImageUploader from './ImageUploader.svelte';
@@ -12,7 +11,6 @@
   import type { Snippet } from 'svelte';
   import { Button } from './ui/button';
 
-  const DEFAULT_SIZE = 25;
   const open = true; // initial state
 
   const ctx = getCanvasContext();

@@ -1,12 +1,15 @@
 <script lang="ts">
   import { createCanvasContext } from '$lib/context/canvasContext.svelte';
+  import { createContentPaneContext } from '$lib/context/contentPaneContext.svelte';
   import * as Sidebar from '$lib/components/ui/sidebar';
   import * as Tooltip from '$lib/components/ui/tooltip';
   import ResizableAppSidebar from '$lib/components/ResizableAppSidebar.svelte';
   import Canvas from '$lib/components/Canvas.svelte';
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
+  import ImageCanvasRoot from '$lib/components/canvas/ImageCanvasRoot.svelte';
 
   const ctx = createCanvasContext();
+  const contentPaneCtx = createContentPaneContext();
 
   let sidebarOpen = $state(true);
 </script>
@@ -39,8 +42,12 @@
         <h1 class="text-lg font-semibold">YOLO Overlay Viewer</h1>
       </div>
     </header>
-    <div class="flex-1 overflow-auto">
-      <Canvas />
+    <div
+      class="size-full flex-1 overflow-auto"
+      bind:clientWidth={contentPaneCtx.w}
+      bind:clientHeight={contentPaneCtx.h}
+    >
+      <ImageCanvasRoot />
     </div>
   </ResizableAppSidebar>
 </Sidebar.Provider>
