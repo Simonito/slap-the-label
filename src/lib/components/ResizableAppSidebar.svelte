@@ -9,7 +9,7 @@
   import ImageUploader from './ImageUploader.svelte';
   import Legend from './Legend.svelte';
   import type { Snippet } from 'svelte';
-  import { Button } from './ui/button';
+  import LightSwitch from './ui/light-switch/light-switch.svelte';
 
   const open = true; // initial state
 
@@ -75,14 +75,11 @@
         side="left"
       >
         <Sidebar.Header>
-          <div class="flex flex-col gap-1">
-            <h2 class="text-lg font-semibold text-sidebar-foreground">Controls</h2>
-          </div>
+          <LightSwitch />
         </Sidebar.Header>
 
         <Sidebar.Content>
           <Sidebar.Group>
-            <Button href="/konva">konva</Button>
             <Sidebar.GroupLabel>Files</Sidebar.GroupLabel>
             <Sidebar.GroupContent>
               <div class="space-y-2 px-2">
