@@ -6,19 +6,19 @@
 
   let canvasElement: HTMLCanvasElement | null = $state(null);
 
-  $effect(() => {
-    if (canvasElement) {
-      if (ctx.imageData && ctx.annotations) {
-        drawCanvas(canvasElement, ctx.imageData, ctx.annotations, ctx.classColors, {
-          zoom: ctx.zoom,
-          lineWidth: ctx.lineWidth,
-          showLabels: ctx.showLabels,
-        });
-      } else {
-        clearCanvas(canvasElement);
-      }
-    }
-  });
+  // $effect(() => {
+  //   if (canvasElement) {
+  //     if (ctx.imageData && ctx.annotations) {
+  //       drawCanvas(canvasElement, ctx.imageData, ctx.annotations, ctx.classColors, {
+  //         zoom: ctx.zoom,
+  //         lineWidth: ctx.lineWidth,
+  //         showLabels: ctx.showLabels,
+  //       });
+  //     } else {
+  //       clearCanvas(canvasElement);
+  //     }
+  //   }
+  // });
 </script>
 
 <div class="flex min-h-full items-center justify-center p-8">
