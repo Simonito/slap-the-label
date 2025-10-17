@@ -7,6 +7,7 @@
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
   import ImageCanvasRoot from '$lib/components/canvas/ImageCanvasRoot.svelte';
   import { IsMobile } from '$lib/hooks/is-mobile.svelte';
+  import WallpaperPattern from '$lib/components/WallpaperPattern.svelte';
 
   const ctx = createCanvasContext();
   const contentPaneCtx = createContentPaneContext();
@@ -46,15 +47,17 @@
         <h1 class="text-lg font-semibold">YOLO Overlay Viewer</h1>
       </div>
     </header>
-    <div class="flex h-full items-center justify-center">
-      <div
-        class="mx-2 size-full max-h-[600px] max-w-[900px]"
-        bind:clientWidth={contentPaneCtx.w}
-        bind:clientHeight={contentPaneCtx.h}
-      >
-        <ImageCanvasRoot />
+    <WallpaperPattern>
+      <div class="flex size-full items-center justify-center">
+        <div
+          class="size-full max-h-[600px] max-w-[900px]"
+          bind:clientWidth={contentPaneCtx.w}
+          bind:clientHeight={contentPaneCtx.h}
+        >
+          <ImageCanvasRoot />
+        </div>
       </div>
-    </div>
+    </WallpaperPattern>
   </ResizableAppSidebar>
 </Sidebar.Provider>
 

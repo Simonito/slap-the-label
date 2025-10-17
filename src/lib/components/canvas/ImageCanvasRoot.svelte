@@ -111,7 +111,7 @@
 
 <div class="relative">
   <div
-    class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-foreground/10"
+    class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-foreground/10 bg-background"
     class:drop-highlight={isDraggingOver}
     style={`
       width: ${contentPaneCtx.w}px;
