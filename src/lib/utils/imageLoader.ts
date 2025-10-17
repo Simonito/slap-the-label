@@ -38,47 +38,6 @@ async function loadStandardImage(file: File): Promise<ImageData> {
   });
 }
 
-function imageDataFromRaster8bit(
-  raster: Uint8Array,
-  width: number,
-  height: number,
-  samplesPerPixel: number,
-): ImageData {
-  const pixelCount = width * height;
-  const out = new Uint8ClampedArray(pixelCount * 4);
-
-  if (samplesPerPixel === 4) {
-    // already RGBA — may need to copy
-    for (let i = 0, j = 0; i < raster.length; i += 4, j += 4) {
-      out[j] = raster[i];
-      out[j + 1] = raster[i + 1];
-      out[j + 2] = raster[i + 2];
-      out[j + 3] = raster[i + 3];
-    }
-  } else if (samplesPerPixel === 3) {
-    for (let p = 0, r = 0; p < pixelCount; p++, r += 3) {
-      const j = p * 4;
-      out[j] = raster[r];
-      out[j + 1] = raster[r + 1];
-      out[j + 2] = raster[r + 2];
-      out[j + 3] = 255;
-    }
-  } else if (samplesPerPixel === 1) {
-    for (let p = 0; p < pixelCount; p++) {
-      const v = raster[p];
-      const j = p * 4;
-      out[j] = v;
-      out[j + 1] = v;
-      out[j + 2] = v;
-      out[j + 3] = 255;
-    }
-  } else {
-    throw new Error(`Unsupported samplesPerPixel: ${samplesPerPixel}`);
-  }
-
-  return new ImageData(out, width, height);
-}
-
 async function loadTiffImage(file: File): Promise<ImageData> {
   try {
     // dynamically import tiff library

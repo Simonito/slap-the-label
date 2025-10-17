@@ -4,9 +4,9 @@
   import * as Sidebar from '$lib/components/ui/sidebar';
   import * as Tooltip from '$lib/components/ui/tooltip';
   import ResizableAppSidebar from '$lib/components/ResizableAppSidebar.svelte';
-  import Canvas from '$lib/components/Canvas.svelte';
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
   import ImageCanvasRoot from '$lib/components/canvas/ImageCanvasRoot.svelte';
+  import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 
   const ctx = createCanvasContext();
   const contentPaneCtx = createContentPaneContext();
@@ -21,33 +21,39 @@
 <Sidebar.Provider bind:open={sidebarOpen}>
   <ResizableAppSidebar>
     <header class="flex h-14 shrink-0 items-center gap-2 border-b border-border px-4">
-      <Tooltip.Root>
-        <Tooltip.Trigger>
-          {#snippet child({ props })}
-            <Sidebar.Trigger {...props} />
-          {/snippet}
-        </Tooltip.Trigger>
-        <Tooltip.Content
-          side="bottom"
-          align="start"
-          alignOffset={4}
-          arrowClasses="hidden"
-          sideOffset={4}
-        >
-          Open sidebar <kbd>{cmdOrCtrl}</kbd> + <kbd>B</kbd>
-        </Tooltip.Content>
-      </Tooltip.Root>
+      {#if IsMobile}
+        <Sidebar.Trigger />
+      {:else}
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            {#snippet child({ props })}
+              <Sidebar.Trigger {...props} />
+            {/snippet}
+          </Tooltip.Trigger>
+          <Tooltip.Content
+            side="bottom"
+            align="start"
+            alignOffset={4}
+            arrowClasses="hidden"
+            sideOffset={4}
+          >
+            Open sidebar <kbd>{cmdOrCtrl}</kbd> + <kbd>B</kbd>
+          </Tooltip.Content>
+        </Tooltip.Root>
+      {/if}
 
       <div class="flex items-center gap-2">
         <h1 class="text-lg font-semibold">YOLO Overlay Viewer</h1>
       </div>
     </header>
-    <div
-      class="size-full flex-1 overflow-auto"
-      bind:clientWidth={contentPaneCtx.w}
-      bind:clientHeight={contentPaneCtx.h}
-    >
-      <ImageCanvasRoot />
+    <div class="flex h-full items-center justify-center">
+      <div
+        class="mx-2 size-full max-h-[600px] max-w-[900px]"
+        bind:clientWidth={contentPaneCtx.w}
+        bind:clientHeight={contentPaneCtx.h}
+      >
+        <ImageCanvasRoot />
+      </div>
     </div>
   </ResizableAppSidebar>
 </Sidebar.Provider>

@@ -10,7 +10,7 @@ export interface ImageData {
   width: number;
   height: number;
   img?: HTMLImageElement;
-  imageData?: Uint8ClampedArray; // should probably be Uint8ClampedArray
+  imageData?: Uint8ClampedArray;
 }
 
 export interface DrawSettings {

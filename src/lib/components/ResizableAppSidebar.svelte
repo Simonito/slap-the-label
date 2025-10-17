@@ -161,7 +161,7 @@
       }}
     />
 
-    <Resizable.Pane>
+    <Resizable.Pane class="flex flex-col">
       {@render children()}
     </Resizable.Pane>
   </Resizable.PaneGroup>
