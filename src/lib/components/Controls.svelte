@@ -3,11 +3,6 @@
 
   const ctx = getCanvasContext();
 
-  function handleZoomChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    ctx.setZoom(parseFloat(target.value));
-  }
-
   function handleLineWidthChange(event: Event) {
     const target = event.target as HTMLInputElement;
     ctx.setLineWidth(parseInt(target.value));
@@ -20,23 +15,6 @@
 </script>
 
 <div class="space-y-4">
-  <div class="space-y-2">
-    <label class="flex items-center justify-between" for="zoom">
-      <span class="text-sm text-muted-foreground">Zoom</span>
-      <span class="font-mono text-xs text-muted-foreground">{ctx.zoom.toFixed(2)}x</span>
-    </label>
-    <input
-      id="zoom"
-      type="range"
-      min="0.1"
-      max="2"
-      step="0.05"
-      value={ctx.zoom}
-      oninput={handleZoomChange}
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-muted accent-primary"
-    />
-  </div>
-
   <div class="space-y-2">
     <label class="flex items-center justify-between" for="lineWidth">
       <span class="text-sm text-muted-foreground">Line Width</span>

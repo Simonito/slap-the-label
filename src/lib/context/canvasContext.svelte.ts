@@ -9,7 +9,6 @@ export function createCanvasContext() {
   let annotations = $state<Annotation[]>([]);
   let annotationFileName = $state<string>('');
   let classColors = $state<Map<string, string>>(new Map());
-  let zoom = $state<number>(1.0);
   let lineWidth = $state<number>(2);
   let showLabels = $state<boolean>(true);
 
@@ -28,9 +27,6 @@ export function createCanvasContext() {
     },
     get classColors() {
       return classColors;
-    },
-    get zoom() {
-      return zoom;
     },
     get lineWidth() {
       return lineWidth;
@@ -51,10 +47,6 @@ export function createCanvasContext() {
       classColors = colors;
     },
 
-    setZoom(value: number) {
-      zoom = value;
-    },
-
     setLineWidth(value: number) {
       lineWidth = value;
     },
@@ -69,7 +61,6 @@ export function createCanvasContext() {
       annotations = [];
       annotationFileName = '';
       classColors = new Map();
-      zoom = 1.0;
       lineWidth = 2;
       showLabels = true;
     },
