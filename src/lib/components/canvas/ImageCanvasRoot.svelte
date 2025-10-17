@@ -106,7 +106,10 @@
     if (!stageRef) {
       return;
     }
-    const container = stageRef.node.container();
+    const stage = stageRef.node;
+    stage.off('wheel');
+
+    const container = stage.container();
     container.removeEventListener('dragover', handleDragOver);
     container.removeEventListener('dragleave', handleDragLeave);
     container.removeEventListener('drop', handleDrop);
