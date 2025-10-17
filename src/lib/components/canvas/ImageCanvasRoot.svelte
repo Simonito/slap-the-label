@@ -6,6 +6,8 @@
   import { onDestroy, onMount } from 'svelte';
   import { Stage } from 'svelte-konva';
   import ImageLayer from './ImageLayer.svelte';
+  import { flyfade } from '$lib/transitions';
+  import { cubicIn } from 'svelte/easing';
 
   const contentPaneCtx = getContentPaneContext();
   const canvasCtx = getCanvasContext();
@@ -112,21 +114,28 @@
 </script>
 
 <div class="relative">
-  <div
-    class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-foreground/10 bg-background"
-    class:drop-highlight={isDraggingOver}
-    style={`
-      width: ${contentPaneCtx.w}px;
-      height: ${contentPaneCtx.h}px;
-    `}
-  >
-    <!-- prevent SSR issues by dynamically rendering konva's components (and ours that are using konva) -->
-    {#if isMounted}
+  <!-- 
+    isMounted does 2 things:
+    1) prevent SSR issues by dynamically rendering konva's components (and ours that are using konva)
+    2) lets us have a nice "onload" animation for the pane
+
+    number 1) is SUPER IMPORTANT, we cannot run konva during SSR
+  -->
+  {#if isMounted}
+    <div
+      class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-foreground/10 bg-background"
+      class:drop-highlight={isDraggingOver}
+      style={`
+        width: ${contentPaneCtx.w}px;
+        height: ${contentPaneCtx.h}px;
+      `}
+      in:flyfade={{ y: 100, duration: 500, easing: cubicIn }}
+    >
       <Stage bind:this={stageRef} width={contentPaneCtx.w} height={contentPaneCtx.h}>
         <ImageLayer />
       </Stage>
-    {/if}
-  </div>
+    </div>
+  {/if}
 </div>
 
 <style>
