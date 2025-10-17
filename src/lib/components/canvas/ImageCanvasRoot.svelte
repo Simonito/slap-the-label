@@ -5,9 +5,11 @@
   import { watchOnce } from 'runed';
   import { onDestroy, onMount } from 'svelte';
   import { Stage } from 'svelte-konva';
+  import ImageLayer from './ImageLayer.svelte';
 
   const contentPaneCtx = getContentPaneContext();
   const canvasCtx = getCanvasContext();
+  let isMounted = $state(false);
 
   let stageRef: ReturnType<typeof Stage> | undefined = $state();
   let isDraggingOver = $state(false);
@@ -96,7 +98,7 @@
   );
 
   onMount(() => {
-    console.log({ paneW: contentPaneCtx.w, paneH: contentPaneCtx.h });
+    isMounted = true;
   });
   onDestroy(() => {
     if (!stageRef) {
@@ -119,11 +121,11 @@
     `}
   >
     <!-- prevent SSR issues by dynamically rendering konva's components (and ours that are using konva) -->
-    {#await import('$lib/components/canvas/ImageLayer.svelte') then { default: ImageLayerComponent }}
+    {#if isMounted}
       <Stage bind:this={stageRef} width={contentPaneCtx.w} height={contentPaneCtx.h}>
-        <ImageLayerComponent />
+        <ImageLayer />
       </Stage>
-    {/await}
+    {/if}
   </div>
 </div>
 
