@@ -1,4 +1,5 @@
 import type { ImageData } from '$lib/types';
+import { imageDataToCanvas } from './canvasDrawer';
 
 declare global {
   interface Window {
@@ -54,8 +55,9 @@ async function loadTiffImage(file: File): Promise<ImageData> {
     const height = ifds[0].height;
 
     const clamped = new Uint8ClampedArray(rgba.buffer); // convert to Uint8ClampedArray
+    const imageCanvas = imageDataToCanvas(clamped, width, height);
     return {
-      imageData: clamped,
+      img: imageCanvas,
       width,
       height,
     };

@@ -6,17 +6,16 @@
   import { onDestroy, onMount } from 'svelte';
   import { Stage } from 'svelte-konva';
   import ImageLayer from './ImageLayer.svelte';
+  import EmptyDropZone from './EmptyDropZone.svelte';
   import { scalefade } from '$lib/transitions';
   import { cubicIn } from 'svelte/easing';
 
   const contentPaneCtx = getContentPaneContext();
   const canvasCtx = getCanvasContext();
-  let isMounted = $state(false);
 
+  let isMounted = $state(false);
   let stageRef: ReturnType<typeof Stage> | undefined = $state();
   let isDraggingOver = $state(false);
-
-  let droppedFiles: Array<File> = $state([]);
 
   function handleDragOver(e: DragEvent) {
     e.preventDefault();
@@ -33,7 +32,6 @@
       for (let i = 0; i < e.dataTransfer.files.length; i++) {
         if (e.dataTransfer.files[i]) {
           const file = e.dataTransfer.files[0];
-          // droppedFiles.push(e.dataTransfer.files[0]);
           try {
             const imageData = await loadImage(file);
             canvasCtx.setImage(imageData, file.name);
@@ -42,9 +40,6 @@
           }
         }
       }
-    }
-    if (droppedFiles) {
-      console.log('Dropped files:', $state.snapshot(droppedFiles));
     }
   }
 
@@ -134,9 +129,13 @@
       `}
       in:scalefade={{ duration: 500, easing: cubicIn }}
     >
-      <Stage bind:this={stageRef} width={contentPaneCtx.w} height={contentPaneCtx.h}>
-        <ImageLayer />
-      </Stage>
+      {#if canvasCtx.imageData}
+        <Stage bind:this={stageRef} width={contentPaneCtx.w} height={contentPaneCtx.h}>
+          <ImageLayer image={canvasCtx.imageData.img} />
+        </Stage>
+      {:else}
+        <EmptyDropZone />
+      {/if}
     </div>
   {/if}
 </div>

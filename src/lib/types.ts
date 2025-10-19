@@ -9,8 +9,7 @@ export interface Annotation {
 export interface ImageData {
   width: number;
   height: number;
-  img?: HTMLImageElement;
-  imageData?: Uint8ClampedArray;
+  img: HTMLCanvasElement | HTMLImageElement;
 }
 
 export interface DrawSettings {
