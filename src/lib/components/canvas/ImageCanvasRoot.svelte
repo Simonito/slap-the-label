@@ -17,6 +17,8 @@
   let stageRef: ReturnType<typeof Stage> | undefined = $state();
   let isDraggingOver = $state(false);
 
+  const { w: width, h: height } = $derived(contentPaneCtx);
+
   function handleDragOver(e: DragEvent) {
     e.preventDefault();
     isDraggingOver = true;
@@ -124,13 +126,13 @@
       class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-foreground/10 bg-background"
       class:drop-highlight={isDraggingOver}
       style={`
-        width: ${contentPaneCtx.w}px;
-        height: ${contentPaneCtx.h}px;
+        width: ${width}px;
+        height: ${height}px;
       `}
       in:scalefade={{ duration: 500, easing: cubicIn }}
     >
       {#if canvasCtx.imageData}
-        <Stage bind:this={stageRef} width={contentPaneCtx.w} height={contentPaneCtx.h}>
+        <Stage bind:this={stageRef} {width} {height}>
           <ImageLayer image={canvasCtx.imageData.img} />
         </Stage>
       {:else}
