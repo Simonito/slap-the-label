@@ -6,7 +6,7 @@
   import { onDestroy, onMount } from 'svelte';
   import { Stage } from 'svelte-konva';
   import ImageLayer from './ImageLayer.svelte';
-  import { flyfade } from '$lib/transitions';
+  import { scalefade } from '$lib/transitions';
   import { cubicIn } from 'svelte/easing';
 
   const contentPaneCtx = getContentPaneContext();
@@ -132,7 +132,7 @@
         width: ${contentPaneCtx.w}px;
         height: ${contentPaneCtx.h}px;
       `}
-      in:flyfade={{ y: 100, duration: 500, easing: cubicIn }}
+      in:scalefade={{ duration: 500, easing: cubicIn }}
     >
       <Stage bind:this={stageRef} width={contentPaneCtx.w} height={contentPaneCtx.h}>
         <ImageLayer />
