@@ -2,7 +2,7 @@
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
   import { loadImage } from '$lib/utils/imageLoader';
-  import { watchOnce } from 'runed';
+  import { watch, watchOnce } from 'runed';
   import { onDestroy, onMount } from 'svelte';
   import { Stage } from 'svelte-konva';
   import ImageLayer from './ImageLayer.svelte';
@@ -43,6 +43,16 @@
         }
       }
     }
+  }
+
+  function resetStageZoom() {
+    if (!stageRef) return;
+    const stage = stageRef.node;
+
+    // reset scale and position
+    stage.scale({ x: 1, y: 1 });
+    stage.position({ x: 0, y: 0 });
+    stage.batchDraw(); // ensure the canvas visually updates
   }
 
   watchOnce(
@@ -93,6 +103,15 @@
         };
         stage.position(newPos);
       });
+    },
+  );
+
+  watch(
+    () => canvasCtx.imageData,
+    () => {
+      if (canvasCtx.imageData?.img) {
+        resetStageZoom();
+      }
     },
   );
 
