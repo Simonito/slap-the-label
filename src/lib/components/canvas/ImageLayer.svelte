@@ -3,32 +3,52 @@
   import { watch } from 'runed';
   import { Layer, Image, Group } from 'svelte-konva';
   import AnnotationRect from './AnnotationRect.svelte';
+  import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
 
-  let { image }: { image: HTMLCanvasElement | HTMLImageElement | undefined } = $props();
+  let {
+    image,
+  }: {
+    image: HTMLCanvasElement | HTMLImageElement | undefined;
+  } = $props();
 
   const ctx = getCanvasContext();
+  const paneCtx = getContentPaneContext();
+
   let x = $state(0);
   let y = $state(0);
-  let showLabels = $state(true);
   let imageRef: ReturnType<typeof Image> | undefined = $state();
+  const scaleX = $derived(ctx.imageData ? ctx.imageData.width : 0);
+  const scaleY = $derived(ctx.imageData ? ctx.imageData.height : 0);
 
-  let imageW = $state(0);
-  let imageH = $state(0);
-  const scaleX = $derived(imageW);
-  const scaleY = $derived(imageH);
+  function resetLayerOffset() {
+    if (!imageRef) return;
+
+    console.log('>> moving');
+    if (!ctx.imageData) {
+      x = 0;
+      y = 0;
+      return;
+    }
+
+    x = ctx.imageData.width > paneCtx.w ? 0 : (paneCtx.w - ctx.imageData.width) / 2;
+    y = ctx.imageData.height > paneCtx.h ? 0 : (paneCtx.h - ctx.imageData.height) / 2;
+  }
+
+  function handleImageChange() {
+    if (!ctx.imageData) {
+      return;
+    }
+    resetLayerOffset();
+  }
+
   watch(
-    () => imageRef,
+    () => ctx.imageData,
     () => {
-      if (!imageRef) {
-        return;
-      }
-      imageW = imageRef.node.getWidth();
-      imageH = imageRef.node.getHeight();
+      handleImageChange();
     },
   );
 </script>
 
-<pre>x: {x} | y: {y}</pre>
 <Layer draggable bind:x bind:y>
   <Group>
     <Image {image} bind:this={imageRef} />
