@@ -2,6 +2,13 @@
   import { UploadIcon } from '@lucide/svelte';
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { loadImage } from '$lib/utils/imageLoader';
+  import { cn } from '$lib/utils';
+
+  let {
+    class: className,
+  }: {
+    class?: string;
+  } = $props();
 
   const ctx = getCanvasContext();
 
@@ -21,7 +28,7 @@
   }
 </script>
 
-<div class="flex size-full flex-col items-center justify-center gap-2 p-6">
+<div class={cn(className, 'flex size-full flex-col items-center justify-center gap-2 p-6')}>
   <div class="flex flex-col place-items-center justify-center gap-2">
     <div
       class="flex size-14 place-items-center justify-center rounded-full border border-dashed border-border text-muted-foreground"

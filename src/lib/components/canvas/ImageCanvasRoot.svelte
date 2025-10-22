@@ -123,7 +123,7 @@
   -->
   {#if isMounted}
     <div
-      class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-foreground/10 bg-background"
+      class="absolute top-0 left-0 overflow-hidden rounded-2xl border border-border bg-sidebar/60"
       class:drop-highlight={isDraggingOver}
       style={`
         width: ${width}px;
@@ -131,20 +131,22 @@
       `}
       in:scalefade={{ duration: 500, easing: cubicIn }}
     >
-      {#if canvasCtx.imageData}
-        <Stage bind:this={stageRef} {width} {height}>
+      <Stage bind:this={stageRef} {width} {height}>
+        {#if canvasCtx.imageData}
           <ImageLayer image={canvasCtx.imageData.img} />
-        </Stage>
-      {:else}
-        <EmptyDropZone />
-      {/if}
+        {:else}
+          <div style="height: {height}px;">
+            <EmptyDropZone />
+          </div>
+        {/if}
+      </Stage>
     </div>
   {/if}
 </div>
 
 <style>
   .drop-highlight {
-    outline: 1.5px dashed var(--color-primary);
-    outline-offset: -3px;
+    outline: 1.5px dashed var(--primary);
+    outline-offset: 2px;
   }
 </style>
