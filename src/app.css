@@ -57,6 +57,16 @@
   --shadow-2xl: 0px 6px 12px -3px hsl(0 0% 0% / 0.22);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+
+  --shadow-light-dark-s:
+    inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
+    /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
+  --shadow-light-dark-m:
+    inset 0 1px 2px #ffffff50, /* top highlight */ 0 2px 4px #00000030,
+    /* dark shadow */ 0 4px 8px #00000015; /* soft shadow */
+  --shadow-light-dark-l:
+    inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
+    /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
 }
 
 .dark {
@@ -163,6 +173,10 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+
+  --shadow-light-dark-s: var(--shadow-light-dark-s);
+  --shadow-light-dark-m: var(--shadow-light-dark-m);
+  --shadow-light-dark-l: var(--shadow-light-dark-l);
 }
 
 @layer base {

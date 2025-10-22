@@ -1,6 +1,8 @@
 <script lang="ts">
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { loadImage } from '$lib/utils/imageLoader';
+  import ReflectedButton from './shared/ReflectedButton.svelte';
+  import Button from './ui/button/button.svelte';
 
   const ctx = getCanvasContext();
   let fileInputElement: HTMLInputElement | null = null;
@@ -12,6 +14,10 @@
       }
     }
   });
+
+  function openFilePicker() {
+    fileInputElement?.click();
+  }
 
   async function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -29,10 +35,20 @@
   }
 </script>
 
-<!-- Updated button styling for cleaner sidebar design -->
-<label
-  class="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-muted px-4 py-2.5 text-foreground transition-colors hover:bg-muted/80"
+<!-- <Button
+  type="button"
+  onclick={openFilePicker}
+  variant="secondary"
+  class="relative flex w-full max-w-80 cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-border bg-secondary px-4 py-5 text-foreground transition-colors hover:bg-secondary/70"
 >
+  <div
+    class="pointer-events-none absolute inset-0 rounded-md bg-gradient-to-b from-primary/30 to-transparent opacity-70 transition-opacity duration-200 hover:opacity-90 dark:from-white/10"
+  ></div>
+
+  <div
+    class="pointer-events-none absolute inset-0 rounded-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+  ></div>
+
   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path
       stroke-linecap="round"
@@ -42,11 +58,23 @@
     />
   </svg>
   <span class="text-sm font-medium">Choose Image</span>
-  <input
-    type="file"
-    bind:this={fileInputElement}
-    accept="image/*,.tif,.tiff"
-    onchange={handleFileChange}
-    class="hidden"
-  />
-</label>
+</Button> -->
+<ReflectedButton onclick={openFilePicker}>
+  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
+  </svg>
+  <span class="text-sm font-medium">Choose Image</span>
+</ReflectedButton>
+<input
+  type="file"
+  bind:this={fileInputElement}
+  accept="image/*,.tif,.tiff"
+  onchange={handleFileChange}
+  class="hidden"
+/>
+<!-- </label> -->

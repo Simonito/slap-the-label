@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { parseYoloFile, generateClassColors } from '$lib/utils/yoloParser';
+  import ReflectedButton from './shared/ReflectedButton.svelte';
 
   const ctx = getCanvasContext();
   let fileInputElement: HTMLInputElement | null = null;
@@ -12,6 +13,10 @@
       }
     }
   });
+
+  function openFilePicker() {
+    fileInputElement?.click();
+  }
 
   async function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -29,10 +34,7 @@
   }
 </script>
 
-<!-- Updated button styling for cleaner sidebar design -->
-<label
-  class="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-muted px-4 py-2.5 text-foreground transition-colors hover:bg-muted/80"
->
+<ReflectedButton onclick={openFilePicker}>
   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path
       stroke-linecap="round"
@@ -42,11 +44,12 @@
     />
   </svg>
   <span class="text-sm font-medium">Choose YOLO .txt</span>
-  <input
-    type="file"
-    bind:this={fileInputElement}
-    accept=".txt"
-    onchange={handleFileChange}
-    class="hidden"
-  />
-</label>
+</ReflectedButton>
+
+<input
+  type="file"
+  bind:this={fileInputElement}
+  accept=".txt"
+  onchange={handleFileChange}
+  class="hidden"
+/>
