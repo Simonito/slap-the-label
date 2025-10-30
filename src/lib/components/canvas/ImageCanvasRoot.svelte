@@ -15,6 +15,7 @@
 
   let isMounted = $state(false);
   let stageRef: ReturnType<typeof Stage> | undefined = $state();
+  let layerRef: ReturnType<typeof ImageLayer> | undefined = $state();
   let isDraggingOver = $state(false);
 
   const { w: width, h: height } = $derived(contentPaneCtx);
@@ -44,15 +45,40 @@
       }
     }
   }
-
-  function resetStageZoom() {
+  function resetStageZoom(imgWidth: number, imgHeight: number) {
     if (!stageRef) return;
     const stage = stageRef.node;
 
-    // reset scale and position
-    stage.scale({ x: 1, y: 1 });
-    stage.position({ x: 0, y: 0 });
-    stage.batchDraw(); // ensure the canvas visually updates
+    const paneWidth = contentPaneCtx.w;
+    const paneHeight = contentPaneCtx.h;
+
+    const INIT_PANE_IMG_MARGIN = 40;
+    const TOTAL_INIT_PANE_IMG_MARGIN = INIT_PANE_IMG_MARGIN * 2;
+
+    const availableWidth = paneWidth - TOTAL_INIT_PANE_IMG_MARGIN;
+    const availableHeight = paneHeight - TOTAL_INIT_PANE_IMG_MARGIN;
+
+    let newScale = 1;
+
+    if (imgWidth > availableWidth || imgHeight > availableHeight) {
+      const scaleX = availableWidth / imgWidth;
+      const scaleY = availableHeight / imgHeight;
+      newScale = Math.min(scaleX, scaleY);
+    }
+
+    const scaledWidth = imgWidth * newScale;
+    const scaledHeight = imgHeight * newScale;
+
+    // position where (0,0) of stage content should appear
+    const x = (paneWidth - scaledWidth) / 2;
+    const y = (paneHeight - scaledHeight) / 2;
+
+    // set scale FIRST at origin, then offset
+    stage.scale({ x: newScale, y: newScale });
+    stage.position({ x, y });
+
+    stage.batchDraw();
+    layerRef?.resetLayerOffset();
   }
 
   watchOnce(
@@ -110,7 +136,7 @@
     () => canvasCtx.imageData,
     () => {
       if (canvasCtx.imageData?.img) {
-        resetStageZoom();
+        resetStageZoom(canvasCtx.imageData.width, canvasCtx.imageData.height);
       }
     },
   );
@@ -152,7 +178,7 @@
     >
       <Stage bind:this={stageRef} {width} {height}>
         {#if canvasCtx.imageData}
-          <ImageLayer image={canvasCtx.imageData.img} />
+          <ImageLayer image={canvasCtx.imageData.img} bind:this={layerRef} />
         {:else}
           <div style="height: {height}px;">
             <EmptyDropZone />
