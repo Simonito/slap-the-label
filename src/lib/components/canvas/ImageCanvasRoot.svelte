@@ -52,7 +52,7 @@
     const paneWidth = contentPaneCtx.w;
     const paneHeight = contentPaneCtx.h;
 
-    const INIT_PANE_IMG_MARGIN = 40;
+    const INIT_PANE_IMG_MARGIN = 20;
     const TOTAL_INIT_PANE_IMG_MARGIN = INIT_PANE_IMG_MARGIN * 2;
 
     const availableWidth = paneWidth - TOTAL_INIT_PANE_IMG_MARGIN;
