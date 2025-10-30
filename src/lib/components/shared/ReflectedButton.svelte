@@ -8,7 +8,7 @@
   type="button"
   {onclick}
   variant="secondary"
-  class="relative flex w-full max-w-80 cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-border bg-secondary px-4 py-5 text-foreground transition-colors hover:bg-secondary/70"
+  class="relative flex w-full max-w-80 cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-border bg-secondary px-4 py-5 text-foreground transition-colors hover:bg-secondary/30 dark:hover:bg-secondary/70"
   {...rest}
 >
   <div
