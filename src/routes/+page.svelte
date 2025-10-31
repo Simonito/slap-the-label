@@ -6,8 +6,8 @@
   import ResizableAppSidebar from '$lib/components/ResizableAppSidebar.svelte';
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
   import ImageCanvasRoot from '$lib/components/canvas/ImageCanvasRoot.svelte';
-  import { IsMobile } from '$lib/hooks/is-mobile.svelte';
   import WallpaperPattern from '$lib/components/WallpaperPattern.svelte';
+  import { IsMobile } from '$lib/hooks/is-mobile.svelte';
 
   const ctx = createCanvasContext();
   const contentPaneCtx = createContentPaneContext();
@@ -22,7 +22,7 @@
 <Sidebar.Provider bind:open={sidebarOpen}>
   <ResizableAppSidebar>
     <header class="flex h-14 shrink-0 items-center gap-2 border-b border-border px-4">
-      {#if IsMobile}
+      {#if contentPaneCtx.isMobile}
         <Sidebar.Trigger />
       {:else}
         <Tooltip.Root>
@@ -37,6 +37,7 @@
             alignOffset={4}
             arrowClasses="hidden"
             sideOffset={4}
+            class="bg-muted text-muted-foreground"
           >
             Open sidebar <kbd>{cmdOrCtrl}</kbd> + <kbd>B</kbd>
           </Tooltip.Content>

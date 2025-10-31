@@ -2,6 +2,7 @@
   import * as Resizable from '$lib/components/ui/resizable';
   import * as Sidebar from '$lib/components/ui/sidebar';
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
+  import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
   import { Download, Trash2 } from '@lucide/svelte/icons';
   import AnnotationUploader from './AnnotationUploader.svelte';
   import Controls from './Controls.svelte';
@@ -11,16 +12,23 @@
   import type { Snippet } from 'svelte';
   import LightSwitch from './ui/light-switch/light-switch.svelte';
 
-  const open = true; // initial state
+  const INITIAL_OPEN = true;
+  const MIN_PIXEL_SIZE = 220;
 
   const ctx = getCanvasContext();
+  const paneCtx = getContentPaneContext();
 
   let { children }: { children: Snippet } = $props();
 
   let sidebarPane: ReturnType<typeof Resizable.Pane>;
-  let isPaneCollapsed = $state(!open);
-  let isSidebarOpen = $state(open);
+  let isPaneCollapsed = $state(!INITIAL_OPEN);
+  let isSidebarOpen = $state(INITIAL_OPEN);
   let isResizing = $state(false);
+  let innerWidth = $state(0);
+
+  const sidebarDefaultSize = $derived(
+    paneCtx.isMobile ? 0 : Math.round((MIN_PIXEL_SIZE / innerWidth) * 100),
+  );
 
   function handlePaneCollapse() {
     isPaneCollapsed = true;
@@ -56,11 +64,13 @@
   });
 </script>
 
+<svelte:window bind:innerWidth />
+
 <Sidebar.Provider bind:open={isSidebarOpen}>
   <Resizable.PaneGroup direction="horizontal">
     <Resizable.Pane
-      defaultSize={0}
-      minSize={15}
+      defaultSize={sidebarDefaultSize}
+      minSize={10}
       maxSize={75}
       collapsible={true}
       class={`${!isResizing ? 'transition-discrete data-[state=closed]:duration-500 data-[state=open]:duration-300' : ''}`}
@@ -71,7 +81,7 @@
     >
       <Sidebar.Root
         class="static! w-full! [contain:layout_style_paint]"
-        style="min-width: 220px;"
+        style="min-width: {MIN_PIXEL_SIZE}px;"
         side="left"
       >
         <Sidebar.Header>
@@ -80,7 +90,7 @@
 
         <Sidebar.Content>
           <Sidebar.Group>
-            <Sidebar.GroupLabel>Files</Sidebar.GroupLabel>
+            <Sidebar.GroupLabel>Upload</Sidebar.GroupLabel>
             <Sidebar.GroupContent>
               <div class="space-y-2 px-2">
                 <ImageUploader />
