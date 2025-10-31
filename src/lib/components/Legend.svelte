@@ -4,7 +4,6 @@
   const ctx = getCanvasContext();
 </script>
 
-<!-- Cleaner legend display for sidebar -->
 <div>
   <h2 class="mb-3 text-sm font-semibold text-foreground">Classes</h2>
   {#if ctx.classColors.size > 0}

@@ -4,7 +4,6 @@
   const ctx = getCanvasContext();
 </script>
 
-<!-- Cleaner file info display for sidebar -->
 {#if ctx.imageFileName || ctx.annotationFileName}
   <div class="mt-3 space-y-2 text-xs">
     {#if ctx.imageFileName}
