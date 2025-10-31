@@ -70,6 +70,8 @@ export function createCanvasContext() {
   return context;
 }
 
+export type CanvasContext = ReturnType<typeof createCanvasContext>;
+
 export function getCanvasContext() {
-  return getContext<ReturnType<typeof createCanvasContext>>(CONTEXT_KEY);
+  return getContext<CanvasContext>(CONTEXT_KEY);
 }

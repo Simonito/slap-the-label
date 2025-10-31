@@ -1,14 +1,6 @@
+import type { CanvasContext } from '$lib/context/canvasContext.svelte';
 import type { ImageData } from '$lib/types';
-import { imageDataToCanvas } from './canvasDrawer';
-
-declare global {
-  interface Window {
-    UTIF: {
-      decode(buffer: ArrayBuffer): any[];
-      toRGBA8(ifd: any): Uint8Array;
-    };
-  }
-}
+import { imageDataToCanvas } from '../canvasDrawer';
 
 export async function loadImage(file: File): Promise<ImageData> {
   const isTiff =
@@ -34,7 +26,10 @@ async function loadStandardImage(file: File): Promise<ImageData> {
       });
     };
 
-    img.onerror = () => reject(new Error('Failed to load image'));
+    img.onerror = (e) => {
+      console.error(e);
+      return reject(new Error('Failed to load image'));
+    };
     img.src = URL.createObjectURL(file);
   });
 }
@@ -63,5 +58,16 @@ async function loadTiffImage(file: File): Promise<ImageData> {
     };
   } catch (error) {
     throw new Error(`Failed to load TIFF image: ${(error as Error).message}`);
+  }
+}
+
+export async function processImageFile(file: File, ctx: CanvasContext) {
+  try {
+    const imageData = await loadImage(file);
+    ctx.setImage(imageData, file.name);
+  } catch (error) {
+    throw new Error(
+      'Failed to load image: ' + (error instanceof Error ? error.message : String(error)),
+    );
   }
 }

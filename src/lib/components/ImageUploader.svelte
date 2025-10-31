@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
-  import { loadImage } from '$lib/utils/imageLoader';
+  import { loadImage } from '$lib/utils/files/imageLoader';
   import ReflectedButton from './shared/ReflectedButton.svelte';
   import Button from './ui/button/button.svelte';
 

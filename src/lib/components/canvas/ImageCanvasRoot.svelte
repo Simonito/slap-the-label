@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
-  import { loadImage } from '$lib/utils/imageLoader';
+  import { loadFile } from '$lib/utils/files/loader';
   import { watch, watchOnce } from 'runed';
   import { onDestroy, onMount } from 'svelte';
   import { Stage } from 'svelte-konva';
@@ -35,12 +35,8 @@
       for (let i = 0; i < e.dataTransfer.files.length; i++) {
         if (e.dataTransfer.files[i]) {
           const file = e.dataTransfer.files[0];
-          try {
-            const imageData = await loadImage(file);
-            canvasCtx.setImage(imageData, file.name);
-          } catch (error) {
-            alert('Failed to load image: ' + (error as Error).message);
-          }
+
+          await loadFile(file, canvasCtx);
         }
       }
     }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { UploadIcon } from '@lucide/svelte';
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
-  import { loadImage } from '$lib/utils/imageLoader';
+  import { loadImage } from '$lib/utils/files/imageLoader';
   import { cn } from '$lib/utils';
 
   let {
