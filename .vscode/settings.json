@@ -15,5 +15,9 @@
   "editor.formatOnSave": true,
 
   // Make VS Code use the local version of Prettier from node_modules
-  "prettier.prettierPath": "./node_modules/prettier/index.cjs"
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss"
+  }
 }
