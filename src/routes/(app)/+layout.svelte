@@ -1,25 +1,17 @@
 <script lang="ts">
-  import { createCanvasContext } from '$lib/context/canvasContext.svelte';
-  import { createContentPaneContext } from '$lib/context/contentPaneContext.svelte';
   import * as Sidebar from '$lib/components/ui/sidebar';
   import * as Tooltip from '$lib/components/ui/tooltip';
-  import ResizableAppSidebar from '$lib/components/ResizableAppSidebar.svelte';
+  import ResizableAppSidebar from '$lib/components/app-sidebar/ResizableAppSidebar.svelte';
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
-  import ImageCanvasRoot from '$lib/components/canvas/ImageCanvasRoot.svelte';
-  import WallpaperPattern from '$lib/components/WallpaperPattern.svelte';
-  import { IsMobile } from '$lib/hooks/is-mobile.svelte';
+  import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
+  import type { Snippet } from 'svelte';
 
-  const ctx = createCanvasContext();
-  const contentPaneCtx = createContentPaneContext();
+  let { children }: { children?: Snippet } = $props();
 
-  let sidebarOpen = $state(true);
+  const contentPaneCtx = getContentPaneContext();
 </script>
 
-<svelte:head>
-  <title>YOLO Overlay Viewer</title>
-</svelte:head>
-
-<Sidebar.Provider bind:open={sidebarOpen}>
+<Sidebar.Provider>
   <ResizableAppSidebar>
     <header class="flex h-14 shrink-0 items-center gap-2 border-b border-border px-4">
       {#if contentPaneCtx.isMobile}
@@ -48,17 +40,8 @@
         <h1 class="text-lg font-semibold">YOLO Overlay Viewer</h1>
       </div>
     </header>
-    <WallpaperPattern>
-      <div class="flex size-full items-center justify-center">
-        <div
-          class="size-full max-h-[600px] max-w-[900px]"
-          bind:clientWidth={contentPaneCtx.w}
-          bind:clientHeight={contentPaneCtx.h}
-        >
-          <ImageCanvasRoot />
-        </div>
-      </div>
-    </WallpaperPattern>
+
+    {@render children?.()}
   </ResizableAppSidebar>
 </Sidebar.Provider>
 
