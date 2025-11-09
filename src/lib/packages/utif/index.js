@@ -1,14 +1,14 @@
 // source: https://github.com/photopea/UTIF.js
 
-(function () {
+const UTIF = (function () {
   var UTIF = {};
 
   // Make available for import by `require()`
-  if (typeof module == 'object') {
-    module.exports = UTIF;
-  } else {
-    self.UTIF = UTIF;
-  }
+  // if (typeof module == 'object') {
+  //   module.exports = UTIF;
+  // } else {
+  //   self.UTIF = UTIF;
+  // }
 
   function log() {
     if (typeof process == 'undefined' || process.env.NODE_ENV == 'development')
