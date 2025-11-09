@@ -9,7 +9,7 @@ export interface Annotation {
 export interface ImageData {
   width: number;
   height: number;
-  img: HTMLCanvasElement | HTMLImageElement;
+  canvasElement: HTMLCanvasElement;
 }
 
 export interface DrawSettings {
