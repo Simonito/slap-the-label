@@ -3,6 +3,8 @@ import type { ImageData } from '$lib/types';
 import { imageDataToCanvas } from '../canvasDrawer';
 import UTIF from '$lib/packages/utif';
 
+const DEBUG_LOG = false;
+
 export async function loadImage(file: File) {
   const isTiff =
     file.name.toLowerCase().endsWith('.tif') || file.name.toLowerCase().endsWith('.tiff');
@@ -87,16 +89,17 @@ function loadAsRGBA(ifd: ArrayBuffer | any) {
   const samplesPerPixel = ifd.t277?.[0] ?? 1;
   const bitsPerSample = ifd.t258?.[0] ?? 8;
 
-  console.log('TIFF Info:', {
-    width,
-    height,
-    photometric,
-    samplesPerPixel,
-    bitsPerSample,
-    dataLength: ifd.data?.length,
-    expectedPixels: width * height,
-    bytesPerPixel: ifd.data.length / (width * height),
-  });
+  DEBUG_LOG &&
+    console.log('TIFF Info:', {
+      width,
+      height,
+      photometric,
+      samplesPerPixel,
+      bitsPerSample,
+      dataLength: ifd.data?.length,
+      expectedPixels: width * height,
+      bytesPerPixel: ifd.data.length / (width * height),
+    });
 
   let rgba: Uint8Array;
 
@@ -114,7 +117,8 @@ function loadAsRGBA(ifd: ArrayBuffer | any) {
       // Try as uint32 (masks are often stored as integers)
       const data32 = new Uint32Array(ifd.data.buffer, ifd.data.byteOffset, ifd.data.byteLength / 4);
 
-      console.log('Uint32Array created:', { length: data32.length, expected: width * height });
+      DEBUG_LOG &&
+        console.log('Uint32Array created:', { length: data32.length, expected: width * height });
 
       // Collect all unique non-zero values
       const uniqueValues = new Set<number>();
@@ -130,13 +134,14 @@ function loadAsRGBA(ifd: ArrayBuffer | any) {
 
       const sortedUniqueValues = Array.from(uniqueValues).sort((a, b) => a - b);
 
-      console.log('Uint32 analysis:', {
-        nonZeroCount,
-        totalPixels: data32.length,
-        uniqueNonZeroValues: sortedUniqueValues.length,
-        percentageNonZero: ((nonZeroCount / data32.length) * 100).toFixed(2) + '%',
-        sampleValues: sortedUniqueValues.slice(0, 20),
-      });
+      DEBUG_LOG &&
+        console.log('Uint32 analysis:', {
+          nonZeroCount,
+          totalPixels: data32.length,
+          uniqueNonZeroValues: sortedUniqueValues.length,
+          percentageNonZero: ((nonZeroCount / data32.length) * 100).toFixed(2) + '%',
+          sampleValues: sortedUniqueValues.slice(0, 20),
+        });
 
       grayData = new Uint8Array(width * height);
 
@@ -154,19 +159,20 @@ function loadAsRGBA(ifd: ArrayBuffer | any) {
           valueMap.set(val, Math.round(((idx + 1) * 255) / sortedUniqueValues.length));
         });
 
-        console.log(
-          'Value mapping sample:',
-          Array.from(valueMap.entries())
-            .slice(0, 10)
-            .map(([k, v]) => `${k}->${v}`),
-        );
+        DEBUG_LOG &&
+          console.log(
+            'Value mapping sample:',
+            Array.from(valueMap.entries())
+              .slice(0, 10)
+              .map(([k, v]) => `${k}->${v}`),
+          );
 
         for (let i = 0; i < data32.length; i++) {
           grayData[i] = valueMap.get(data32[i]) ?? 0;
         }
       } else {
         // Too many unique values - use simple binarization or normalization
-        console.log('Using binarization (too many unique values)');
+        DEBUG_LOG && console.log('Using binarization (too many unique values)');
 
         // Simple approach: any non-zero value becomes white
         for (let i = 0; i < data32.length; i++) {
@@ -208,16 +214,17 @@ function loadAsRGBA(ifd: ArrayBuffer | any) {
       if (grayData[i] > 0) convertedNonZero++;
     }
 
-    console.log('Final grayscale data:', {
-      grayDataLength: grayData.length,
-      min: minVal,
-      max: maxVal,
-      nonZeroPixels: convertedNonZero,
-      uniqueGrayscaleLevels: uniqueConverted.size,
-      distributionSample: Array.from(uniqueConverted)
-        .sort((a, b) => a - b)
-        .slice(0, 20),
-    });
+    DEBUG_LOG &&
+      console.log('Final grayscale data:', {
+        grayDataLength: grayData.length,
+        min: minVal,
+        max: maxVal,
+        nonZeroPixels: convertedNonZero,
+        uniqueGrayscaleLevels: uniqueConverted.size,
+        distributionSample: Array.from(uniqueConverted)
+          .sort((a, b) => a - b)
+          .slice(0, 20),
+      });
 
     // Convert grayscale to RGBA
     rgba = new Uint8Array(width * height * 4);
