@@ -5,8 +5,14 @@
 
   let {
     image,
+    mask,
+    showMask = $bindable(true),
+    maskOpacity = $bindable(0.5),
   }: {
     image: HTMLCanvasElement | HTMLImageElement | undefined;
+    mask: HTMLCanvasElement | HTMLImageElement | undefined;
+    showMask?: boolean;
+    maskOpacity?: number;
   } = $props();
 
   const ctx = getCanvasContext();
@@ -28,6 +34,9 @@
 <Layer draggable bind:x bind:y>
   <Group>
     <Image {image} bind:this={imageRef} />
+    {#if showMask && mask}
+      <Image image={mask} opacity={maskOpacity} />
+    {/if}
   </Group>
   <Group>
     {#each ctx.annotations as box}

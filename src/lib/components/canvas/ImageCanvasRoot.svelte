@@ -174,7 +174,11 @@
     >
       <Stage bind:this={stageRef} {width} {height}>
         {#if canvasCtx.imageData}
-          <ImageLayer image={canvasCtx.imageData.canvasElement} bind:this={layerRef} />
+          <ImageLayer
+            image={canvasCtx.imageData.canvasElement}
+            mask={canvasCtx.maskData?.canvasElement}
+            bind:this={layerRef}
+          />
         {:else}
           <div style="height: {height}px;">
             <EmptyDropZone />

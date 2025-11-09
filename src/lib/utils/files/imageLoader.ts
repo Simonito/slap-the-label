@@ -2,7 +2,7 @@ import type { CanvasContext } from '$lib/context/canvasContext.svelte';
 import type { ImageData } from '$lib/types';
 import { imageDataToCanvas } from '../canvasDrawer';
 
-export async function loadImage(file: File): Promise<ImageData> {
+export async function loadImage(file: File) {
   const isTiff =
     file.name.toLowerCase().endsWith('.tif') || file.name.toLowerCase().endsWith('.tiff');
 
@@ -13,8 +13,7 @@ export async function loadImage(file: File): Promise<ImageData> {
     imageData = await loadStandardImage(file);
   }
 
-  const treatAsMask = isGrayscale(imageData);
-  return imageData;
+  return { imageData, isGrayscale: isGrayscale(imageData) };
 }
 
 async function loadStandardImage(file: File): Promise<ImageData> {
@@ -83,7 +82,7 @@ async function loadTiffImage(file: File): Promise<ImageData> {
  *   Recommended: 0-1 for lossless formats (PNG), 2-3 for lossy formats (JPEG).
  * @returns {boolean} True if the image appears to be grayscale, false otherwise
  */
-function isGrayscale(imageData: ImageData, tolerance: number = 2) {
+function isGrayscale(imageData: ImageData, tolerance: number = 2): boolean {
   const ctx = imageData.canvasElement.getContext('2d');
   const { data } = ctx!.getImageData(0, 0, imageData.width, imageData.height);
 
@@ -104,10 +103,27 @@ function isGrayscale(imageData: ImageData, tolerance: number = 2) {
   return true;
 }
 
+function treatAsMask(candidate: ImageData, current: ImageData | null) {
+  if (!current) {
+    return false;
+  }
+
+  if (current.height !== candidate.height || current.width !== candidate.width) {
+    // mask should have the same dimensions as the image to be overlaid onto
+    return false;
+  }
+
+  return true;
+}
+
 export async function processImageFile(file: File, ctx: CanvasContext) {
   try {
-    const imageData = await loadImage(file);
-    ctx.setImage(imageData, file.name);
+    const { imageData, isGrayscale } = await loadImage(file);
+    if (isGrayscale && treatAsMask(imageData, ctx.imageData)) {
+      ctx.setMask(imageData);
+    } else {
+      ctx.setImage(imageData, file.name);
+    }
   } catch (error) {
     throw new Error(
       'Failed to load image: ' + (error instanceof Error ? error.message : String(error)),

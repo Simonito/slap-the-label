@@ -6,6 +6,8 @@ const CONTEXT_KEY = Symbol('CANVAS');
 export function createCanvasContext() {
   let imageData = $state<ImageData | null>(null);
   let imageFileName = $state<string>('');
+
+  let maskData = $state<ImageData | null>(null);
   let annotations = $state<Annotation[]>([]);
   let annotationFileName = $state<string>('');
   let classColors = $state<Map<string, string>>(new Map());
@@ -18,6 +20,9 @@ export function createCanvasContext() {
     },
     get imageFileName() {
       return imageFileName;
+    },
+    get maskData() {
+      return maskData;
     },
     get annotations() {
       return annotations;
@@ -41,6 +46,10 @@ export function createCanvasContext() {
       imageFileName = name;
     },
 
+    setMask(data: ImageData) {
+      maskData = data;
+    },
+
     setAnnotations(data: Annotation[], name: string, colors: Map<string, string>) {
       annotations = data;
       annotationFileName = name;
@@ -58,6 +67,7 @@ export function createCanvasContext() {
     clearAll() {
       imageData = null;
       imageFileName = '';
+      maskData = null;
       annotations = [];
       annotationFileName = '';
       classColors = new Map();
