@@ -1,7 +1,6 @@
 import type { CanvasContext } from '$lib/context/canvasContext.svelte';
 import type { ImageData } from '$lib/types';
 import { imageDataToCanvas } from '../canvasDrawer';
-import UTIF from '$lib/packages/utif';
 
 const DEBUG_LOG = false;
 
@@ -49,6 +48,9 @@ async function loadStandardImage(file: File): Promise<ImageData> {
 
 async function loadTiffImage(file: File): Promise<ImageData> {
   try {
+    // dynamically import tiff library
+    const UTIF = (await import('$lib/packages/utif')).default;
+
     const buf = await file.arrayBuffer();
     const ifds = UTIF.decode(buf);
     if (ifds.length === 0) {
@@ -60,7 +62,7 @@ async function loadTiffImage(file: File): Promise<ImageData> {
     const width = ifds[0].width;
     const height = ifds[0].height;
 
-    const rgba = loadAsRGBA(ifds[0]);
+    const rgba = await loadAsRGBA(ifds[0]);
 
     const clamped = new Uint8ClampedArray(rgba.buffer); // convert to Uint8ClampedArray
     const imageCanvas = imageDataToCanvas(clamped, width, height);
@@ -74,7 +76,7 @@ async function loadTiffImage(file: File): Promise<ImageData> {
   }
 }
 
-function loadAsRGBA(ifd: ArrayBuffer | any) {
+async function loadAsRGBA(ifd: ArrayBuffer | any) {
   /*
     This function is purely vibecoded using Claude
     and just going back and forth with prompts like
@@ -236,6 +238,8 @@ function loadAsRGBA(ifd: ArrayBuffer | any) {
       rgba[j + 3] = 255; // A
     }
   } else {
+    // dynamically import tiff library
+    const UTIF = (await import('$lib/packages/utif')).default;
     // Use standard RGBA conversion for color images
     rgba = UTIF.toRGBA8(ifd);
   }

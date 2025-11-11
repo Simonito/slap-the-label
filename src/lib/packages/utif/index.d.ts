@@ -8,5 +8,4 @@ declare namespace UTIF {
   function fromRGBA8(rgba: Uint8Array, width: number, height: number): ArrayBuffer;
 }
 
-declare const UTIF: typeof UTIF;
 export default UTIF;
