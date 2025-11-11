@@ -11,6 +11,7 @@ export function createCanvasContext() {
   let annotationFiles = $state<AnnotationFile[]>([]);
   let classColors = $state<Map<string, string>>(new Map());
 
+  let stageSettings = $state<{ zoomX: number; zoomY: number }>({ zoomX: 1, zoomY: 1 });
   let drawSettings = $state<DrawSettings>({ lineWidth: 2, showLabels: true });
 
   const context = {
@@ -62,6 +63,10 @@ export function createCanvasContext() {
       drawSettings.showLabels = value;
     },
 
+    recalculateLineStroke(zoomX: number, zoomY: number) {
+      drawSettings.lineWidth = calculateStrokeWitdth(zoomX, zoomY);
+    },
+
     clearAll() {
       imageData = null;
       imageFileName = '';
@@ -75,6 +80,15 @@ export function createCanvasContext() {
 
   setContext(CONTEXT_KEY, context);
   return context;
+}
+
+function calculateStrokeWitdth(stageZoomX: number, stageZoomY: number) {
+  const DEFAULT_SIZE = 1.5;
+  const zoom = stageZoomX * stageZoomY;
+
+  const boost = Math.min(1 / zoom, 10);
+
+  return Math.max(DEFAULT_SIZE, DEFAULT_SIZE * boost);
 }
 
 export type CanvasContext = ReturnType<typeof createCanvasContext>;

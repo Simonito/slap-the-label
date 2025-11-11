@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import type { BBoxAnnotation } from '$lib/types';
   import { Rect, Text } from 'svelte-konva';
 
@@ -15,6 +16,8 @@
     showLabels: boolean;
     color?: string;
   } = $props();
+
+  const ctx = getCanvasContext();
 </script>
 
 <Rect
@@ -23,7 +26,7 @@
   width={box.w * scaleX}
   height={box.h * scaleY}
   stroke={color}
-  strokeWidth={2}
+  strokeWidth={ctx.drawSettings.lineWidth}
   perfectDrawEnabled={false}
   shadowForStrokeEnabled={false}
 />

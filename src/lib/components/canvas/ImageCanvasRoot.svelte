@@ -73,6 +73,9 @@
     stage.scale({ x: newScale, y: newScale });
     stage.position({ x, y });
 
+    // update globally tracked line stroke width
+    canvasCtx.recalculateLineStroke(newScale, newScale);
+
     stage.batchDraw();
     layerRef?.resetLayerOffset();
   }
@@ -118,6 +121,9 @@
         const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
 
         stage.scale({ x: newScale, y: newScale });
+
+        // update globally tracked line stroke width
+        canvasCtx.recalculateLineStroke(newScale, newScale);
 
         const newPos = {
           x: pointer.x - mousePointTo.x * newScale,

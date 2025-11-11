@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import type { PolygonAnnotation } from '$lib/types';
+  import { watch } from 'runed';
   import { Line, Text } from 'svelte-konva';
 
   let {
@@ -15,6 +17,12 @@
     showLabels: boolean;
     color?: string;
   } = $props();
+
+  const id = $props.id();
+
+  const ctx = getCanvasContext();
+
+  let strokeWidth = $state(12);
 
   // scale polygon points to image dimensions
   const scaledPoints = $derived(
@@ -36,6 +44,11 @@
     return { x: sumX / count, y: sumY / count };
   });
 
+  // watch(
+  //   () => ctx.drawSettings.lineWidth,
+  //   () => console.log('lwch'),
+  // );
+
   const displayColor = $derived.by(() => {
     if (!polygon.properties) {
       return color;
@@ -55,12 +68,23 @@
 <Line
   points={scaledPoints}
   stroke={displayColor}
-  strokeWidth={2}
+  strokeWidth={ctx.drawSettings.lineWidth}
   closed={true}
   opacity={0.5}
   listening={true}
   perfectDrawEnabled={false}
   shadowForStrokeEnabled={false}
+  strokeScaleEnabled={true}
+/>
+<Text
+  x={centroid().x - 20}
+  y={centroid().y - 10}
+  text="aaaaa"
+  fontSize={14}
+  fill="white"
+  stroke="black"
+  strokeWidth={0.5}
+  listening={false}
 />
 {#if showLabels && polygon.class}
   <Text
