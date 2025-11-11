@@ -47,11 +47,19 @@ export async function processTextFile(file: File, ctx: CanvasContext) {
       throw new Error('Add an image first to view the labels');
     }
 
+    console.log('parsing text');
     const text = await file.text();
     const annotations = parseYoloFile(text);
+    console.log({ annotations });
     const colors = generateClassColors(annotations);
 
-    ctx.setAnnotations(annotations, file.name, colors);
+    ctx.addAnnotationFile({
+      annotations,
+      color: Array.from(colors.keys())[0],
+      name: file.name,
+      visible: true,
+    });
+    //ctx.setAnnotations(annotations, file.name, colors);
   } else {
     throw new Error('Text file is not recognized as YOLO annotations');
   }

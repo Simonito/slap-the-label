@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Annotation } from '$lib/types';
+  import type { BBoxAnnotation } from '$lib/types';
   import { Rect, Text } from 'svelte-konva';
 
   let {
@@ -7,11 +7,13 @@
     scaleX,
     scaleY,
     showLabels,
+    color = 'red',
   }: {
-    box: Annotation;
+    box: BBoxAnnotation;
     scaleX: number;
     scaleY: number;
     showLabels: boolean;
+    color?: string;
   } = $props();
 </script>
 
@@ -20,8 +22,10 @@
   y={box.y * scaleY - (box.h * scaleY) / 2}
   width={box.w * scaleX}
   height={box.h * scaleY}
-  stroke="red"
+  stroke={color}
   strokeWidth={2}
+  perfectDrawEnabled={false}
+  shadowForStrokeEnabled={false}
 />
 {#if showLabels && box.class}
   <Text
@@ -30,5 +34,8 @@
     text={box.class}
     fontSize={14}
     fill="white"
+    stroke="black"
+    strokeWidth={0.5}
+    listening={false}
   />
 {/if}

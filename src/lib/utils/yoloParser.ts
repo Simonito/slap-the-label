@@ -1,8 +1,8 @@
-import type { Annotation } from '$lib/types';
+import type { Annotation, BBoxAnnotation } from '$lib/types';
 
 export function parseYoloFile(content: string): Annotation[] {
   const lines = content.split('\n');
-  const annotations: Annotation[] = [];
+  const annotations: BBoxAnnotation[] = [];
 
   for (const line of lines) {
     const trimmed = line.trim();
@@ -26,6 +26,7 @@ export function parseYoloFile(content: string): Annotation[] {
     }
 
     annotations.push({
+      type: 'bbox',
       class: classId.toString(),
       x,
       y,
@@ -44,8 +45,10 @@ export function generateClassColors(annotations: Annotation[]): Map<string, stri
   const hueStep = 360 / Math.max(uniqueClasses.size, 1);
 
   Array.from(uniqueClasses).forEach((className, index) => {
-    const hue = (index * hueStep) % 360;
-    colors.set(className, `hsl(${hue}, 70%, 60%)`);
+    if (className) {
+      const hue = (index * hueStep) % 360;
+      colors.set(className, `hsl(${hue}, 70%, 60%)`);
+    }
   });
 
   return colors;

@@ -1,5 +1,5 @@
 import { setContext, getContext } from 'svelte';
-import type { Annotation, ImageData } from '$lib/types';
+import type { DrawSettings, ImageData, AnnotationFile } from '$lib/types';
 
 const CONTEXT_KEY = Symbol('CANVAS');
 
@@ -8,11 +8,10 @@ export function createCanvasContext() {
   let imageFileName = $state<string>('');
 
   let maskData = $state<ImageData | null>(null);
-  let annotations = $state<Annotation[]>([]);
-  let annotationFileName = $state<string>('');
+  let annotationFiles = $state<AnnotationFile[]>([]);
   let classColors = $state<Map<string, string>>(new Map());
-  let lineWidth = $state<number>(2);
-  let showLabels = $state<boolean>(true);
+
+  let drawSettings = $state<DrawSettings>({ lineWidth: 2, showLabels: true });
 
   const context = {
     get imageData() {
@@ -24,20 +23,25 @@ export function createCanvasContext() {
     get maskData() {
       return maskData;
     },
-    get annotations() {
-      return annotations;
-    },
-    get annotationFileName() {
-      return annotationFileName;
+    get annotationFiles() {
+      return annotationFiles;
     },
     get classColors() {
       return classColors;
     },
-    get lineWidth() {
-      return lineWidth;
+    get drawSettings() {
+      return drawSettings;
     },
-    get showLabels() {
-      return showLabels;
+
+    addAnnotationFile(file: AnnotationFile) {
+      annotationFiles.push(file);
+    },
+    toggleAnnotationFile(fileName: string) {
+      const file = annotationFiles.find((f) => f.name === fileName);
+      if (file) file.visible = !file.visible;
+    },
+    removeAnnotationFile(fileName: string) {
+      annotationFiles = annotationFiles.filter((f) => f.name !== fileName);
     },
 
     setImage(data: ImageData, name: string) {
@@ -50,29 +54,22 @@ export function createCanvasContext() {
       maskData = data;
     },
 
-    setAnnotations(data: Annotation[], name: string, colors: Map<string, string>) {
-      annotations = data;
-      annotationFileName = name;
-      classColors = colors;
-    },
-
     setLineWidth(value: number) {
-      lineWidth = value;
+      drawSettings.lineWidth = value;
     },
 
     setShowLabels(value: boolean) {
-      showLabels = value;
+      drawSettings.showLabels = value;
     },
 
     clearAll() {
       imageData = null;
       imageFileName = '';
       maskData = null;
-      annotations = [];
-      annotationFileName = '';
+      annotationFiles = [];
       classColors = new Map();
-      lineWidth = 2;
-      showLabels = true;
+      drawSettings.lineWidth = 2;
+      drawSettings.showLabels = true;
     },
   };
 
