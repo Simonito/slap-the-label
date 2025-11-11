@@ -8,7 +8,10 @@
   import LightSwitch from '$lib/components/ui/light-switch/light-switch.svelte';
   import NavUser from './NavUser.svelte';
   import { page } from '$app/state';
-  import { LucideTestTube } from '@lucide/svelte';
+  import { LucideTestTube, type Icon as IconType } from '@lucide/svelte';
+  import { resolve } from '$app/paths';
+  import type { RouteId } from '$app/types';
+  import type { Pathname } from '$app/types';
 
   const INITIAL_OPEN = true;
   const MIN_PIXEL_SIZE = 220;
@@ -27,6 +30,24 @@
   const sidebarDefaultSize = $derived(
     paneCtx.isMobile ? 0 : Math.round((MIN_PIXEL_SIZE / innerWidth) * 100),
   );
+
+  type MenuItems = {
+    routeId: RouteId | Pathname;
+    text: string;
+    icon: typeof IconType;
+  };
+  const MENU_ITEMS: MenuItems[] = [
+    {
+      routeId: '/(app)',
+      text: 'Slap the Label',
+      icon: LucideBanana,
+    },
+    {
+      routeId: '/(app)/test',
+      text: 'Test',
+      icon: LucideTestTube,
+    },
+  ];
 
   function handlePaneCollapse() {
     isPaneCollapsed = true;
@@ -91,31 +112,21 @@
 
           <Sidebar.Group class="group-data-[collapsible=icon]:hidden">
             <Sidebar.Menu>
-              <Sidebar.MenuItem>
-                <Sidebar.MenuButton
-                  class={`max-w-[20rem] border-border px-2 py-5 ${page.route.id === '/(app)' ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground' : ''}`}
-                >
-                  {#snippet child({ props })}
-                    <a href={'/'} {...props}>
-                      <LucideBanana />
-                      <span>Slap the Label</span>
-                    </a>
-                  {/snippet}
-                </Sidebar.MenuButton>
-              </Sidebar.MenuItem>
-
-              <Sidebar.MenuItem>
-                <Sidebar.MenuButton
-                  class={`border-border px-2 py-5 ${page.route.id === '/(app)/test' ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground' : ''}`}
-                >
-                  {#snippet child({ props })}
-                    <a href={'/test'} {...props}>
-                      <LucideTestTube />
-                      <span>Test</span>
-                    </a>
-                  {/snippet}
-                </Sidebar.MenuButton>
-              </Sidebar.MenuItem>
+              {#each MENU_ITEMS as menuItem}
+                <Sidebar.MenuItem>
+                  {@const isCurrent = page.route.id && menuItem.routeId === page.route.id}
+                  <Sidebar.MenuButton
+                    class={`max-w-[20rem] border-border px-2 py-5 ${isCurrent ? 'bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary hover:text-sidebar-primary-foreground' : ''}`}
+                  >
+                    {#snippet child({ props })}
+                      <a href={resolve(menuItem.routeId)} {...props}>
+                        <menuItem.icon />
+                        <span>{menuItem.text}</span>
+                      </a>
+                    {/snippet}
+                  </Sidebar.MenuButton>
+                </Sidebar.MenuItem>
+              {/each}
             </Sidebar.Menu>
           </Sidebar.Group>
         </Sidebar.Content>
