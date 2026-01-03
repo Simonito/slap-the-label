@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@dnd-kit-svelte/svelte": "^0.1.5",
+    "@dnd-kit/helpers": "^0.1.21",
     "@internationalized/date": "^3.8.1",
     "@lucide/svelte": "^0.544.0",
     "@sveltejs/adapter-auto": "^6.0.0",

@@ -11,11 +11,11 @@
     EyeOff,
     Eraser,
     Circle,
-    Trash2,
   } from '@lucide/svelte';
   import { slide, scale } from 'svelte/transition';
   import { backOut, cubicOut, linear } from 'svelte/easing';
   import NukeHistoryButton from './NukeHistoryButton.svelte';
+  import HistorySortableList from './HistorySortableList.svelte';
 
   const ctx = getCanvasContext();
 
@@ -109,4 +109,5 @@
       </button>
     {/each}
   </div>
+  <HistorySortableList />
 </div>
