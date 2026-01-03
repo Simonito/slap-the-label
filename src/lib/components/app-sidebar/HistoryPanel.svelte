@@ -64,14 +64,14 @@
         class={cn(
           'group flex w-full items-stretch gap-3 rounded-md py-0 pr-2 text-left text-sm transition-colors',
           'hover:bg-accent/50',
-          isActive && 'bg-accent/40 font-medium text-accent-foreground',
+          isActive && 'bg-accent font-medium text-accent-foreground dark:bg-accent/40',
         )}
         onclick={() => ctx.jumpTo(i)}
       >
         <div class="relative flex w-8 shrink-0 flex-col items-center">
           {#if i > 0 && i < ctx.historyIndex + 1}
             <div
-              class="absolute top-0 h-1/2 w-px bg-muted-foreground/40"
+              class="absolute top-0 h-1/2 w-px bg-muted-foreground/20 dark:bg-muted-foreground/40"
               in:slide={{ delay: 200, duration: 500, easing: backOut }}
               out:slide={{ duration: 100, axis: 'y', easing: linear }}
             ></div>
@@ -79,7 +79,7 @@
 
           {#if i < ctx.history.length - 1 && i < ctx.historyIndex}
             <div
-              class="absolute top-6/12 h-1/2 w-px bg-muted-foreground/40"
+              class="absolute top-6/12 h-1/2 w-px bg-muted-foreground/20 dark:bg-muted-foreground/40"
               in:slide={{ duration: 200, axis: 'y', easing: linear }}
               out:slide={{ delay: 100, duration: 50, easing: linear }}
             ></div>
