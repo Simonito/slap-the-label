@@ -3,20 +3,22 @@ import type { DrawSettings, ImageData, AnnotationFile } from '$lib/types';
 
 const CONTEXT_KEY = Symbol('CANVAS');
 
-export type HistoryActionType = 'image' | 'mask' | 'annotation' | 'visibility' | 'clear';
+export type HistoryActionPayload =
+  | { type: 'image'; payload: { data: ImageData; name: string } }
+  | { type: 'mask'; payload: { data: ImageData } }
+  | {
+      type: 'annotation';
+      payload: { action: 'add'; file: AnnotationFile } | { action: 'remove'; name: string };
+    }
+  | { type: 'visibility'; payload: { name: string; visible: boolean } }
+  | { type: 'clear'; payload?: never };
 
-export interface HistoryEntry {
-  type: HistoryActionType;
+export type HistoryActionType = HistoryActionPayload['type'];
+
+export type HistoryEntry = HistoryActionPayload & {
   label: string;
-  state: {
-    imageData: ImageData | null;
-    imageFileName: string;
-    maskData: ImageData | null;
-    annotationFiles: AnnotationFile[];
-    classColors: Map<string, string>;
-  };
   timestamp: number;
-}
+};
 
 export function createCanvasContext() {
   let imageData = $state<ImageData | null>(null);
@@ -29,31 +31,63 @@ export function createCanvasContext() {
   let stageSettings = $state<{ zoomX: number; zoomY: number }>({ zoomX: 1, zoomY: 1 });
   let drawSettings = $state<DrawSettings>({ lineWidth: 2, showLabels: true });
 
-  // History state
   let history = $state<HistoryEntry[]>([]);
   let historyIndex = $state<number>(-1);
 
-  function createSnapshot(): HistoryEntry['state'] {
-    return {
-      imageData,
-      imageFileName,
-      maskData,
-      // Shallow copy of the array and the file objects to preserve visibility state
-      // without duplicating the heavy 'annotations' data if strictly necessary.
-      // However, to be safe against mutations, we spread the object.
-      // Note: If we ever mutate 'annotations' content itself, we'd need deeper cloning.
-      annotationFiles: annotationFiles.map((f) => ({ ...f })),
-      classColors: new Map(classColors),
-    };
-  }
+  function recomputeState() {
+    // reset tracked state to defaults
+    imageData = null;
+    imageFileName = '';
+    maskData = null;
+    annotationFiles = [];
+    classColors = new Map();
+    // reset drawSettings only if a 'clear' action is encountered
 
-  function applySnapshot(snapshot: HistoryEntry['state']) {
-    imageData = snapshot.imageData;
-    imageFileName = snapshot.imageFileName;
-    maskData = snapshot.maskData;
-    // Clone again to ensure we don't mutate the snapshot via the current state proxy
-    annotationFiles = snapshot.annotationFiles.map((f) => ({ ...f }));
-    classColors = new Map(snapshot.classColors);
+    for (let i = 0; i <= historyIndex; i++) {
+      const entry = history[i];
+      if (!entry) continue;
+
+      switch (entry.type) {
+        case 'image': {
+          const { payload } = entry;
+          imageData = payload.data;
+          imageFileName = payload.name;
+          break;
+        }
+        case 'mask': {
+          const { payload } = entry;
+          maskData = payload.data;
+          break;
+        }
+        case 'annotation': {
+          const { payload } = entry;
+          if (payload.action === 'add') {
+            // clone to avoid mutating history entry
+            annotationFiles.push({ ...payload.file });
+          } else {
+            annotationFiles = annotationFiles.filter((f) => f.name !== payload.name);
+          }
+          break;
+        }
+        case 'visibility': {
+          const { payload } = entry;
+          const file = annotationFiles.find((f) => f.name === payload.name);
+          if (file) {
+            file.visible = payload.visible;
+          }
+          break;
+        }
+        case 'clear':
+          imageData = null;
+          imageFileName = '';
+          maskData = null;
+          annotationFiles = [];
+          classColors = new Map();
+          drawSettings.lineWidth = 2;
+          drawSettings.showLabels = true;
+          break;
+      }
+    }
   }
 
   const context = {
@@ -82,79 +116,81 @@ export function createCanvasContext() {
       return historyIndex;
     },
 
-    addToHistory(type: HistoryActionType, label: string) {
-      // Remove any future history if we are in the middle of the stack
+    addToHistory<K extends HistoryActionType>(
+      type: K,
+      label: string,
+      ...args: Extract<HistoryActionPayload, { type: K }>['payload'] extends undefined
+        ? [payload?: never]
+        : [payload: Extract<HistoryActionPayload, { type: K }>['payload']]
+    ) {
+      // remove any future history if we are in the middle of the stack
       if (historyIndex < history.length - 1) {
         history = history.slice(0, historyIndex + 1);
       }
 
-      const snapshot = createSnapshot();
       history.push({
         type,
         label,
-        state: snapshot,
+        payload: args[0],
         timestamp: Date.now(),
-      });
+      } as HistoryEntry);
       historyIndex = history.length - 1;
     },
 
     undo() {
-      if (historyIndex > 0) {
+      if (historyIndex >= 0) {
         historyIndex--;
-        applySnapshot(history[historyIndex].state);
-      } else if (historyIndex === 0) {
-        // Option: allow undoing to "empty" state?
-        // For now, let's treat index 0 as the oldest state.
-        // Ideally we might want an 'Initial' state.
-        // If we want to clear everything, we effectively go back to start.
-        // Let's assume index 0 is a valid state we want to stay at.
+        recomputeState();
       }
     },
 
     redo() {
       if (historyIndex < history.length - 1) {
         historyIndex++;
-        applySnapshot(history[historyIndex].state);
+        recomputeState();
       }
     },
 
     jumpTo(index: number) {
-      if (index >= 0 && index < history.length) {
+      if (index >= -1 && index < history.length) {
         historyIndex = index;
-        applySnapshot(history[index].state);
+        recomputeState();
       }
     },
 
     addAnnotationFile(file: AnnotationFile) {
       annotationFiles.push(file);
-      this.addToHistory('annotation', `Add ${file.name}`);
+      // clone file to ensure history is immutable
+      this.addToHistory('annotation', `Add ${file.name}`, { action: 'add', file: { ...file } });
     },
 
     toggleAnnotationFile(fileName: string) {
       const file = annotationFiles.find((f) => f.name === fileName);
       if (file) {
         file.visible = !file.visible;
-        this.addToHistory('visibility', `${file.visible ? 'Show' : 'Hide'} ${fileName}`);
+        this.addToHistory('visibility', `${file.visible ? 'Show' : 'Hide'} ${fileName}`, {
+          name: fileName,
+          visible: file.visible,
+        });
       }
     },
 
     removeAnnotationFile(fileName: string) {
       annotationFiles = annotationFiles.filter((f) => f.name !== fileName);
-      this.addToHistory('annotation', `Remove ${fileName}`);
+      this.addToHistory('annotation', `Remove ${fileName}`, { action: 'remove', name: fileName });
     },
 
     setImage(data: ImageData, name: string) {
-      // This is a "Reset" or "Load New" kind of action usually.
-      // But we can treat it as part of history.
-      this.clearAll(false); // don't record clearAll in history explicitly if we are about to set image
+      // clearAll resets everything but doesn't record history here because we proceed to adding 'image' action
+      this.clearAll(false);
       imageData = data;
       imageFileName = name;
-      this.addToHistory('image', 'Load Image');
+      this.addToHistory('image', 'Load Image', { data, name });
     },
 
     setMask(data: ImageData) {
       maskData = data;
-      this.addToHistory('mask', 'Load Mask');
+      this.addToHistory('mask', 'Load Mask', { data });
     },
 
     setLineWidth(value: number) {
@@ -189,16 +225,18 @@ export function createCanvasContext() {
     },
 
     reorderHistory(newHistory: HistoryEntry[]) {
-      console.log('>> curr hist:', { history });
       const currentActiveItem = history[historyIndex];
       history = newHistory;
-      // We need to find where the active item moved to
+      // we need to find where the active item moved to
       if (currentActiveItem) {
-        historyIndex = history.findIndex((item) => item.timestamp === currentActiveItem.timestamp);
+        const newIndex = history.findIndex(
+          (item) => item.timestamp === currentActiveItem.timestamp,
+        );
+        historyIndex = newIndex !== -1 ? newIndex : -1;
       } else {
         historyIndex = -1;
       }
-      console.log('>> new hist:', { history });
+      recomputeState();
     },
   };
 
