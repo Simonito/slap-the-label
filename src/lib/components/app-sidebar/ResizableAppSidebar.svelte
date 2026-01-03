@@ -12,6 +12,7 @@
   import { resolve } from '$app/paths';
   import type { RouteId } from '$app/types';
   import type { Pathname } from '$app/types';
+  import HistoryPanel from './HistoryPanel.svelte';
 
   const INITIAL_OPEN = true;
   const MIN_PIXEL_SIZE = 220;
@@ -73,6 +74,27 @@
     link.click();
   }
 
+  function handleKeydown(e: KeyboardEvent) {
+    const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+
+    // Undo: Cmd+Z or Ctrl+Z
+    if (isCmdOrCtrl && !e.shiftKey && e.key.toLowerCase() === 'z') {
+      e.preventDefault();
+      ctx.undo();
+      return;
+    }
+
+    // Redo: Cmd+Shift+Z or Ctrl+Y
+    if (
+      (isCmdOrCtrl && e.shiftKey && e.key.toLowerCase() === 'z') ||
+      (isCmdOrCtrl && e.key.toLowerCase() === 'y')
+    ) {
+      e.preventDefault();
+      ctx.redo();
+      return;
+    }
+  }
+
   $effect(() => {
     if (isSidebarOpen && isPaneCollapsed) {
       return sidebarPane.expand();
@@ -83,10 +105,20 @@
   });
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window bind:innerWidth onkeydown={handleKeydown} />
 
 <Sidebar.Provider bind:open={isSidebarOpen}>
   <Resizable.PaneGroup direction="horizontal">
+    <Resizable.Pane class="flex flex-col">
+      {@render children()}
+    </Resizable.Pane>
+
+    <Resizable.Handle
+      onDraggingChange={(isDragging) => {
+        isResizing = isDragging;
+      }}
+    />
+
     <Resizable.Pane
       defaultSize={sidebarDefaultSize}
       minSize={10}
@@ -103,50 +135,28 @@
         style="min-width: {MIN_PIXEL_SIZE}px;"
         side="left"
       >
-        <Sidebar.Header>
+        <!-- <Sidebar.Header>
           <LightSwitch />
-        </Sidebar.Header>
+        </Sidebar.Header> -->
+        <button onclick={handleClear}>Clear</button>
 
         <Sidebar.Content>
-          <div class="h-1 w-full"></div>
-
-          <Sidebar.Group class="group-data-[collapsible=icon]:hidden">
-            <Sidebar.Menu>
-              {#each MENU_ITEMS as menuItem}
-                <Sidebar.MenuItem>
-                  {@const isCurrent = page.route.id && menuItem.routeId === page.route.id}
-                  <Sidebar.MenuButton
-                    class={`max-w-[20rem] border-border px-2 py-5 ${isCurrent ? 'bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary hover:text-sidebar-primary-foreground' : ''}`}
-                  >
-                    {#snippet child({ props })}
-                      <a href={resolve(menuItem.routeId)} {...props}>
-                        <menuItem.icon />
-                        <span>{menuItem.text}</span>
-                      </a>
-                    {/snippet}
-                  </Sidebar.MenuButton>
-                </Sidebar.MenuItem>
-              {/each}
-            </Sidebar.Menu>
-          </Sidebar.Group>
+          <HistoryPanel />
         </Sidebar.Content>
 
         <Sidebar.Footer>
+          <Sidebar.Separator />
+          <Sidebar.Group>
+            <LightSwitch />
+          </Sidebar.Group>
+
+          <Sidebar.Separator />
+
           <NavUser user={{ name: 'aa', email: 'my@mail.com', avatar: '/favicon.svg' }} />
         </Sidebar.Footer>
 
         <Sidebar.Rail />
       </Sidebar.Root>
-    </Resizable.Pane>
-
-    <Resizable.Handle
-      onDraggingChange={(isDragging) => {
-        isResizing = isDragging;
-      }}
-    />
-
-    <Resizable.Pane class="flex flex-col">
-      {@render children()}
     </Resizable.Pane>
   </Resizable.PaneGroup>
 </Sidebar.Provider>
