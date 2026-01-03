@@ -187,6 +187,19 @@ export function createCanvasContext() {
       history = [];
       historyIndex = -1;
     },
+
+    reorderHistory(newHistory: HistoryEntry[]) {
+      console.log('>> curr hist:', { history });
+      const currentActiveItem = history[historyIndex];
+      history = newHistory;
+      // We need to find where the active item moved to
+      if (currentActiveItem) {
+        historyIndex = history.findIndex((item) => item.timestamp === currentActiveItem.timestamp);
+      } else {
+        historyIndex = -1;
+      }
+      console.log('>> new hist:', { history });
+    },
   };
 
   setContext(CONTEXT_KEY, context);
