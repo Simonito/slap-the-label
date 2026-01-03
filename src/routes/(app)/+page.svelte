@@ -13,7 +13,7 @@
 <WallpaperPattern>
   <div class="flex size-full items-center justify-center">
     <div
-      class="size-full max-h-[600px] max-w-[900px]"
+      class="size-full max-h-[700px] max-w-[1000px]"
       bind:clientWidth={contentPaneCtx.w}
       bind:clientHeight={contentPaneCtx.h}
     >

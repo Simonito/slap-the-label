@@ -7,7 +7,7 @@
   import type { Snippet } from 'svelte';
   import LightSwitch from '$lib/components/ui/light-switch/light-switch.svelte';
   import NavUser from './NavUser.svelte';
-  import HistoryPanel from './HistoryPanel.svelte';
+  import HistoryPanel from './history/HistoryPanel.svelte';
   import { PanelRightClose, PanelRightOpen } from '@lucide/svelte';
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
 
@@ -160,7 +160,6 @@
         alignOffset={4}
         arrowClasses="hidden"
         sideOffset={4}
-        class="bg-muted text-muted-foreground"
       >
         Open sidebar <kbd>{cmdOrCtrl}</kbd> + <kbd>B</kbd>
       </Tooltip.Content>

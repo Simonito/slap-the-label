@@ -15,6 +15,7 @@
   } from '@lucide/svelte';
   import { slide, scale } from 'svelte/transition';
   import { backOut, cubicOut, linear } from 'svelte/easing';
+  import NukeHistoryButton from './NukeHistoryButton.svelte';
 
   const ctx = getCanvasContext();
 
@@ -39,15 +40,14 @@
 </script>
 
 <div class="flex flex-col gap-2 p-4">
-  <div class="mb-1 flex items-center gap-2 px-2 text-sm font-semibold text-muted-foreground">
-    <History class="size-4" />
-    <span>History</span>
-    <button
-      onclick={() => ctx.clearHistory()}
-      class="ml-auto flex items-center gap-2 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-muted-foreground/20"
-    >
-      <Trash2 class="size-4" />
-    </button>
+  <div
+    class="mb-1 flex items-center justify-between gap-2 px-2 text-sm font-semibold text-muted-foreground"
+  >
+    <div class="inline-flex items-center gap-2">
+      <History class="size-4" />
+      <span>History</span>
+    </div>
+    <NukeHistoryButton />
   </div>
 
   <div class="flex flex-col">
