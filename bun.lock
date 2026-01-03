@@ -4,6 +4,7 @@
     "": {
       "name": "base-sveltekit-app",
       "devDependencies": {
+        "@dnd-kit-svelte/svelte": "^0.1.5",
         "@internationalized/date": "^3.8.1",
         "@lucide/svelte": "^0.544.0",
         "@sveltejs/adapter-auto": "^6.0.0",
@@ -32,6 +33,18 @@
     },
   },
   "packages": {
+    "@dnd-kit-svelte/svelte": ["@dnd-kit-svelte/svelte@0.1.5", "", { "dependencies": { "@dnd-kit/abstract": "^0.1.21", "@dnd-kit/collision": "^0.1.21", "@dnd-kit/dom": "^0.1.21", "@dnd-kit/state": "^0.1.21" }, "peerDependencies": { "svelte": "^5.0.0" } }, "sha512-ACZveYr17/OJmQOb6IIbPfROXfoo2qQwkRFmb5/ycm3/lJX9gddK3QJn0jmYeWRIHk8tlO/TUtgGN5G5fXCCRg=="],
+
+    "@dnd-kit/abstract": ["@dnd-kit/abstract@0.1.21", "", { "dependencies": { "@dnd-kit/geometry": "^0.1.21", "@dnd-kit/state": "^0.1.21", "tslib": "^2.6.2" } }, "sha512-6sJut6/D21xPIK8EFMu+JJeF+fBCOmQKN1BRpeUYFi5m9P1CJpTYbBwfI107h7PHObI6a5bsckiKkRpF2orHpw=="],
+
+    "@dnd-kit/collision": ["@dnd-kit/collision@0.1.21", "", { "dependencies": { "@dnd-kit/abstract": "^0.1.21", "@dnd-kit/geometry": "^0.1.21", "tslib": "^2.6.2" } }, "sha512-9AJ4NbuwGDexxMCZXZyKdNQhbAe93p6C6IezQaDaWmdCqZHMHmC3+ul7pGefBQfOooSarGwIf8Bn182o9SMa1A=="],
+
+    "@dnd-kit/dom": ["@dnd-kit/dom@0.1.21", "", { "dependencies": { "@dnd-kit/abstract": "^0.1.21", "@dnd-kit/collision": "^0.1.21", "@dnd-kit/geometry": "^0.1.21", "@dnd-kit/state": "^0.1.21", "tslib": "^2.6.2" } }, "sha512-6UDc1y2Y3oLQKArGlgCrZxz5pdEjRSiQujXOn5JdbuWvKqTdUR5RTYDeicr+y2sVm3liXjTqs3WlUoV+eqhqUQ=="],
+
+    "@dnd-kit/geometry": ["@dnd-kit/geometry@0.1.21", "", { "dependencies": { "@dnd-kit/state": "^0.1.21", "tslib": "^2.6.2" } }, "sha512-Tir97wNJbopN2HgkD7AjAcoB3vvrVuUHvwdPALmNDUH0fWR637c4MKQ66YjjZAbUEAR8KL6mlDiHH4MzTLd7CQ=="],
+
+    "@dnd-kit/state": ["@dnd-kit/state@0.1.21", "", { "dependencies": { "@preact/signals-core": "^1.10.0", "tslib": "^2.6.2" } }, "sha512-pdhntEPvn/QttcF295bOJpWiLsRqA/Iczh1ODOJUxGiR+E4GkYVz9VapNNm9gDq6ST0tr/e1Q2xBztUHlJqQgA=="],
+
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.25.11", "", { "os": "aix", "cpu": "ppc64" }, "sha512-Xt1dOL13m8u0WE8iplx9Ibbm+hFAO0GsU2P34UNoDGvZYkY8ifSiy6Zuc1lYxfG7svWE2fzqCUmFp5HCn51gJg=="],
 
     "@esbuild/android-arm": ["@esbuild/android-arm@0.25.11", "", { "os": "android", "cpu": "arm" }, "sha512-uoa7dU+Dt3HYsethkJ1k6Z9YdcHjTrSb5NUy66ZfZaSV8hEYGD5ZHbEMXnqLFlbBflLsl89Zke7CAdDJ4JI+Gg=="],
@@ -107,6 +120,8 @@
     "@lucide/svelte": ["@lucide/svelte@0.544.0", "", { "peerDependencies": { "svelte": "^5" } }, "sha512-9f9O6uxng2pLB01sxNySHduJN3HTl5p0HDu4H26VR51vhZfiMzyOMe9Mhof3XAk4l813eTtl+/DYRvGyoRR+yw=="],
 
     "@polka/url": ["@polka/url@1.0.0-next.29", "", {}, "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="],
+
+    "@preact/signals-core": ["@preact/signals-core@1.12.1", "", {}, "sha512-BwbTXpj+9QutoZLQvbttRg5x3l5468qaV2kufh+51yha1c53ep5dY4kTuZR35+3pAZxpfQerGJiQqg34ZNZ6uA=="],
 
     "@rollup/rollup-android-arm-eabi": ["@rollup/rollup-android-arm-eabi@4.52.4", "", { "os": "android", "cpu": "arm" }, "sha512-BTm2qKNnWIQ5auf4deoetINJm2JzvihvGb9R6K/ETwKLql/Bb3Eg2H1FBp1gUb4YGbydMA3jcmQTR73q7J+GAA=="],
 

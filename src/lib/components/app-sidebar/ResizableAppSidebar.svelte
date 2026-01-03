@@ -3,15 +3,9 @@
   import * as Sidebar from '$lib/components/ui/sidebar';
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
-  import LucideBanana from '@lucide/svelte/icons/banana';
   import type { Snippet } from 'svelte';
   import LightSwitch from '$lib/components/ui/light-switch/light-switch.svelte';
   import NavUser from './NavUser.svelte';
-  import { page } from '$app/state';
-  import { LucideTestTube, type Icon as IconType } from '@lucide/svelte';
-  import { resolve } from '$app/paths';
-  import type { RouteId } from '$app/types';
-  import type { Pathname } from '$app/types';
   import HistoryPanel from './HistoryPanel.svelte';
 
   const INITIAL_OPEN = true;
@@ -31,24 +25,6 @@
   const sidebarDefaultSize = $derived(
     paneCtx.isMobile ? 0 : Math.round((MIN_PIXEL_SIZE / innerWidth) * 100),
   );
-
-  type MenuItems = {
-    routeId: RouteId | Pathname;
-    text: string;
-    icon: typeof IconType;
-  };
-  const MENU_ITEMS: MenuItems[] = [
-    {
-      routeId: '/(app)',
-      text: 'Slap the Label',
-      icon: LucideBanana,
-    },
-    {
-      routeId: '/(app)/test',
-      text: 'Test',
-      icon: LucideTestTube,
-    },
-  ];
 
   function handlePaneCollapse() {
     isPaneCollapsed = true;
@@ -135,9 +111,6 @@
         style="min-width: {MIN_PIXEL_SIZE}px;"
         side="left"
       >
-        <!-- <Sidebar.Header>
-          <LightSwitch />
-        </Sidebar.Header> -->
         <button onclick={handleClear}>Clear</button>
 
         <Sidebar.Content>
