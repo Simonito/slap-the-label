@@ -1,12 +1,15 @@
 <script lang="ts">
   import * as Resizable from '$lib/components/ui/resizable';
   import * as Sidebar from '$lib/components/ui/sidebar';
+  import * as Tooltip from '$lib/components/ui/tooltip';
   import { getCanvasContext } from '$lib/context/canvasContext.svelte';
   import { getContentPaneContext } from '$lib/context/contentPaneContext.svelte';
   import type { Snippet } from 'svelte';
   import LightSwitch from '$lib/components/ui/light-switch/light-switch.svelte';
   import NavUser from './NavUser.svelte';
   import HistoryPanel from './HistoryPanel.svelte';
+  import { PanelRightClose, PanelRightOpen } from '@lucide/svelte';
+  import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
 
   const INITIAL_OPEN = true;
   const MIN_PIXEL_SIZE = 220;
@@ -94,6 +97,13 @@
         isResizing = isDragging;
       }}
     />
+    <div class="relative">
+      <div
+        class="absolute top-2 right-0 rounded-l-md border-t-1 border-b-1 border-l-1 border-border bg-background"
+      >
+        {@render tooltippedSidebarTrigger()}
+      </div>
+    </div>
 
     <Resizable.Pane
       defaultSize={sidebarDefaultSize}
@@ -133,3 +143,58 @@
     </Resizable.Pane>
   </Resizable.PaneGroup>
 </Sidebar.Provider>
+
+{#snippet tooltippedSidebarTrigger()}
+  {#if paneCtx.isMobile}
+    {@render _sidebarTrigger({})}
+  {:else}
+    <Tooltip.Root>
+      <Tooltip.Trigger>
+        {#snippet child({ props })}
+          {@render _sidebarTrigger({ props })}
+        {/snippet}
+      </Tooltip.Trigger>
+      <Tooltip.Content
+        side="bottom"
+        align="start"
+        alignOffset={4}
+        arrowClasses="hidden"
+        sideOffset={4}
+        class="bg-muted text-muted-foreground"
+      >
+        Open sidebar <kbd>{cmdOrCtrl}</kbd> + <kbd>B</kbd>
+      </Tooltip.Content>
+    </Tooltip.Root>
+  {/if}
+{/snippet}
+
+{#snippet _sidebarTrigger({ props }: { props?: Record<string, unknown> })}
+  <Sidebar.Trigger {...props}>
+    {#snippet child()}
+      {#if isSidebarOpen}
+        <PanelRightClose class="text-muted-foreground" />
+      {:else}
+        <PanelRightOpen class="text-muted-foreground" />
+      {/if}
+      <span class="sr-only">Toggle Sidebar</span>
+    {/snippet}
+  </Sidebar.Trigger>
+{/snippet}
+
+<style>
+  kbd {
+    background-color: #dfdfef;
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    box-shadow:
+      0 1px 1px rgb(0 0 0 / 0.2),
+      0 2px 0 0 rgb(255 255 255 / 0.7) inset;
+    color: #333333;
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+  }
+</style>
