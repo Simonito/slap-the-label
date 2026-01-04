@@ -8,8 +8,10 @@
   import LightSwitch from '$lib/components/ui/light-switch/light-switch.svelte';
   import NavUser from './NavUser.svelte';
   import HistoryPanel from './history/HistoryPanel.svelte';
-  import { PanelRightClose, PanelRightOpen } from '@lucide/svelte';
+  import * as Tabs from '$lib/components/ui/tabs';
+  import { PanelRightClose, PanelRightOpen, History, Settings2 } from '@lucide/svelte';
   import { cmdOrCtrl } from '$lib/hooks/is-mac.svelte';
+  import DisplaySettingsPanel from './DisplaySettingsPanel.svelte';
 
   const INITIAL_OPEN = true;
   const MIN_PIXEL_SIZE = 220;
@@ -123,8 +125,27 @@
       >
         <button onclick={handleClear}>Clear</button>
 
-        <Sidebar.Content>
-          <HistoryPanel />
+        <Sidebar.Content class="mx-auto w-full max-w-[24rem] rounded-lg border border-border">
+          <Tabs.Root value="history" class="flex h-full flex-col">
+            <div class="px-2 pt-2">
+              <Tabs.List class="grid w-full grid-cols-2">
+                <Tabs.Trigger value="history" class="gap-2">
+                  <History size={16} /> History
+                </Tabs.Trigger>
+                <Tabs.Trigger value="display" class="gap-2">
+                  <Settings2 size={16} /> Display
+                </Tabs.Trigger>
+              </Tabs.List>
+            </div>
+
+            <Tabs.Content value="history" class="flex-1 overflow-hidden pt-2">
+              <HistoryPanel />
+            </Tabs.Content>
+
+            <Tabs.Content value="display" class="flex-1 overflow-y-auto p-4 pt-2">
+              <DisplaySettingsPanel />
+            </Tabs.Content>
+          </Tabs.Root>
         </Sidebar.Content>
 
         <Sidebar.Footer>

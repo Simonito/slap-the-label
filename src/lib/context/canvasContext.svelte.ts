@@ -1,5 +1,5 @@
 import { setContext, getContext } from 'svelte';
-import type { DrawSettings, ImageData, AnnotationFile } from '$lib/types';
+import type { DrawSettings, ImageData, AnnotationFile, DisplaySettings } from '$lib/types';
 
 const CONTEXT_KEY = Symbol('CANVAS');
 
@@ -30,6 +30,11 @@ export function createCanvasContext() {
 
   let stageSettings = $state<{ zoomX: number; zoomY: number }>({ zoomX: 1, zoomY: 1 });
   let drawSettings = $state<DrawSettings>({ lineWidth: 2, showLabels: true });
+  let displaySettings = $state<DisplaySettings>({
+    colorMode: 'file',
+    maskVisualization: 'normal',
+    maskOpacity: 0.5,
+  });
 
   let history = $state<HistoryEntry[]>([]);
   let historyIndex = $state<number>(-1);
@@ -108,6 +113,9 @@ export function createCanvasContext() {
     },
     get drawSettings() {
       return drawSettings;
+    },
+    get displaySettings() {
+      return displaySettings;
     },
     get history() {
       return history;
@@ -199,6 +207,24 @@ export function createCanvasContext() {
 
     setShowLabels(value: boolean) {
       drawSettings.showLabels = value;
+    },
+
+    setDisplaySettings(settings: Partial<DisplaySettings>) {
+      Object.assign(displaySettings, settings);
+    },
+
+    getClassColor(className: string): string {
+      if (!classColors.has(className)) {
+        // generate a random color or consistent hash color for new classes
+        const hash = className.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0);
+        const hue = (hash * 137.5) % 360;
+        classColors.set(className, `hsl(${hue}, 70%, 50%)`);
+      }
+      return classColors.get(className)!;
+    },
+
+    setClassColor(className: string, color: string) {
+      classColors.set(className, color);
     },
 
     recalculateLineStroke(zoomX: number, zoomY: number) {

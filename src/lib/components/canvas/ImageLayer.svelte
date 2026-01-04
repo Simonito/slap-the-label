@@ -36,7 +36,8 @@
   <Group>
     <Image {image} bind:this={imageRef} />
     {#if showMask && mask}
-      <Image image={mask} opacity={maskOpacity} />
+      <!-- Use context mask opacity -->
+      <Image image={mask} opacity={ctx.displaySettings.maskOpacity} />
     {/if}
   </Group>
 
@@ -44,13 +45,20 @@
     {#if annotationFile.visible}
       <Group>
         {#each annotationFile.annotations as annotation}
+          {@const color =
+            ctx.displaySettings.colorMode === 'file'
+              ? annotationFile.color
+              : annotation.class
+                ? ctx.getClassColor(annotation.class)
+                : annotationFile.color}
+
           {#if annotation.type === 'bbox'}
             <AnnotationRect
               box={annotation}
               {scaleX}
               {scaleY}
               showLabels={ctx.drawSettings.showLabels}
-              color={annotationFile.color}
+              {color}
             />
           {:else if annotation.type === 'polygon'}
             <AnnotationPolygon
@@ -58,7 +66,7 @@
               {scaleX}
               {scaleY}
               showLabels={ctx.drawSettings.showLabels}
-              color={annotationFile.color}
+              {color}
             />
           {/if}
         {/each}

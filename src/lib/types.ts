@@ -35,3 +35,15 @@ export interface DrawSettings {
   lineWidth: number;
   showLabels: boolean;
 }
+
+export const MaskVisualizationValues = ['normal', 'solid', 'heatmap'] as const;
+export type MaskVisualization = (typeof MaskVisualizationValues)[number];
+export function isMaskVisualizationType(value: string): value is MaskVisualization {
+  return (MaskVisualizationValues as readonly string[]).includes(value);
+}
+
+export interface DisplaySettings {
+  colorMode: 'file' | 'class';
+  maskVisualization: MaskVisualization;
+  maskOpacity: number;
+}
