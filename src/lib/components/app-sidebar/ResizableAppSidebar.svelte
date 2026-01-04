@@ -99,7 +99,7 @@
     />
     <div class="relative">
       <div
-        class="absolute top-2 right-0 rounded-l-md border-t-1 border-b-1 border-l-1 border-border bg-background"
+        class="absolute top-6 right-0 rounded-l-md border-t-1 border-b-1 border-l-1 border-border bg-sidebar"
       >
         {@render tooltippedSidebarTrigger()}
       </div>
