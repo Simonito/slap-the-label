@@ -189,7 +189,7 @@
 {/snippet}
 
 {#snippet _sidebarTrigger({ props }: { props?: Record<string, unknown> })}
-  <Sidebar.Trigger {...props}>
+  <Sidebar.Trigger {...props} class="rounded-r-none dark:hover:bg-muted">
     {#snippet child()}
       {#if isSidebarOpen}
         <PanelRightClose class="text-muted-foreground" />
